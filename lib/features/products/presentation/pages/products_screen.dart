@@ -1,45 +1,62 @@
-import 'package:dio/dio.dart';
+import 'dart:async';
+
+import 'package:auto_route/auto_route.dart';
 import 'package:fake_store/features/products/presentation/widgets/product_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-
-import '../../data/remote/models/products_model.dart';
 import '../../domain/repositories/products_repository.dart';
+import '../manager/product_bloc.dart';
 
-class ProductsScreen extends StatefulWidget {
+@RoutePage()
+class ProductsScreen extends StatelessWidget {
   const ProductsScreen({Key? key}) : super(key: key);
-
-  @override
-  State<ProductsScreen> createState() => _ProductsScreenState();
-}
-
-class _ProductsScreenState extends State<ProductsScreen> {
-  List<ProductModel> productsList = [];
-
-  @override
-  void initState() {
-    getInitialList();
-    super.initState();
-  }
-
-  Future<void> getInitialList() async {
-    final list = await GetIt.I<ProductsRepository>().getAllProducts();
-    productsList = list;
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: productsList.isNotEmpty
-          ? ListView.builder(
-              // itemExtent: 150,
-              itemBuilder: (context, index) =>
-                  ProductItem(product: productsList[index]),
-              itemCount: productsList.length,
-            )
-          : const Center(child: CircularProgressIndicator()),
+      body: BlocProvider(
+        create: (context) =>
+            ProductBloc(GetIt.I<ProductsRepository>())..add(GetAllProducts()),
+        child: BlocBuilder<ProductBloc, ProductState>(
+          builder: (context, state) {
+            if (state is ProductLoadedState) {
+              return RefreshIndicator(
+                color: Colors.yellow,
+                backgroundColor: Colors.red,
+                displacement: 15,
+                edgeOffset: 20,
+                onRefresh: () async {
+                  final Completer completer = Completer();
+                  context.read<ProductBloc>().add(GetAllProducts(completer));
+                  return completer.future;
+                },
+                child: ListView.builder(
+                  itemExtent: 150,
+                  itemBuilder: (context, index) =>
+                      ProductItem(product: state.productsList[index]),
+                  itemCount: state.productsList.length,
+                ),
+              );
+            } else if (state is ProductErrorState) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(state.error),
+                  TextButton(
+                    onPressed: () =>
+                        context.read<ProductBloc>().add(GetAllProducts()),
+                    child: const Text('RELOAD'),
+                  )
+                ],
+              );
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
+      ),
     );
   }
 }

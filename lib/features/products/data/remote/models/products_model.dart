@@ -1,4 +1,6 @@
-class ProductModel {
+import 'package:equatable/equatable.dart';
+
+class ProductModel extends Equatable {
   final int id;
   final String title;
   final String description;
@@ -19,13 +21,13 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: int.parse(json["id"].toString()),
+      id: json["id"] as int,
       title: json["title"],
       description: json["description"],
       category: json["category"],
       image: json["image"],
       rating: Rating.fromJson(json["rating"]),
-      price: double.parse(json["price"].toString()),
+      price: json["price"].toDouble(),
     );
   }
 
@@ -40,6 +42,9 @@ class ProductModel {
       "price": price,
     };
   }
+
+  @override
+  List<Object?> get props => [id];
 }
 
 class Rating {
@@ -53,8 +58,8 @@ class Rating {
 
   factory Rating.fromJson(Map<String, dynamic> json) {
     return Rating(
-      rate: double.parse(json["rate"].toString()),
-      count: int.parse(json["count"].toString()),
+      rate: json["rate"].toDouble(),
+      count: json["count"] as int,
     );
   }
 
