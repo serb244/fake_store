@@ -1,4 +1,4 @@
-part of 'product_bloc.dart';
+part of 'products_bloc.dart';
 
 @immutable
 abstract class ProductEvent extends Equatable {}
@@ -9,6 +9,5 @@ class GetAllProducts extends ProductEvent {
   GetAllProducts([this.completer]);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [completer];
 }

@@ -2,13 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import 'core/router/routes.dart';
-import 'features/products/data/repositories/products_repository_impl.dart';
-import 'features/products/domain/repositories/products_repository.dart';
+import 'core/utils/router/routes.dart';
+import 'core/data/repository/products_repository_impl.dart';
+import 'core/domain/repository/products_repository.dart';
 
 void main() {
   GetIt.I.registerLazySingleton<ProductsRepository>(
-      () => ProductsRepositoryImpl(dio: Dio()));
+    () => ProductsRepositoryImpl(dio: Dio()),
+  );
   runApp(MyApp());
 }
 
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: _appRouter.config(),
+      routerConfig:
+          _appRouter.config(navigatorObservers: () => [RouteObserver()]),
     );
   }
 }

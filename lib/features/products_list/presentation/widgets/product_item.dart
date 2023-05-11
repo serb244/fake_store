@@ -1,11 +1,9 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
-import 'package:fake_store/features/products/presentation/widgets/image_cached.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/router/routes.dart';
-import '../../data/remote/models/products_model.dart';
+import '../../../../core/utils/router/routes.dart';
+import '../../../../core/data/models/product_model.dart';
+import 'image_cached.dart';
 
 class ProductItem extends StatelessWidget {
   final ProductModel product;
@@ -16,11 +14,11 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        int? spendTime;
-        await AutoRouter.of(context)
-            .push(ProductRoute(productModel: product))
-            .then((value) => spendTime = value as int?);
-        log(spendTime.toString());
+        // int? spendTime;
+        // await AutoRouter.of(context)
+        //     .push(ProductRoute(productModel: product))
+        //     .then((value) => spendTime = value as int?);
+        // log(spendTime.toString());
       },
       child: Container(
         padding: const EdgeInsets.all(10),
@@ -73,12 +71,25 @@ class ProductItem extends StatelessWidget {
                       IconButton(
                           constraints: const BoxConstraints(),
                           padding: const EdgeInsets.symmetric(horizontal: 5),
-                          onPressed: () {},
+                          onPressed: () {
+                            // AutoRouter.of(context).push(Route404());
+                            context.router.push(const Route404());
+                          },
                           icon: const Icon(Icons.favorite_border)),
                       IconButton(
                           constraints: const BoxConstraints(),
                           padding: const EdgeInsets.symmetric(horizontal: 5),
-                          onPressed: () {},
+                          onPressed: () {
+                            // final String productPath =
+                            //     '${product.title}_${product.id}';
+                            // final int productPath = '${product.title}';
+                            AutoRouter.of(context).push(
+                              (ProductRoute(
+                                url: product.id,
+                                // productModel: product,
+                              )),
+                            );
+                          },
                           icon: const Icon(Icons.do_not_touch_outlined)),
                     ],
                   ),

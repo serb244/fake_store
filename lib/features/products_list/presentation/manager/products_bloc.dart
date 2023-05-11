@@ -6,15 +6,15 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/remote/models/products_model.dart';
-import '../../domain/repositories/products_repository.dart';
+import '../../../../core/data/models/product_model.dart';
+import '../../../../core/domain/repository/products_repository.dart';
 
 part 'product_event.dart';
 part 'product_state.dart';
 
-class ProductBloc extends Bloc<ProductEvent, ProductState> {
+class ProductsBloc extends Bloc<ProductEvent, ProductState> {
   final ProductsRepository productsRepository;
-  ProductBloc(this.productsRepository) : super(ProductLoadingState()) {
+  ProductsBloc(this.productsRepository) : super(ProductLoadingState()) {
     on<GetAllProducts>(_getAllProducts);
   }
   _getAllProducts(GetAllProducts event, emit) async {

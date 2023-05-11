@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:fake_store/features/products/presentation/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import '../../domain/repositories/products_repository.dart';
-import '../manager/product_bloc.dart';
+import '../../../../core/domain/repository/products_repository.dart';
+import '../manager/products_bloc.dart';
+import '../widgets/product_item.dart';
 
 @RoutePage()
 class ProductsScreen extends StatelessWidget {
@@ -14,12 +14,13 @@ class ProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(context.router.current.name);
     return Scaffold(
       appBar: AppBar(),
       body: BlocProvider(
         create: (context) =>
-            ProductBloc(GetIt.I<ProductsRepository>())..add(GetAllProducts()),
-        child: BlocBuilder<ProductBloc, ProductState>(
+            ProductsBloc(GetIt.I<ProductsRepository>())..add(GetAllProducts()),
+        child: BlocBuilder<ProductsBloc, ProductState>(
           builder: (context, state) {
             if (state is ProductLoadedState) {
               return RefreshIndicator(
@@ -29,7 +30,7 @@ class ProductsScreen extends StatelessWidget {
                 edgeOffset: 20,
                 onRefresh: () async {
                   final Completer completer = Completer();
-                  context.read<ProductBloc>().add(GetAllProducts(completer));
+                  context.read<ProductsBloc>().add(GetAllProducts(completer));
                   return completer.future;
                 },
                 child: ListView.builder(
@@ -46,7 +47,7 @@ class ProductsScreen extends StatelessWidget {
                   Text(state.error),
                   TextButton(
                     onPressed: () =>
-                        context.read<ProductBloc>().add(GetAllProducts()),
+                        context.read<ProductsBloc>().add(GetAllProducts()),
                     child: const Text('RELOAD'),
                   )
                 ],
