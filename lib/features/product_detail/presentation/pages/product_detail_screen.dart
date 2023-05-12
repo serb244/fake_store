@@ -35,7 +35,7 @@ class ProductDetailScreen extends StatelessWidget {
               leading: IconButton(
                 icon: const Icon(Icons.chevron_left),
                 //TODO dont work after refresh
-                onPressed: () => context.router.pop(),
+                onPressed: () => context.router.pop(10),
               ),
             ),
             body: state is ProductStartState

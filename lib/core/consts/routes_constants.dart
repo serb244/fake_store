@@ -1,5 +1,7 @@
 class RoutesConstants {
   static const String routeProductList = '/products';
+  static const String routeCategoryList = '/categories';
+  static const String routeDashBoard = '/dashBoard';
   static const String routeProductItem = '/products/:url';
   static const String routeError = '/screen404';
 

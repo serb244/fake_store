@@ -7,7 +7,6 @@ class Screen404 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(context.router.current.name);
     return Scaffold(
       appBar: AppBar(),
       body: const Center(child: Text('data')),

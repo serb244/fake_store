@@ -9,18 +9,22 @@ import '../manager/products_bloc.dart';
 import '../widgets/product_item.dart';
 
 @RoutePage()
-class ProductsScreen extends StatelessWidget {
-  const ProductsScreen({Key? key}) : super(key: key);
+class ProductsListScreen extends StatelessWidget {
+  final String? categoryName;
+
+  const ProductsListScreen({this.categoryName, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print(context.router.current.name);
-    return Scaffold(
-      appBar: AppBar(),
-      body: BlocProvider(
-        create: (context) =>
-            ProductsBloc(GetIt.I<ProductsRepository>())..add(GetAllProducts()),
-        child: BlocBuilder<ProductsBloc, ProductState>(
+    return BlocProvider(
+      create: (context) => ProductsBloc(
+        GetIt.I<ProductsRepository>(),
+        categoryName,
+      )..add(GetAllProducts()),
+      child: Scaffold(
+        appBar: AppBar(
+            title: Text(categoryName?.toUpperCase() ?? 'ProductsListScreen')),
+        body: BlocBuilder<ProductsBloc, ProductState>(
           builder: (context, state) {
             if (state is ProductLoadedState) {
               return RefreshIndicator(

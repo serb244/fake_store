@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
@@ -14,11 +16,11 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        // int? spendTime;
-        // await AutoRouter.of(context)
-        //     .push(ProductRoute(productModel: product))
-        //     .then((value) => spendTime = value as int?);
-        // log(spendTime.toString());
+        int? spendTime;
+        await AutoRouter.of(context)
+            .push(ProductDetailRoute(url: product.id))
+            .then((value) => spendTime = value as int?);
+        log(spendTime.toString());
       },
       child: Container(
         padding: const EdgeInsets.all(10),
@@ -84,7 +86,7 @@ class ProductItem extends StatelessWidget {
                             //     '${product.title}_${product.id}';
                             // final int productPath = '${product.title}';
                             AutoRouter.of(context).push(
-                              (ProductRoute(
+                              (ProductDetailRoute(
                                 url: product.id,
                                 // productModel: product,
                               )),

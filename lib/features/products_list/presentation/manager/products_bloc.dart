@@ -9,21 +9,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/data/models/product_model.dart';
 import '../../../../core/domain/repository/products_repository.dart';
 
-part 'product_event.dart';
-part 'product_state.dart';
+part 'products_event.dart';
+part 'products_state.dart';
 
 class ProductsBloc extends Bloc<ProductEvent, ProductState> {
   final ProductsRepository productsRepository;
-  ProductsBloc(this.productsRepository) : super(ProductLoadingState()) {
+  final String? categoryName;
+  ProductsBloc(
+    this.productsRepository,
+    this.categoryName,
+  ) : super(ProductLoadingState()) {
     on<GetAllProducts>(_getAllProducts);
   }
   _getAllProducts(GetAllProducts event, emit) async {
+    List<ProductModel> productsList = [];
     if (state is! ProductLoadedState) {
       emit(ProductLoadingState());
     }
     try {
-      final List<ProductModel> productsList =
-          await productsRepository.getAllProducts();
+      categoryName == null
+          ? productsList = await productsRepository.getAllProducts()
+          : productsList =
+              await productsRepository.getProductsByCategory(categoryName!);
       // await Future.delayed(const Duration(seconds: 3));
       emit(ProductLoadedState(productsList: productsList));
     } catch (e) {

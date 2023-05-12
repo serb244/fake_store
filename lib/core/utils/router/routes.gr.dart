@@ -21,10 +21,27 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const Screen404(),
       );
     },
-    ProductRoute.name: (routeData) {
+    CategoryListRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CategoryListScreen(),
+      );
+    },
+    ProductsListRoute.name: (routeData) {
+      final args = routeData.argsAs<ProductsListRouteArgs>(
+          orElse: () => const ProductsListRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ProductsListScreen(
+          categoryName: args.categoryName,
+          key: args.key,
+        ),
+      );
+    },
+    ProductDetailRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<ProductRouteArgs>(
-          orElse: () => ProductRouteArgs(url: pathParams.getInt('url')));
+      final args = routeData.argsAs<ProductDetailRouteArgs>(
+          orElse: () => ProductDetailRouteArgs(url: pathParams.getInt('url')));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: ProductDetailScreen(
@@ -33,10 +50,10 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    ProductsRoute.name: (routeData) {
+    DashBoardRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ProductsScreen(),
+        child: const DashBoardScreen(),
       );
     },
   };
@@ -57,15 +74,67 @@ class Route404 extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [CategoryListScreen]
+class CategoryListRoute extends PageRouteInfo<void> {
+  const CategoryListRoute({List<PageRouteInfo>? children})
+      : super(
+          CategoryListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CategoryListRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ProductsListScreen]
+class ProductsListRoute extends PageRouteInfo<ProductsListRouteArgs> {
+  ProductsListRoute({
+    String? categoryName,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ProductsListRoute.name,
+          args: ProductsListRouteArgs(
+            categoryName: categoryName,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ProductsListRoute';
+
+  static const PageInfo<ProductsListRouteArgs> page =
+      PageInfo<ProductsListRouteArgs>(name);
+}
+
+class ProductsListRouteArgs {
+  const ProductsListRouteArgs({
+    this.categoryName,
+    this.key,
+  });
+
+  final String? categoryName;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'ProductsListRouteArgs{categoryName: $categoryName, key: $key}';
+  }
+}
+
+/// generated route for
 /// [ProductDetailScreen]
-class ProductRoute extends PageRouteInfo<ProductRouteArgs> {
-  ProductRoute({
+class ProductDetailRoute extends PageRouteInfo<ProductDetailRouteArgs> {
+  ProductDetailRoute({
     required int url,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
-          ProductRoute.name,
-          args: ProductRouteArgs(
+          ProductDetailRoute.name,
+          args: ProductDetailRouteArgs(
             url: url,
             key: key,
           ),
@@ -73,14 +142,14 @@ class ProductRoute extends PageRouteInfo<ProductRouteArgs> {
           initialChildren: children,
         );
 
-  static const String name = 'ProductRoute';
+  static const String name = 'ProductDetailRoute';
 
-  static const PageInfo<ProductRouteArgs> page =
-      PageInfo<ProductRouteArgs>(name);
+  static const PageInfo<ProductDetailRouteArgs> page =
+      PageInfo<ProductDetailRouteArgs>(name);
 }
 
-class ProductRouteArgs {
-  const ProductRouteArgs({
+class ProductDetailRouteArgs {
+  const ProductDetailRouteArgs({
     required this.url,
     this.key,
   });
@@ -91,20 +160,20 @@ class ProductRouteArgs {
 
   @override
   String toString() {
-    return 'ProductRouteArgs{url: $url, key: $key}';
+    return 'ProductDetailRouteArgs{url: $url, key: $key}';
   }
 }
 
 /// generated route for
-/// [ProductsScreen]
-class ProductsRoute extends PageRouteInfo<void> {
-  const ProductsRoute({List<PageRouteInfo>? children})
+/// [DashBoardScreen]
+class DashBoardRoute extends PageRouteInfo<void> {
+  const DashBoardRoute({List<PageRouteInfo>? children})
       : super(
-          ProductsRoute.name,
+          DashBoardRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'ProductsRoute';
+  static const String name = 'DashBoardRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
