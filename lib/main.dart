@@ -15,5 +15,5 @@ void main() {
   GetIt.I.registerLazySingleton<CategoryRepository>(
     () => CategoryRepositoryImpl(dio: Dio()),
   );
-  runApp(const MyApp());
+  runApp(MyApp());
 }

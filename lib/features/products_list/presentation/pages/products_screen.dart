@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +13,16 @@ import '../widgets/product_item.dart';
 class ProductsListScreen extends StatelessWidget {
   final String? categoryName;
 
-  const ProductsListScreen({this.categoryName, Key? key}) : super(key: key);
+  const ProductsListScreen(
+      {@PathParam('categoryName') this.categoryName, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    log('context.router.currentUrl = ${context.router.currentUrl}');
+    String? categoryNameNew = Uri.base.queryParameters['categoryNameNew'];
+    log('categoryNameNew.toString() = ${categoryNameNew.toString()}');
+    log('Uri.base = ${Uri.base}');
     return BlocProvider(
       create: (context) => ProductsBloc(
         GetIt.I<ProductsRepository>(),

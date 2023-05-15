@@ -9,22 +9,23 @@ import '../manager/product_bloc.dart';
 
 @RoutePage()
 class ProductDetailScreen extends StatelessWidget {
-  final int url;
+  final int productID;
+  // final String url;
 
   // final ProductModel productModel;
 
   const ProductDetailScreen(
-      {@PathParam('url') required this.url,
-      // required this.productModel,
+      {@PathParam('url') required this.productID,
+      // required this.productID,
       Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    log(context.router.current.name);
+    log('context.router.current.path = ${context.router.current.path}');
     return BlocProvider(
       create: (context) => ProductBloc(GetIt.I<ProductsRepository>())
-        ..add(ProductGetDataEvent(productID: url)),
+        ..add(ProductGetDataEvent(productID: productID)),
       child: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
           return Scaffold(

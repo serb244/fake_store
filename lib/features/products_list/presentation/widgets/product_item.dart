@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/utils/router/routes.dart';
+import '../../../../core/utils/router/app_router.dart';
 import '../../../../core/data/models/product_model.dart';
 import 'image_cached.dart';
 
@@ -18,7 +18,10 @@ class ProductItem extends StatelessWidget {
       onTap: () async {
         int? spendTime;
         await AutoRouter.of(context)
-            .push(ProductDetailRoute(url: product.id))
+            .push(ProductDetailRoute(
+              // url: product.title,
+              productID: product.id,
+            ))
             .then((value) => spendTime = value as int?);
         log(spendTime.toString());
       },
@@ -87,7 +90,8 @@ class ProductItem extends StatelessWidget {
                             // final int productPath = '${product.title}';
                             AutoRouter.of(context).push(
                               (ProductDetailRoute(
-                                url: product.id,
+                                // url: product.title,
+                                productID: product.id,
                                 // productModel: product,
                               )),
                             );

@@ -14,13 +14,13 @@ class CategoryRepositoryImpl extends CategoryRepository {
   });
   @override
   Future<List<CategoryModel>> getAllCategories() async {
-    final response = await dio.get(ApiConstants.shopAPIUrlGetAllCategories);
+    String path = ApiConstants.shopAPIUrlGetAllCategories;
+    final response = await dio.get(path);
     final data = response.data;
     List<CategoryModel> categoryList = [];
     for (String i in data) {
       categoryList.add(CategoryModel(name: i));
     }
-    log(categoryList.length.toString());
     return categoryList;
   }
 }

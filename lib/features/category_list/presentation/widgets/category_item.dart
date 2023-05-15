@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:fake_store/core/consts/routes_constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/data/models/category_model.dart';
 import '../../../../core/utils/generators/color_generator.dart';
-import '../../../../core/utils/router/routes.dart';
+import '../../../../core/utils/router/app_router.dart';
 
 class CategoryItem extends StatelessWidget {
   final CategoryModel categoryModel;
@@ -13,12 +14,18 @@ class CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        AutoRouter.of(context)
+        // context.router.navigateNamed(
+        //     "${RoutesConstants.routeProductListAll}?categoryNameNew=${categoryModel.name}");
+        // context.router
+        //     .navigate(ProductsListRoute(categoryName: categoryModel.name));
+        context.router
             .push(ProductsListRoute(categoryName: categoryModel.name));
       },
       child: Container(
         color: ColorGenerator().getRandomColor(),
-        child: Center(child: Text(categoryModel.name.toUpperCase())),
+        child: Center(
+          child: Text(categoryModel.name.toUpperCase()),
+        ),
       ),
     );
   }

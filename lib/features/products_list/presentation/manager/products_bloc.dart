@@ -26,6 +26,7 @@ class ProductsBloc extends Bloc<ProductEvent, ProductState> {
     if (state is! ProductLoadedState) {
       emit(ProductLoadingState());
     }
+    print('categoryName= $categoryName');
     try {
       categoryName == null
           ? productsList = await productsRepository.getAllProducts()
@@ -34,6 +35,7 @@ class ProductsBloc extends Bloc<ProductEvent, ProductState> {
       // await Future.delayed(const Duration(seconds: 3));
       emit(ProductLoadedState(productsList: productsList));
     } catch (e) {
+      print('ProductLoadingState() ERROR $e');
       if (e is DioError) {}
       log(e.toString());
       emit(ProductErrorState(error: e.toString()));

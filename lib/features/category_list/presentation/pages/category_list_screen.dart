@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../core/domain/repository/category_repository.dart';
+import '../../../../core/presentation/widgets/navigation/dashboard_drawer_menu.dart';
 import '../manager/category_list_bloc.dart';
 import '../widgets/category_item.dart';
 
@@ -13,6 +14,7 @@ class CategoryListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // drawer: const AdminDrawerMenu(),
       appBar: AppBar(title: const Text('CategoryListScreen')),
       body: BlocProvider(
           create: (context) => CategoryListBloc(GetIt.I<CategoryRepository>())
