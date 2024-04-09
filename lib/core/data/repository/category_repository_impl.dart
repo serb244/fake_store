@@ -1,26 +1,25 @@
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
+import 'package:fpdart/fpdart.dart';
 
-import '../../consts/api_constants.dart';
 import '../../domain/repository/category_repository.dart';
-import '../models/category_model.dart';
+import '../../error/exceptions.dart';
+import '../data_sources/remote/category_remote_data_source.dart';
+// import '../models/category_model.dart';
 
 class CategoryRepositoryImpl extends CategoryRepository {
-  final Dio dio;
+  final CategoryRemoteDataSource categoryRemoteDataSource;
 
-  CategoryRepositoryImpl({
-    required this.dio,
-  });
+  CategoryRepositoryImpl({required this.categoryRemoteDataSource});
+
   @override
-  Future<List<CategoryModel>> getAllCategories() async {
-    String path = ApiConstants.shopAPIUrlGetAllCategories;
-    final response = await dio.get(path);
-    final data = response.data;
-    List<CategoryModel> categoryList = [];
-    for (String i in data) {
-      categoryList.add(CategoryModel(name: i));
-    }
-    return categoryList;
+  Future<Either<BaseException, CategoryModel>> getCategory({int categoryId = 0})  async {
+
+        try {
+          final response = await  categoryRemoteDataSource.getCategory(categoryId: categoryId);
+          return Right(response);
+        } on BaseException catch (e) {
+          return left(e);
   }
+}
 }
