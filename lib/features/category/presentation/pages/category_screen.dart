@@ -33,6 +33,18 @@ class CategoryScreen extends StatelessWidget {
                     Text(state.error.toString()),
                   ],
                 ),
+                if(state.categoryModelList != null) Expanded(
+                  child: ListView.builder(itemBuilder: (context, index) {
+                    return Row(children: [
+                      Text(state.categoryModelList![index].description.name),
+                      Text(" "),
+                      Text(state.categoryModelList![index].description.description),
+                      Text(" "),
+                      Text(state.categoryModelList![index].image.toString()),
+                    ],);
+                  },itemCount:  state.categoryModelList!.length,
+                  itemExtent: 25,),
+                ),
               ],
             ),
           ),

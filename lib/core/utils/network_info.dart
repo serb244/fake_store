@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:dio/dio.dart';
 
 mixin ConnectivityMixin {
   Future<bool> get isConnected async {
@@ -10,7 +7,18 @@ mixin ConnectivityMixin {
     return isConnected;
   }
 
-
+  Stream<List<ConnectivityResult>> monitorNetworkConnectivityChangesStream() {
+    final stream = Connectivity().onConnectivityChanged;
+    // stream.listen((connectivityResultList) {
+    //   for (var connectivityResult in connectivityResultList) {
+    //     log(connectivityResult.toString());
+    //   }
+    // });
+    return stream;
+  }
+  Stream<bool> hasInternetConnectionStream () {
+    return monitorNetworkConnectivityChangesStream().map((event) => event.contains(ConnectivityResult.none) == false);
+  }
   Future<bool> get isWifi async {
     final List<ConnectivityResult> connectivityResult = await getConnectivityList();
     final bool isWifi = connectivityResult.contains(ConnectivityResult.wifi);
@@ -32,30 +40,4 @@ mixin ConnectivityMixin {
   Future<List<ConnectivityResult>> getConnectivityList() async {
     return await Connectivity().checkConnectivity();
   }
-  // Future<bool> get isConnectedByRequest async {
-  //   List<String> addresses = ["google.com", "1.1.1.1", "apple.com"];
-  //   for (var address in addresses) {
-  //     try {
-  //       if (await getSiteConnected(address) == true) {
-  //         return true;
-  //       }
-  //     } catch (_) {}
-  //   }
-  //   return false;
-  // }
-  //
-  // Future<bool> getSiteConnected(String url) async {
-  //   try {
-  //     var addresses = await InternetAddress.lookup(url);
-  //     if (addresses.isNotEmpty && addresses[0].rawAddress.isNotEmpty) {
-  //       var response = await Dio().get(url);
-  //       if (response.statusCode == 200) {
-  //         return true;
-  //       }
-  //     }
-  //   } catch (_) {
-  //   }
-  //
-  //   return false;
-  // }
 }

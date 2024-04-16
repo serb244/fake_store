@@ -2,6 +2,9 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:fake_store/core/error/dio_exceptions.dart';
+
+import '../../generated/l10n.dart';
 
 class BaseException implements Exception {
   final String? systemMessage;
@@ -21,26 +24,69 @@ class ApiException extends BaseException {
   final Response? response;
   final DioExceptionType? type;
 
-  const ApiException({this.requestOptions, this.response, this.type, super.systemMessage, super.userMessage, super.stackTrace, super.message});
+  const ApiException({
+    this.requestOptions,
+    this.response,
+    this.type,
+    super.systemMessage,
+    super.userMessage,
+    super.stackTrace,
+    super.message,
+  });
 
-  static ApiException fromException(Exception e) {
+  static ApiException fromException(Exception e, {StackTrace? stackTrace}) {
+    String userMessage;
+    DioExceptionType? type;
+    Response? response;
+    RequestOptions? requestOptions;
+
     if (e is SocketException) {
-      return ApiException();
+      userMessage = S.current.error_network_connection_failed;
     } else if (e is DioException) {
+      type = e.type;
+      stackTrace = e.stackTrace;
+      response = e.response;
+      requestOptions = e.requestOptions;
 
-      return ApiException(message: e.message, type: e.type, stackTrace:  e.stackTrace, response: e.response, requestOptions: e.requestOptions );
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+          userMessage = S.current.error_connection_timeout;
+          break;
+        case DioExceptionType.sendTimeout:
+          userMessage = S.current.error_send_timeout;
+          break;
+        case DioExceptionType.receiveTimeout:
+          userMessage = S.current.error_connection_timeout;
+          break;
+        case DioExceptionType.cancel:
+          userMessage = S.current.error_api_cancel;
+          break;
+        case DioExceptionType.badResponse:
+          userMessage = handleBadResponseErrorToUserMessage(e.response?.statusCode);
+          break;
+        default:
+          userMessage = e.type.dioExceptionTypeToUserMessage();
+      }
     } else {
-      return ApiException();
+      userMessage = S.current.error_api_unknown;
     }
+
+    return ApiException(
+      userMessage: userMessage,
+      message: e.toString(),
+      type: type,
+      stackTrace: stackTrace,
+      response: response,
+      requestOptions: requestOptions,
+    );
   }
 }
-
 class LocalDataException extends BaseException {
-  const LocalDataException();
+  const LocalDataException({super.systemMessage, super.userMessage, super.stackTrace, super.message});
 }
 
 class UnexpectedException extends BaseException {
-  const UnexpectedException();
+  const UnexpectedException({super.systemMessage, super.userMessage, super.stackTrace, super.message});
 }
 // class DeviceSettingException extends MyException {}
 //

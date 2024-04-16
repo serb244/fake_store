@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'features/admin/category_list/presentation/manager/admin_category_list_bloc.dart';
+import 'features/app_drawer/presentation/manager/app_drawer_category_list_bloc.dart';
+import 'features/home/presentation/manager/home_bloc.dart';
 import 'generated/l10n.dart';
 
 class App extends StatelessWidget {
@@ -14,7 +17,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => injector<AppDrawerCategoryListBloc>()),
         BlocProvider(create: (context) => injector<CategoryBloc>()),
+        BlocProvider(create: (context) => injector<HomeBloc>()..add(const HomeInitEvent())),
       ],
       child: MaterialApp.router(
         localizationsDelegates: const [

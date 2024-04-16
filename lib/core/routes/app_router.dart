@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../features/admin/category/presentation/pages/admin_category.dart';
+import '../../features/admin/home/presentation/pages/admin_screen.dart';
 import '../../features/category/presentation/pages/category_screen.dart';
 import '../../features/home/presentation/pages/home_screen.dart';
 import '../../features/product_detail/presentation/pages/product_detail_screen.dart';
@@ -24,10 +26,29 @@ class AppRouter {
     debugLogDiagnostics: true,
     initialLocation: RouteConstants.homePath,
     routes: <GoRoute>[
-      GoRoute(path: RouteConstants.homePath, name: RouteConstants.homeName, builder: (context, state) => const HomeScreen(), routes: <GoRoute>[
-        GoRoute(path: RouteConstants.categoryPath, name: RouteConstants.categoryName, builder: (context, state) => const CategoryScreen()),
-        GoRoute(path: RouteConstants.productPath, name: RouteConstants.productName, builder: (context, state) => const ProductDetailScreen())
-      ]),
+      GoRoute(
+        path: RouteConstants.homePath,
+        name: RouteConstants.homeName,
+        builder: (context, state) => const HomeScreen(),
+        routes: <GoRoute>[
+          GoRoute(path: RouteConstants.categoryPath, name: RouteConstants.categoryName, builder: (context, state) => const CategoryScreen()),
+          GoRoute(path: RouteConstants.productPath, name: RouteConstants.productName, builder: (context, state) => const ProductDetailScreen()),
+        ],
+      ),
+      GoRoute(
+        path: RouteConstants.adminPath,
+        name: RouteConstants.adminName,
+        builder: (context, state) => const AdminScreen(),
+        routes: <GoRoute>[
+          GoRoute(
+              path: RouteConstants.adminCategoryPath,
+              name: RouteConstants.adminCategoryName,
+              builder: (context, state) => AdminCategory(
+                categoryId:state.pathParameters['categoryId'] ?? "0",
+                  )),
+          // GoRoute(path: RouteConstants.productPath, name: RouteConstants.productName, builder: (context, state) => const ProductDetailScreen()),
+        ],
+      ),
     ],
     // redirect: (BuildContext context, GoRouterState state) {
     //   bool loggedIn = injector<AuthBloc>().state is AuthSuccessState;

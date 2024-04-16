@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // import '../../../../core/data/models/category_model.dart';
 import '../../../../core/data/data_sources/remote/category_remote_data_source.dart';
+import '../../../../core/data/models/category_model.dart';
 import '../../../../core/domain/repository/category_repository.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../generated/l10n.dart';
@@ -20,7 +21,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
   _getCategory(CategoryGetEvent event, Emitter<CategoryState> emit) async {
     emit(state.copyWith(isLoading: true));
-    final  result = await categoryRepository.getCategory();
+    final  result = await categoryRepository.getChildCategoryListByMainCategoryId();
+    // final  result = await categoryRepository.getCategoryByID(categoryId: 2);
     result.fold(
           (BaseException l){
             print("l.userMessage");
@@ -29,10 +31,10 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
             print(l.message);
             print(l.stackTrace);
             print("l.message");
-            emit(state.copyWith(isLoading: false, error:"{ l.data?.userMessage} type ${ l.runtimeType}"));
+            emit(state.copyWith(isLoading: false, error:l.userMessage));
           } ,
           (r) {
-        emit(state.copyWith(isLoading: false, error: null, categoryModel: r));
+        emit(state.copyWith(isLoading: false, error: null, categoryModelList: r));
       },
     );
 

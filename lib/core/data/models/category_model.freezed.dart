@@ -20,26 +20,29 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CategoryModel {
-  int get categoryId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_id')
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'image')
   String? get image => throw _privateConstructorUsedError;
+  @JsonKey(name: 'parent')
   int? get parentCategoryId =>
       throw _privateConstructorUsedError; // Can be null for top-level categories
+  @JsonKey(name: 'top')
   bool get top => throw _privateConstructorUsedError;
+  @JsonKey(name: 'column')
   int get column => throw _privateConstructorUsedError;
+  @JsonKey(name: 'sort_order')
   int get sortOrder => throw _privateConstructorUsedError;
+  @JsonKey(name: 'status')
   bool get status => throw _privateConstructorUsedError;
+  @JsonKey(name: 'date_added')
   DateTime get dateAdded => throw _privateConstructorUsedError;
+  @JsonKey(name: 'date_modified')
   DateTime get dateModified => throw _privateConstructorUsedError;
+  @JsonKey(name: 'languageId', defaultValue: 1)
   int get languageId => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  String? get metaTitle => throw _privateConstructorUsedError;
-  String? get metaDescription => throw _privateConstructorUsedError;
-  String? get metaKeyword => throw _privateConstructorUsedError;
-  String? get seoKeyword => throw _privateConstructorUsedError;
-  String? get seoH1 => throw _privateConstructorUsedError;
-  String? get seoH2 => throw _privateConstructorUsedError;
-  String? get seoH3 => throw _privateConstructorUsedError;
+  @JsonKey(name: 'description')
+  CategoryDescription get description => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -54,25 +57,19 @@ abstract class $CategoryModelCopyWith<$Res> {
       _$CategoryModelCopyWithImpl<$Res, CategoryModel>;
   @useResult
   $Res call(
-      {int categoryId,
-      String? image,
-      int? parentCategoryId,
-      bool top,
-      int column,
-      int sortOrder,
-      bool status,
-      DateTime dateAdded,
-      DateTime dateModified,
-      int languageId,
-      String name,
-      String description,
-      String? metaTitle,
-      String? metaDescription,
-      String? metaKeyword,
-      String? seoKeyword,
-      String? seoH1,
-      String? seoH2,
-      String? seoH3});
+      {@JsonKey(name: 'category_id') int id,
+      @JsonKey(name: 'image') String? image,
+      @JsonKey(name: 'parent') int? parentCategoryId,
+      @JsonKey(name: 'top') bool top,
+      @JsonKey(name: 'column') int column,
+      @JsonKey(name: 'sort_order') int sortOrder,
+      @JsonKey(name: 'status') bool status,
+      @JsonKey(name: 'date_added') DateTime dateAdded,
+      @JsonKey(name: 'date_modified') DateTime dateModified,
+      @JsonKey(name: 'languageId', defaultValue: 1) int languageId,
+      @JsonKey(name: 'description') CategoryDescription description});
+
+  $CategoryDescriptionCopyWith<$Res> get description;
 }
 
 /// @nodoc
@@ -88,7 +85,7 @@ class _$CategoryModelCopyWithImpl<$Res, $Val extends CategoryModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? categoryId = null,
+    Object? id = null,
     Object? image = freezed,
     Object? parentCategoryId = freezed,
     Object? top = null,
@@ -98,20 +95,12 @@ class _$CategoryModelCopyWithImpl<$Res, $Val extends CategoryModel>
     Object? dateAdded = null,
     Object? dateModified = null,
     Object? languageId = null,
-    Object? name = null,
     Object? description = null,
-    Object? metaTitle = freezed,
-    Object? metaDescription = freezed,
-    Object? metaKeyword = freezed,
-    Object? seoKeyword = freezed,
-    Object? seoH1 = freezed,
-    Object? seoH2 = freezed,
-    Object? seoH3 = freezed,
   }) {
     return _then(_value.copyWith(
-      categoryId: null == categoryId
-          ? _value.categoryId
-          : categoryId // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as int,
       image: freezed == image
           ? _value.image
@@ -149,43 +138,19 @@ class _$CategoryModelCopyWithImpl<$Res, $Val extends CategoryModel>
           ? _value.languageId
           : languageId // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      metaTitle: freezed == metaTitle
-          ? _value.metaTitle
-          : metaTitle // ignore: cast_nullable_to_non_nullable
-              as String?,
-      metaDescription: freezed == metaDescription
-          ? _value.metaDescription
-          : metaDescription // ignore: cast_nullable_to_non_nullable
-              as String?,
-      metaKeyword: freezed == metaKeyword
-          ? _value.metaKeyword
-          : metaKeyword // ignore: cast_nullable_to_non_nullable
-              as String?,
-      seoKeyword: freezed == seoKeyword
-          ? _value.seoKeyword
-          : seoKeyword // ignore: cast_nullable_to_non_nullable
-              as String?,
-      seoH1: freezed == seoH1
-          ? _value.seoH1
-          : seoH1 // ignore: cast_nullable_to_non_nullable
-              as String?,
-      seoH2: freezed == seoH2
-          ? _value.seoH2
-          : seoH2 // ignore: cast_nullable_to_non_nullable
-              as String?,
-      seoH3: freezed == seoH3
-          ? _value.seoH3
-          : seoH3 // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as CategoryDescription,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CategoryDescriptionCopyWith<$Res> get description {
+    return $CategoryDescriptionCopyWith<$Res>(_value.description, (value) {
+      return _then(_value.copyWith(description: value) as $Val);
+    });
   }
 }
 
@@ -198,25 +163,20 @@ abstract class _$$CategoryModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int categoryId,
-      String? image,
-      int? parentCategoryId,
-      bool top,
-      int column,
-      int sortOrder,
-      bool status,
-      DateTime dateAdded,
-      DateTime dateModified,
-      int languageId,
-      String name,
-      String description,
-      String? metaTitle,
-      String? metaDescription,
-      String? metaKeyword,
-      String? seoKeyword,
-      String? seoH1,
-      String? seoH2,
-      String? seoH3});
+      {@JsonKey(name: 'category_id') int id,
+      @JsonKey(name: 'image') String? image,
+      @JsonKey(name: 'parent') int? parentCategoryId,
+      @JsonKey(name: 'top') bool top,
+      @JsonKey(name: 'column') int column,
+      @JsonKey(name: 'sort_order') int sortOrder,
+      @JsonKey(name: 'status') bool status,
+      @JsonKey(name: 'date_added') DateTime dateAdded,
+      @JsonKey(name: 'date_modified') DateTime dateModified,
+      @JsonKey(name: 'languageId', defaultValue: 1) int languageId,
+      @JsonKey(name: 'description') CategoryDescription description});
+
+  @override
+  $CategoryDescriptionCopyWith<$Res> get description;
 }
 
 /// @nodoc
@@ -230,7 +190,7 @@ class __$$CategoryModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? categoryId = null,
+    Object? id = null,
     Object? image = freezed,
     Object? parentCategoryId = freezed,
     Object? top = null,
@@ -240,20 +200,12 @@ class __$$CategoryModelImplCopyWithImpl<$Res>
     Object? dateAdded = null,
     Object? dateModified = null,
     Object? languageId = null,
-    Object? name = null,
     Object? description = null,
-    Object? metaTitle = freezed,
-    Object? metaDescription = freezed,
-    Object? metaKeyword = freezed,
-    Object? seoKeyword = freezed,
-    Object? seoH1 = freezed,
-    Object? seoH2 = freezed,
-    Object? seoH3 = freezed,
   }) {
     return _then(_$CategoryModelImpl(
-      categoryId: null == categoryId
-          ? _value.categoryId
-          : categoryId // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as int,
       image: freezed == image
           ? _value.image
@@ -291,42 +243,10 @@ class __$$CategoryModelImplCopyWithImpl<$Res>
           ? _value.languageId
           : languageId // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      metaTitle: freezed == metaTitle
-          ? _value.metaTitle
-          : metaTitle // ignore: cast_nullable_to_non_nullable
-              as String?,
-      metaDescription: freezed == metaDescription
-          ? _value.metaDescription
-          : metaDescription // ignore: cast_nullable_to_non_nullable
-              as String?,
-      metaKeyword: freezed == metaKeyword
-          ? _value.metaKeyword
-          : metaKeyword // ignore: cast_nullable_to_non_nullable
-              as String?,
-      seoKeyword: freezed == seoKeyword
-          ? _value.seoKeyword
-          : seoKeyword // ignore: cast_nullable_to_non_nullable
-              as String?,
-      seoH1: freezed == seoH1
-          ? _value.seoH1
-          : seoH1 // ignore: cast_nullable_to_non_nullable
-              as String?,
-      seoH2: freezed == seoH2
-          ? _value.seoH2
-          : seoH2 // ignore: cast_nullable_to_non_nullable
-              as String?,
-      seoH3: freezed == seoH3
-          ? _value.seoH3
-          : seoH3 // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as CategoryDescription,
     ));
   }
 }
@@ -337,72 +257,59 @@ class _$CategoryModelImpl
     with DiagnosticableTreeMixin
     implements _CategoryModel {
   const _$CategoryModelImpl(
-      {required this.categoryId,
-      this.image,
-      required this.parentCategoryId,
-      required this.top,
-      required this.column,
-      required this.sortOrder,
-      required this.status,
-      required this.dateAdded,
-      required this.dateModified,
-      required this.languageId,
-      required this.name,
-      required this.description,
-      this.metaTitle,
-      this.metaDescription,
-      this.metaKeyword,
-      this.seoKeyword,
-      this.seoH1,
-      this.seoH2,
-      this.seoH3});
+      {@JsonKey(name: 'category_id') required this.id,
+      @JsonKey(name: 'image') this.image,
+      @JsonKey(name: 'parent') required this.parentCategoryId,
+      @JsonKey(name: 'top') required this.top,
+      @JsonKey(name: 'column') required this.column,
+      @JsonKey(name: 'sort_order') required this.sortOrder,
+      @JsonKey(name: 'status') required this.status,
+      @JsonKey(name: 'date_added') required this.dateAdded,
+      @JsonKey(name: 'date_modified') required this.dateModified,
+      @JsonKey(name: 'languageId', defaultValue: 1) required this.languageId,
+      @JsonKey(name: 'description') required this.description});
 
   factory _$CategoryModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$CategoryModelImplFromJson(json);
 
   @override
-  final int categoryId;
+  @JsonKey(name: 'category_id')
+  final int id;
   @override
+  @JsonKey(name: 'image')
   final String? image;
   @override
+  @JsonKey(name: 'parent')
   final int? parentCategoryId;
 // Can be null for top-level categories
   @override
+  @JsonKey(name: 'top')
   final bool top;
   @override
+  @JsonKey(name: 'column')
   final int column;
   @override
+  @JsonKey(name: 'sort_order')
   final int sortOrder;
   @override
+  @JsonKey(name: 'status')
   final bool status;
   @override
+  @JsonKey(name: 'date_added')
   final DateTime dateAdded;
   @override
+  @JsonKey(name: 'date_modified')
   final DateTime dateModified;
   @override
+  @JsonKey(name: 'languageId', defaultValue: 1)
   final int languageId;
   @override
-  final String name;
-  @override
-  final String description;
-  @override
-  final String? metaTitle;
-  @override
-  final String? metaDescription;
-  @override
-  final String? metaKeyword;
-  @override
-  final String? seoKeyword;
-  @override
-  final String? seoH1;
-  @override
-  final String? seoH2;
-  @override
-  final String? seoH3;
+  @JsonKey(name: 'description')
+  final CategoryDescription description;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CategoryModel(categoryId: $categoryId, image: $image, parentCategoryId: $parentCategoryId, top: $top, column: $column, sortOrder: $sortOrder, status: $status, dateAdded: $dateAdded, dateModified: $dateModified, languageId: $languageId, name: $name, description: $description, metaTitle: $metaTitle, metaDescription: $metaDescription, metaKeyword: $metaKeyword, seoKeyword: $seoKeyword, seoH1: $seoH1, seoH2: $seoH2, seoH3: $seoH3)';
+    return 'CategoryModel(id: $id, image: $image, parentCategoryId: $parentCategoryId, top: $top, column: $column, sortOrder: $sortOrder, status: $status, dateAdded: $dateAdded, dateModified: $dateModified, languageId: $languageId, description: $description)';
   }
 
   @override
@@ -410,7 +317,7 @@ class _$CategoryModelImpl
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'CategoryModel'))
-      ..add(DiagnosticsProperty('categoryId', categoryId))
+      ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('image', image))
       ..add(DiagnosticsProperty('parentCategoryId', parentCategoryId))
       ..add(DiagnosticsProperty('top', top))
@@ -420,15 +327,7 @@ class _$CategoryModelImpl
       ..add(DiagnosticsProperty('dateAdded', dateAdded))
       ..add(DiagnosticsProperty('dateModified', dateModified))
       ..add(DiagnosticsProperty('languageId', languageId))
-      ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('description', description))
-      ..add(DiagnosticsProperty('metaTitle', metaTitle))
-      ..add(DiagnosticsProperty('metaDescription', metaDescription))
-      ..add(DiagnosticsProperty('metaKeyword', metaKeyword))
-      ..add(DiagnosticsProperty('seoKeyword', seoKeyword))
-      ..add(DiagnosticsProperty('seoH1', seoH1))
-      ..add(DiagnosticsProperty('seoH2', seoH2))
-      ..add(DiagnosticsProperty('seoH3', seoH3));
+      ..add(DiagnosticsProperty('description', description));
   }
 
   @override
@@ -436,8 +335,7 @@ class _$CategoryModelImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CategoryModelImpl &&
-            (identical(other.categoryId, categoryId) ||
-                other.categoryId == categoryId) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.parentCategoryId, parentCategoryId) ||
                 other.parentCategoryId == parentCategoryId) &&
@@ -452,46 +350,25 @@ class _$CategoryModelImpl
                 other.dateModified == dateModified) &&
             (identical(other.languageId, languageId) ||
                 other.languageId == languageId) &&
-            (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
-                other.description == description) &&
-            (identical(other.metaTitle, metaTitle) ||
-                other.metaTitle == metaTitle) &&
-            (identical(other.metaDescription, metaDescription) ||
-                other.metaDescription == metaDescription) &&
-            (identical(other.metaKeyword, metaKeyword) ||
-                other.metaKeyword == metaKeyword) &&
-            (identical(other.seoKeyword, seoKeyword) ||
-                other.seoKeyword == seoKeyword) &&
-            (identical(other.seoH1, seoH1) || other.seoH1 == seoH1) &&
-            (identical(other.seoH2, seoH2) || other.seoH2 == seoH2) &&
-            (identical(other.seoH3, seoH3) || other.seoH3 == seoH3));
+                other.description == description));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hashAll([
-        runtimeType,
-        categoryId,
-        image,
-        parentCategoryId,
-        top,
-        column,
-        sortOrder,
-        status,
-        dateAdded,
-        dateModified,
-        languageId,
-        name,
-        description,
-        metaTitle,
-        metaDescription,
-        metaKeyword,
-        seoKeyword,
-        seoH1,
-        seoH2,
-        seoH3
-      ]);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      image,
+      parentCategoryId,
+      top,
+      column,
+      sortOrder,
+      status,
+      dateAdded,
+      dateModified,
+      languageId,
+      description);
 
   @JsonKey(ignore: true)
   @override
@@ -509,67 +386,56 @@ class _$CategoryModelImpl
 
 abstract class _CategoryModel implements CategoryModel {
   const factory _CategoryModel(
-      {required final int categoryId,
-      final String? image,
-      required final int? parentCategoryId,
-      required final bool top,
-      required final int column,
-      required final int sortOrder,
-      required final bool status,
-      required final DateTime dateAdded,
-      required final DateTime dateModified,
+      {@JsonKey(name: 'category_id') required final int id,
+      @JsonKey(name: 'image') final String? image,
+      @JsonKey(name: 'parent') required final int? parentCategoryId,
+      @JsonKey(name: 'top') required final bool top,
+      @JsonKey(name: 'column') required final int column,
+      @JsonKey(name: 'sort_order') required final int sortOrder,
+      @JsonKey(name: 'status') required final bool status,
+      @JsonKey(name: 'date_added') required final DateTime dateAdded,
+      @JsonKey(name: 'date_modified') required final DateTime dateModified,
+      @JsonKey(name: 'languageId', defaultValue: 1)
       required final int languageId,
-      required final String name,
-      required final String description,
-      final String? metaTitle,
-      final String? metaDescription,
-      final String? metaKeyword,
-      final String? seoKeyword,
-      final String? seoH1,
-      final String? seoH2,
-      final String? seoH3}) = _$CategoryModelImpl;
+      @JsonKey(name: 'description')
+      required final CategoryDescription description}) = _$CategoryModelImpl;
 
   factory _CategoryModel.fromJson(Map<String, dynamic> json) =
       _$CategoryModelImpl.fromJson;
 
   @override
-  int get categoryId;
+  @JsonKey(name: 'category_id')
+  int get id;
   @override
+  @JsonKey(name: 'image')
   String? get image;
   @override
+  @JsonKey(name: 'parent')
   int? get parentCategoryId;
   @override // Can be null for top-level categories
+  @JsonKey(name: 'top')
   bool get top;
   @override
+  @JsonKey(name: 'column')
   int get column;
   @override
+  @JsonKey(name: 'sort_order')
   int get sortOrder;
   @override
+  @JsonKey(name: 'status')
   bool get status;
   @override
+  @JsonKey(name: 'date_added')
   DateTime get dateAdded;
   @override
+  @JsonKey(name: 'date_modified')
   DateTime get dateModified;
   @override
+  @JsonKey(name: 'languageId', defaultValue: 1)
   int get languageId;
   @override
-  String get name;
-  @override
-  String get description;
-  @override
-  String? get metaTitle;
-  @override
-  String? get metaDescription;
-  @override
-  String? get metaKeyword;
-  @override
-  String? get seoKeyword;
-  @override
-  String? get seoH1;
-  @override
-  String? get seoH2;
-  @override
-  String? get seoH3;
+  @JsonKey(name: 'description')
+  CategoryDescription get description;
   @override
   @JsonKey(ignore: true)
   _$$CategoryModelImplCopyWith<_$CategoryModelImpl> get copyWith =>
