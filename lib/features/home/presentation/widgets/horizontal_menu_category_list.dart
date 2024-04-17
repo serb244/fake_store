@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/domain/entities/menu_category_item_model.dart';
-import '../../domain/entities/menu_category_item_model.dart';
+import '../../../../core/data/models/category_model.dart';
 import 'horizontal_menu_category_detail.dart';
 
 class HorizontalMenuCategoryList extends StatelessWidget {
-  final List<MenuCategoryItemModel> menuCategoryItems;
+  final List<CategoryModel> allCategoryList;
 
-  const HorizontalMenuCategoryList({super.key, required this.menuCategoryItems});
+  const HorizontalMenuCategoryList({super.key, required this.allCategoryList});
 
   @override
   Widget build(BuildContext context) {
     final ScrollController controller = ScrollController();
-
+    final List<CategoryModel> topCategories = getChildCategoryList(categoryId: null, categoryList: allCategoryList);
     return ListView.builder(
       itemExtent: 100,
       controller: controller,
       // shrinkWrap: true,
       scrollDirection: Axis.horizontal,
-      itemCount: menuCategoryItems.length,
+      itemCount: topCategories.length,
       itemBuilder: (context, index) {
-        final menuCategory = menuCategoryItems[index];
-        return HorizontalMenuCategoryDetail(menuCategoryItem: menuCategory);
+        final CategoryModel menuCategory = topCategories[index];
+        return HorizontalMenuCategoryDetail(allCategories: allCategoryList, menuCategoryItem: menuCategory);
       },
     );
   }

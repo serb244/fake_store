@@ -25,8 +25,7 @@ mixin _$CategoryModel {
   @JsonKey(name: 'image')
   String? get image => throw _privateConstructorUsedError;
   @JsonKey(name: 'parent')
-  int? get parentCategoryId =>
-      throw _privateConstructorUsedError; // Can be null for top-level categories
+  int? get parentCategoryId => throw _privateConstructorUsedError;
   @JsonKey(name: 'top')
   bool get top => throw _privateConstructorUsedError;
   @JsonKey(name: 'column')
@@ -281,7 +280,6 @@ class _$CategoryModelImpl
   @override
   @JsonKey(name: 'parent')
   final int? parentCategoryId;
-// Can be null for top-level categories
   @override
   @JsonKey(name: 'top')
   final bool top;
@@ -412,7 +410,7 @@ abstract class _CategoryModel implements CategoryModel {
   @override
   @JsonKey(name: 'parent')
   int? get parentCategoryId;
-  @override // Can be null for top-level categories
+  @override
   @JsonKey(name: 'top')
   bool get top;
   @override

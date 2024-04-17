@@ -16,20 +16,20 @@ class CategoryScreen extends StatelessWidget {
       builder: (context, state) {
         print("state.error ${state.error}");
         return Scaffold(
-          appBar: AppBar(title: Text("category")),
+          appBar: AppBar(title: const Text("category")),
           body: Center(
             child:
-            state.isLoading ? CircularProgressIndicator() :
+            state.isLoading ? const CircularProgressIndicator() :
             Column(
               children: [
                 IconButton(
                     onPressed: () {
                       injector<CategoryBloc>().add(CategoryGetEvent());
                     },
-                    icon: Icon(Icons.abc)),
+                    icon: const Icon(Icons.abc)),
                 if(state.error != null) Row(
                   children: [
-                    Text("error"),
+                    const Text("error"),
                     Text(state.error.toString()),
                   ],
                 ),
@@ -37,9 +37,9 @@ class CategoryScreen extends StatelessWidget {
                   child: ListView.builder(itemBuilder: (context, index) {
                     return Row(children: [
                       Text(state.categoryModelList![index].description.name),
-                      Text(" "),
+                      const Text(" "),
                       Text(state.categoryModelList![index].description.description),
-                      Text(" "),
+                      const Text(" "),
                       Text(state.categoryModelList![index].image.toString()),
                     ],);
                   },itemCount:  state.categoryModelList!.length,

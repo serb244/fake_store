@@ -1,44 +1,138 @@
-import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'dart:convert';
 
 import '../../../generated/l10n.dart';
-import '../../error/dio_exceptions.dart';
 import '../../error/exceptions.dart';
 import '../logging/my_logger.dart';
 import '../network_info.dart';
 
-enum RequestType { get, post }
+enum RequestType { get, post , put, delete }
 
 class ApiClient with ConnectivityMixin {
   final Dio _dio = Dio();
   final MyLogger _logger = MyLogger();
-  // ApiClient(this._dio, this._logger);
-  ApiClient(){
 
+  // ApiClient(this._dio, this._logger);
+  ApiClient() {
     _dio.options.connectTimeout = const Duration(seconds: 5);
     _dio.options.receiveTimeout = const Duration(seconds: 3);
   }
 
   // requests -> response || apiException || NetworkException
 
-  Future<Response> get(String path, {Options? options, Map<String, dynamic>? queryParameters, String? logMessage}) async {
+  Future<Response> request(
+    String path, {
+        RequestType requestType = RequestType.get,
+    Options? options,
+    Map<String, dynamic>? queryParameters,
+    String? logMessage,
+    Object? data,
+  }) async {
     // emulateDioError(401);
-      if (await isConnected == false) {
-        throw NetworkException(stackTrace:  StackTrace.current, systemMessage: "No internet connection", userMessage: S.current.error_network_connection_failed , message: "No internet connection");
-      }
+    if (await isConnected == false) {
+      throw NetworkException(
+          stackTrace: StackTrace.current,
+          systemMessage: "No internet connection",
+          userMessage: S.current.error_network_connection_failed,
+          message: "No internet connection");
+    }
     try {
-      Response response = await _dio.get(path , options: options, queryParameters: queryParameters);
-      return response;
+      // Response response = await
+      switch (requestType) {
+        case RequestType.get:
+          return _dio.get(path, options: options, queryParameters: queryParameters, data: data);
+        case RequestType.post:
+          return _dio.post(path, options: options, queryParameters: queryParameters, data: data);
+        case RequestType.put:
+          return _dio.put(path, options: options, queryParameters: queryParameters, data: data);
+        case RequestType.delete:
+          return _dio.delete(path, options: options, queryParameters: queryParameters, data: data);
+      }
     } catch (e, stackTrace) {
-     MyLogger().log(message: logMessage, error: e.toString(), stackTrace: stackTrace, logLevel: LogLevel.error);
+      MyLogger().log(message: logMessage, error: e.toString(), stackTrace: stackTrace, logLevel: LogLevel.error);
       throw ApiException.fromException(e as Exception, stackTrace: stackTrace);
     }
+  }
+  Future<Response> get(
+    String path, {
+    Options? options,
+    Map<String, dynamic>? queryParameters,
+    String? logMessage,
+    Object? data,
+  }) async {
+    // emulateDioError(401);
+    if (await isConnected == false) {
+      throw NetworkException(
+          stackTrace: StackTrace.current,
+          systemMessage: "No internet connection",
+          userMessage: S.current.error_network_connection_failed,
+          message: "No internet connection");
     }
+    try {
+      Response response = await _dio.get(
+        path,
+        options: options,
+        queryParameters: queryParameters,
+        data: data,
+      );
+      return response;
+    } catch (e, stackTrace) {
+      MyLogger().log(message: logMessage, error: e.toString(), stackTrace: stackTrace, logLevel: LogLevel.error);
+      throw ApiException.fromException(e as Exception, stackTrace: stackTrace);
+    }
+  }
 
-  Future<Response> post(String path, {Object? data}) async {
-    return await _dio.post(path, data: data);
+  Future<Response> post(
+    String path, {
+    Options? options,
+    Map<String, dynamic>? queryParameters,
+    String? logMessage,
+    Object? data,
+  }) async {
+    // emulateDioError(401);
+    if (await isConnected == false) {
+      throw NetworkException(
+          stackTrace: StackTrace.current,
+          systemMessage: "No internet connection",
+          userMessage: S.current.error_network_connection_failed,
+          message: "No internet connection");
+    }
+    try {
+      Response response = await _dio.post(
+        path,
+        options: options,
+        queryParameters: queryParameters,
+        data: data,
+      );
+      return response;
+    } catch (e, stackTrace) {
+      MyLogger().log(message: logMessage, error: e.toString(), stackTrace: stackTrace, logLevel: LogLevel.error);
+      throw ApiException.fromException(e as Exception, stackTrace: stackTrace);
+    }
+  }
+
+  Future<Response> delete(
+    String path, {
+    Options? options,
+    Map<String, dynamic>? queryParameters,
+    String? logMessage,
+    Object? data,
+  }) async {
+    // emulateDioError(401);
+    if (await isConnected == false) {
+      throw NetworkException(
+          stackTrace: StackTrace.current,
+          systemMessage: "No internet connection",
+          userMessage: S.current.error_network_connection_failed,
+          message: "No internet connection");
+    }
+    try {
+      Response response = await _dio.delete(path, options: options, queryParameters: queryParameters, data: data);
+      return response;
+    } catch (e, stackTrace) {
+      MyLogger().log(message: logMessage, error: e.toString(), stackTrace: stackTrace, logLevel: LogLevel.error);
+      throw ApiException.fromException(e as Exception, stackTrace: stackTrace);
+    }
   }
 // Future<Response> _sendRequest(
 //   String path, {

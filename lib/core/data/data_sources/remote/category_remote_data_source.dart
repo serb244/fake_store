@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../error/error.dart';
@@ -7,8 +8,12 @@ import '../../../utils/request/request.dart';
 import '../../models/category_model.dart';
 
 abstract class CategoryRemoteDataSource {
-  // TaskEither<BaseException, CategoryModel> getCategory({int? categoryId});
+  Future<bool> addCategory({required CategoryModel categoryModel});
+
+  Future<bool> deleteCategory({required int categoryId});
+
   Future<CategoryModel> getCategoryById({int categoryId});
+
   Future<List<CategoryModel>> getChildCategoryListByMainCategoryId({int? categoryId});
 }
 
@@ -18,13 +23,63 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
   CategoryRemoteDataSourceImpl({required request}) : _request = request;
 
   @override
+  Future<bool> addCategory({required CategoryModel categoryModel}) async {
+    final path = "${categoryByIdUrl}2/";
+    try {
+      final jsonData = categoryModel.toJson();
+      final response = await _request.request(
+        path,
+        requestType: RequestType.post,
+        data: jsonData,
+        options: Options(
+          contentType: Headers.jsonContentType,
+        ),
+      );
+      try {
+        return true;
+      } catch (e) {
+        final userMessage = "${S.current.error_data_loading_failed} ${S.current.error_try_again}";
+        MyLogger().log(message: e.toString(), error: e.toString(), stackTrace: StackTrace.current, logLevel: LogLevel.error);
+        throw LocalDataException(userMessage: userMessage, stackTrace: StackTrace.current);
+      }
+    } on BaseException {
+      rethrow;
+    } catch (e) {
+      MyLogger().log(message: e.toString(), error: e.toString(), stackTrace: StackTrace.current, logLevel: LogLevel.error);
+      throw UnexpectedException(stackTrace: StackTrace.current, userMessage: S.current.error_unknown);
+    }
+  }
+
+  @override
+  Future<bool> deleteCategory({required int categoryId}) async {
+    final path = "$categoryByIdUrl$categoryId/";
+    try {
+      final response = await _request.request(path, requestType: RequestType.delete);
+      try {
+       //  TODO check response statusCode is 204
+       print("deleteCategory response.data : ${response.data}");
+       print(response.statusCode);
+
+        return true;
+      } catch (e) {
+        final userMessage = "${S.current.error_data_loading_failed} ${S.current.error_try_again}";
+        MyLogger().log(message: e.toString(), error: e.toString(), stackTrace: StackTrace.current, logLevel: LogLevel.error);
+        throw LocalDataException(userMessage: userMessage, stackTrace: StackTrace.current);
+      }
+    } on BaseException {
+      rethrow;
+    } catch (e) {
+      MyLogger().log(message: e.toString(), error: e.toString(), stackTrace: StackTrace.current, logLevel: LogLevel.error);
+      throw UnexpectedException(stackTrace: StackTrace.current, userMessage: S.current.error_unknown);
+    }
+  }
+
+  @override
   Future<CategoryModel> getCategoryById({int categoryId = 0}) async {
-    final path =  categoryByIdUrl + categoryId.toString();
+    final path = categoryByIdUrl + categoryId.toString();
     try {
       final response = await _request.get(path);
       try {
-        print("response.data ${response.data}");
-        print("response.data ${response.data.runtimeType}");
         CategoryModel value = CategoryModel.fromJson(response.data);
         return value;
       } catch (e) {
@@ -42,20 +97,16 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
 
   @override
   Future<List<CategoryModel>> getChildCategoryListByMainCategoryId({int? categoryId}) async {
-    print("categoryId $categoryId");
-final path =  categoryId == null ? allCategoriesUrl : allCategoriesUrl + categoryId.toString();
-print("path $path");
+    final path = categoryId == null ? allCategoriesUrl : allCategoriesUrl + categoryId.toString();
     try {
-      final response = await _request.get(path);
+      final response = await _request.request(path);
       try {
         List<CategoryModel> categoryModelList = [];
-        for (Map<String, dynamic> value in response.data){
-          print("descriptions ${value}");
-          print("descriptions ${value["description"][0].runtimeType}");
-        final  categoryModel = CategoryModel.fromJson(value);
+        for (Map<String, dynamic> value in response.data) {
+          final categoryModel = CategoryModel.fromJson(value);
           categoryModelList.add(categoryModel);
         }
-          // List<CategoryModel> value = response.data.map((e) => CategoryModel.fromJson(response.data )).toList();
+        // List<CategoryModel> value = response.data.map((e) => CategoryModel.fromJson(response.data )).toList();
         return categoryModelList;
       } catch (e) {
         final userMessage = "${S.current.error_data_parsing_failed} ${S.current.error_try_again}";

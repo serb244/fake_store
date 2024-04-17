@@ -4,7 +4,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class ImageCached extends StatelessWidget {
   final String imagePath;
-  const ImageCached({Key? key, required this.imagePath}) : super(key: key);
+  const ImageCached({super.key, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {

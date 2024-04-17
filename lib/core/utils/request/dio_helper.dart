@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import '../../error/exceptions.dart';
 
 class RequestHelper {
   static Map<String, String> getHeaders(String email, String password) {

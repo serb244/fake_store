@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/domain/entities/menu_category_item_model.dart';
-import '../../domain/entities/menu_category_item_model.dart';
+import '../../../../core/data/models/category_model.dart';
 
 class HorizontalMenuCategoryDetail extends StatefulWidget {
-  final MenuCategoryItemModel menuCategoryItem;
+  final CategoryModel menuCategoryItem;
+  final List<CategoryModel> allCategories;
 
-  const HorizontalMenuCategoryDetail({required this.menuCategoryItem, super.key});
+  const HorizontalMenuCategoryDetail({required this.menuCategoryItem,  required this.allCategories, super.key});
 
   @override
   State<HorizontalMenuCategoryDetail> createState() => _HorizontalMenuCategoryDetailState();
@@ -18,7 +18,7 @@ class _HorizontalMenuCategoryDetailState extends State<HorizontalMenuCategoryDet
 @override
 void initState() {
   super.initState();
-  isOpen = widget.menuCategoryItem.isOpen;
+  isOpen = false;
 }
   @override
   Widget build(BuildContext context) {
@@ -30,12 +30,12 @@ void initState() {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               InkWell(
-                child: Icon(isOpen ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, size: 16.0, ),
                 onTap: _onTapOpenMenuCategoryItem,
+                child: Icon(isOpen ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, size: 16.0, ),
               ),
               Expanded(
                 child: Text(
-                  widget.menuCategoryItem.topCategory.description.name,
+                  widget.menuCategoryItem.description.name,
                   style: const TextStyle(fontSize: 20),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -44,15 +44,16 @@ void initState() {
             ],
           ),
           isOpen
-              ? Expanded(
+              ?
+          Expanded(
                   child: SingleChildScrollView(
                     child: ListView.builder(
                         itemExtent: 20,
                         shrinkWrap: true,
-                        itemCount: widget.menuCategoryItem.subCategories.length,
+                        itemCount: getChildCategoryList(categoryId: widget.menuCategoryItem.id , categoryList: widget.allCategories).length,
                         itemBuilder: (context, index) {
-                          final subCategory = widget.menuCategoryItem.subCategories[index];
-                          return Text(subCategory.description.name);
+                          final subCategory = getChildCategoryList(categoryId: widget.menuCategoryItem.id , categoryList: widget.allCategories) ;
+                          return Text(subCategory[index].description.name);
                         }),
                   ),
                 )

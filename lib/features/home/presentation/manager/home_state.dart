@@ -24,10 +24,10 @@ class HomeErrorState extends HomeState {
 }
 
 class HomeSuccessState extends HomeState {
-  final List<MenuCategoryItemModel> menuCategoryItems;
+  final List<CategoryModel> categoryList;
 
-  const HomeSuccessState({required this.menuCategoryItems});
+  const HomeSuccessState({required this.categoryList});
   @override
-  List<Object> get props => [menuCategoryItems];
+  List<Object> get props => [categoryList];
 }
 

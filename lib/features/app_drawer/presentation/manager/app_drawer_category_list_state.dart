@@ -18,8 +18,8 @@ class AppDrawerCategoryListErrorState extends AppDrawerCategoryListState {
 }
 
 class AppDrawerCategoryListSuccessState extends AppDrawerCategoryListState {
-  final List<MenuCategoryItemModel> menuCategoryItems;
-  const AppDrawerCategoryListSuccessState({required this.menuCategoryItems});
+  final List<CategoryModel> allCategories;
+  const AppDrawerCategoryListSuccessState({required this.allCategories});
   @override
   List<Object?> get props => [];
 }

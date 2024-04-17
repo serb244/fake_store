@@ -29,4 +29,23 @@ class CategoryRepositoryImpl extends CategoryRepository {
       return left(e);
     }
   }
+
+  @override
+  Future<Either<BaseException, bool>> deleteCategory({required int categoryId}) async {
+    try {
+      final bool response = await categoryRemoteDataSource.deleteCategory(categoryId: categoryId);
+      return Right(response);
+    } on BaseException catch (e) {
+      return left(e);
+    }
+  }
+  @override
+  Future<Either<BaseException, bool>> addCategory({required CategoryModel categoryModel}) async {
+    try {
+      final bool response = await categoryRemoteDataSource.addCategory(categoryModel: categoryModel);
+      return Right(response);
+    } on BaseException catch (e) {
+      return left(e);
+    }
+  }
 }

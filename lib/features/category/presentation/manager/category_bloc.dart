@@ -2,11 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // import '../../../../core/data/models/category_model.dart';
-import '../../../../core/data/data_sources/remote/category_remote_data_source.dart';
 import '../../../../core/data/models/category_model.dart';
 import '../../../../core/domain/repository/category_repository.dart';
 import '../../../../core/error/exceptions.dart';
-import '../../../../generated/l10n.dart';
 
 part 'category_event.dart';
 

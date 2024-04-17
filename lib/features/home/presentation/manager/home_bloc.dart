@@ -1,12 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:fake_store/features/home/presentation/home_methods.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/data/models/category_model.dart';
-import '../../../../core/domain/entities/menu_category_item_model.dart';
 import '../../../../core/domain/repository/category_repository.dart';
 import '../../../../core/error/exceptions.dart';
-import '../../domain/entities/menu_category_item_model.dart';
 
 part 'home_event.dart';
 
@@ -31,8 +28,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       },
       (r) {
         allCategories = [ ...r ];
-        List<MenuCategoryItemModel> menuCategoryItems = getMenuCategoryItems( allCategories);
-        emit(HomeSuccessState(menuCategoryItems: menuCategoryItems));
+        // List<MenuCategoryItemModel> menuCategoryItems = getMenuCategoryItems( allCategories);
+        emit(HomeSuccessState(categoryList: allCategories));
       },
     );
   }
