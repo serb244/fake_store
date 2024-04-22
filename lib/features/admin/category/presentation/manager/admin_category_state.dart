@@ -4,26 +4,26 @@ abstract class AdminCategoryState extends Equatable {
   const AdminCategoryState();
 }
 
-class AdminCategoryLoading extends AdminCategoryState {
+class AdminCategoryLoadingState extends AdminCategoryState {
   @override
   List<Object> get props => [];
 
-  const AdminCategoryLoading();
+  const AdminCategoryLoadingState();
 }
 
-class AdminCategoryLoaded extends AdminCategoryState {
+class AdminCategoryLoadedState extends AdminCategoryState {
   final CategoryModel category;
 final List<CategoryModel> allCategories;
-  const AdminCategoryLoaded({required this.category, required this.allCategories});
+  const AdminCategoryLoadedState({required this.category, required this.allCategories});
 
   @override
   List<Object> get props => [category, allCategories];
 }
 
-class AdminCategoryError extends AdminCategoryState {
+class AdminCategoryErrorState extends AdminCategoryState {
   final String error;
 
-  const AdminCategoryError({ required this.error});
+  const AdminCategoryErrorState({ required this.error});
 
   @override
   List<Object> get props => [error];

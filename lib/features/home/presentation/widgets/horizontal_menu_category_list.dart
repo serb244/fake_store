@@ -15,6 +15,7 @@ class HorizontalMenuCategoryList extends StatelessWidget {
     return ListView.builder(
       itemExtent: 100,
       controller: controller,
+      reverse:  true,
       // shrinkWrap: true,
       scrollDirection: Axis.horizontal,
       itemCount: topCategories.length,

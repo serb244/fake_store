@@ -18,8 +18,7 @@ context.pushNamed(RouteConstants.adminCategoryName, pathParameters: {'categoryId
         }, icon: const Icon(Icons.edit),),
         // TODO сделать pathParameters: {'categoryId': необязательно'}
         IconButton(onPressed: () {
-context.pushNamed(RouteConstants.adminCategoryName, pathParameters: {'categoryId': '0'});
-    // .then((value) => injector<HomeBloc>()..add(const HomeInitEvent()));
+context.pushNamed(RouteConstants.adminCategoryName, pathParameters: {'categoryId': '0'}) .then((value) => injector<HomeBloc>()..add(const HomeInitEvent()));
         }, icon: const Icon(Icons.add),),
       ],),
     );

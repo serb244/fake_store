@@ -36,18 +36,23 @@ class ApiClient with ConnectivityMixin {
           userMessage: S.current.error_network_connection_failed,
           message: "No internet connection");
     }
+    Response response;
     try {
-      // Response response = await
       switch (requestType) {
         case RequestType.get:
-          return _dio.get(path, options: options, queryParameters: queryParameters, data: data);
+          response = await _dio.get(path, options: options, queryParameters: queryParameters, data: data);
+          break;
         case RequestType.post:
-          return _dio.post(path, options: options, queryParameters: queryParameters, data: data);
+          response = await  _dio.post(path, options: options, queryParameters: queryParameters, data: data);
+          break;
         case RequestType.put:
-          return _dio.put(path, options: options, queryParameters: queryParameters, data: data);
+          response = await  _dio.put(path, options: options, queryParameters: queryParameters, data: data);
+          break;
         case RequestType.delete:
-          return _dio.delete(path, options: options, queryParameters: queryParameters, data: data);
+          response = await  _dio.delete(path, options: options, queryParameters: queryParameters, data: data);
+          break;
       }
+      return response;
     } catch (e, stackTrace) {
       MyLogger().log(message: logMessage, error: e.toString(), stackTrace: stackTrace, logLevel: LogLevel.error);
       throw ApiException.fromException(e as Exception, stackTrace: stackTrace);

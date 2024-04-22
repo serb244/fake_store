@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fpdart/fpdart.dart';
 
 import '../../../../../core/data/models/category_model.dart';
 import '../../../../../core/domain/repository/category_repository.dart';
@@ -12,59 +13,51 @@ part 'admin_category_state.dart';
 class AdminCategoryBloc extends Bloc<AdminCategoryEvent, AdminCategoryState> {
   final CategoryRepository categoryRepository;
   List<CategoryModel> allCategories = [];
-  AdminCategoryBloc({required this.categoryRepository}) : super(const AdminCategoryLoading()) {
+
+  AdminCategoryBloc({required this.categoryRepository}) : super(const AdminCategoryLoadingState()) {
     on<AdminCategorySaveEvent>(_saveCategory);
     on<AdminCategoryInitEvent>(_init);
+    on<AdminCategoryErrorEvent>(_error);
     on<AdminCategoryDeleteEvent>(_deleteCategory);
+    categoryRepository.allCategoriesStream.listen((Either<BaseException, List<CategoryModel>> eitherCategoriesOrException) {
+      eitherCategoriesOrException.fold(
+        (exception) {
+          add(AdminCategoryErrorEvent(message: exception.userMessage.toString()));
+        },
+        (categories) {
+          allCategories = categories;
+        },
+      );
+    });
   }
-_deleteCategory(AdminCategoryDeleteEvent event, Emitter<AdminCategoryState> emit) async {
-  emit(const AdminCategoryLoading());
-  final result = await categoryRepository.deleteCategory(categoryId: event.categoryId);
-  result.fold(
 
-    (BaseException l) {
-      //     TODO implement error
-      emit(AdminCategoryError(error: l.userMessage ?? "" ));
+  _error(AdminCategoryErrorEvent event, Emitter<AdminCategoryState> emit) async {
+    emit(const AdminCategoryLoadingState());
+    emit(AdminCategoryErrorState(error: event.message));
+  }
 
-    }
-    ,
-    (r) {
-      emit(AdminCategoryLoaded(allCategories: allCategories, category: CategoryModel.init()));
+  _deleteCategory(AdminCategoryDeleteEvent event, Emitter<AdminCategoryState> emit) async {
+    emit(const AdminCategoryLoadingState());
+    final result = await categoryRepository.deleteCategory(categoryId: event.categoryId);
+  }
 
-    }
-  );
-}
   _init(AdminCategoryInitEvent event, Emitter<AdminCategoryState> emit) async {
-    emit(const AdminCategoryLoading());
-    CategoryModel category = CategoryModel.init();
+    emit(const AdminCategoryLoadingState());
+    await categoryRepository.getAllCategories();
     if (event.categoryId != 0) {
       final categoryResult = await categoryRepository.getCategoryByID(categoryId: event.categoryId);
       categoryResult.fold(
-        (BaseException l) {
-          //     TODO implement error
-          emit(AdminCategoryError(error: l.userMessage.toString()));
-        },
-        (r) {
-          category = r;
-        },
+        (BaseException l) => emit(AdminCategoryErrorState(error: l.userMessage.toString())),
+        (category) => emit(AdminCategoryLoadedState(allCategories: [...allCategories], category: category)),
       );
+    } else {
+      emit(AdminCategoryLoadedState(allCategories: [...allCategories], category: CategoryModel.init()));
     }
-    final result = await categoryRepository.getChildCategoryListByMainCategoryId();
-    result.fold(
-      (BaseException l) {
-        //     TODO implement error
-        emit(AdminCategoryError(error: l.userMessage.toString()));
-      },
-      (  List<CategoryModel> r) {
-        allCategories = [...r];
-        emit(AdminCategoryLoaded(allCategories: r, category: category));
-      },
-    );
   }
 
   _saveCategory(AdminCategorySaveEvent event, Emitter<AdminCategoryState> emit) async {
-    emit(const AdminCategoryLoading());
+    // emit(const AdminCategoryLoading());
     await categoryRepository.addCategory(categoryModel: event.category);
-    emit(AdminCategoryLoaded(category: event.category, allCategories: allCategories));
+    // emit(AdminCategoryLoaded(category: event.category, allCategories: allCategories));
   }
 }

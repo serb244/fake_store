@@ -8,7 +8,7 @@ import '../../../utils/request/request.dart';
 import '../../models/category_model.dart';
 
 abstract class CategoryRemoteDataSource {
-  Future<bool> addCategory({required CategoryModel categoryModel});
+  Future<CategoryModel> addCategory({required CategoryModel categoryModel});
 
   Future<bool> deleteCategory({required int categoryId});
 
@@ -23,7 +23,7 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
   CategoryRemoteDataSourceImpl({required request}) : _request = request;
 
   @override
-  Future<bool> addCategory({required CategoryModel categoryModel}) async {
+  Future<CategoryModel> addCategory({required CategoryModel categoryModel}) async {
     final path = "${categoryByIdUrl}2/";
     try {
       final jsonData = categoryModel.toJson();
@@ -35,12 +35,26 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
           contentType: Headers.jsonContentType,
         ),
       );
-      try {
-        return true;
-      } catch (e) {
-        final userMessage = "${S.current.error_data_loading_failed} ${S.current.error_try_again}";
-        MyLogger().log(message: e.toString(), error: e.toString(), stackTrace: StackTrace.current, logLevel: LogLevel.error);
-        throw LocalDataException(userMessage: userMessage, stackTrace: StackTrace.current);
+      print("addCategory response.data : ${response.data}");
+      // TODO check response statusCode is 201
+      // return response.statusCode == 201 ?  true :  false;
+      if (response.statusCode == 201) {
+        try {
+          CategoryModel value = CategoryModel.fromJson(response.data);
+          return value;
+        } catch (e) {
+          final userMessage = "${S.current.error_data_loading_failed} ${S.current.error_try_again}";
+          MyLogger().log(message: e.toString(), error: e.toString(), stackTrace: StackTrace.current, logLevel: LogLevel.error);
+          throw LocalDataException(userMessage: userMessage, stackTrace: StackTrace.current);
+        }
+      } else {
+        throw ApiException(
+            userMessage: S.current.error_unknown,
+            stackTrace: StackTrace.current,
+            type: DioExceptionType.badResponse,
+            message: "addCategory response.statusCode != 201",
+            requestOptions: response.requestOptions,
+            response: response);
       }
     } on BaseException {
       rethrow;
@@ -55,10 +69,11 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
     final path = "$categoryByIdUrl$categoryId/";
     try {
       final response = await _request.request(path, requestType: RequestType.delete);
+      print("deleteCategory response.data : ${response.data}");
       try {
-       //  TODO check response statusCode is 204
-       print("deleteCategory response.data : ${response.data}");
-       print(response.statusCode);
+        //  TODO check response statusCode is 204
+        print("deleteCategory response.data : ${response.data}");
+        print(response.statusCode);
 
         return true;
       } catch (e) {
@@ -78,7 +93,7 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
   Future<CategoryModel> getCategoryById({int categoryId = 0}) async {
     final path = categoryByIdUrl + categoryId.toString();
     try {
-      final response = await _request.get(path);
+      final response = await _request.request(path);
       try {
         CategoryModel value = CategoryModel.fromJson(response.data);
         return value;
@@ -102,6 +117,7 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
       final response = await _request.request(path);
       try {
         List<CategoryModel> categoryModelList = [];
+        // print("response.data : ${response.data}");
         for (Map<String, dynamic> value in response.data) {
           final categoryModel = CategoryModel.fromJson(value);
           categoryModelList.add(categoryModel);

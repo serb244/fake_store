@@ -20,7 +20,7 @@ class App extends StatelessWidget {
         BlocProvider(create: (context) => injector<AppDrawerCategoryListBloc>()),
         BlocProvider(create: (context) => injector<AdminCategoryBloc>()),
         BlocProvider(create: (context) => injector<CategoryBloc>()),
-        BlocProvider(create: (context) => injector<HomeBloc>()..add(const HomeInitEvent())),
+        BlocProvider(create: (context) => injector<HomeBloc>()),
       ],
       child: MaterialApp.router(
         localizationsDelegates: const [

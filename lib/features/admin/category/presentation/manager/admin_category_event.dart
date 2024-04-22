@@ -23,3 +23,9 @@ final  int categoryId;
   @override
   List<Object?> get props => [categoryId];
 }
+class AdminCategoryErrorEvent extends AdminCategoryEvent {
+final  String message;
+  const AdminCategoryErrorEvent({required this.message});
+  @override
+  List<Object?> get props => [message];
+}

@@ -20,6 +20,7 @@ Future<void> initDependencies() async {
 
   /// Repository ///
   injector.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(categoryRemoteDataSource: injector<CategoryRemoteDataSource>()));
+  // injector.registerLazySingleton<CategoryRepository2>(() => CategoryRepositoryImpl2(categoryRemoteDataSource: injector<CategoryRemoteDataSource>()));
 
   /// BloC ///
   injector.registerLazySingleton(() => CategoryBloc(categoryRepository: injector<CategoryRepository>()));

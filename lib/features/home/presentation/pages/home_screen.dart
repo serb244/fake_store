@@ -17,9 +17,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) {
-        if(state is HomeSuccessState){
-          injector<AppDrawerCategoryListBloc>().allCategories = [... injector<HomeBloc>().allCategories];
-        }
       },
       builder: (context, state) {
         return Scaffold(
@@ -44,9 +41,7 @@ class HomeScreen extends StatelessWidget {
         child: Text(state.error),
       );
     } else if (state is HomeSuccessState) {
-      // TODO remove (only for testing)
-      final List<CategoryModel> categories = state.categoryList + state.categoryList;
-      return HorizontalMenuCategoryList (allCategoryList:categories );
+      return HorizontalMenuCategoryList (allCategoryList:state.categoryList );
     } else {
       return Container(); // По умолчанию показываем пустой контейнер
     }

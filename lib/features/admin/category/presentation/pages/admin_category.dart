@@ -1,6 +1,7 @@
 import 'package:fake_store/core/utils/extensions/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/data/models/category_description.dart';
 import '../../../../../core/data/models/category_model.dart';
@@ -83,20 +84,17 @@ class CategoryFormState extends State<CategoryForm> {
 
   void _handleCategorySelection(int? categoryId, int index) {
     parentCategoryId = categoryId;
-    print("selectedCategoryId $parentCategoryId");
     // Обновление списка дочерних категорий для следующего уровня
     // ...
   }
 
   @override
   Widget build(BuildContext context) {
-    print("main build isActive $isActive");
     return BlocConsumer<AdminCategoryBloc, AdminCategoryState>(
       listener: (context, state) {
-        if (state is AdminCategoryLoaded) {
-          print("AdminCategoryLoaded");
+        if (state is AdminCategoryLoadedState) {
+
           isActive = state.category.status;
-          print("listener isActive $isActive");
           parentCategoryId = state.category.parentCategoryId;
           _nameController.text = state.category.description.name;
           _slugController.text = state.category.description.slug;
@@ -111,17 +109,18 @@ class CategoryFormState extends State<CategoryForm> {
         }
       },
       builder: (context, state) {
-        if (state is AdminCategoryLoading) {
+        if (state is AdminCategoryLoadingState) {
           return const Center(child: CircularProgressIndicator());
         }
-        if (state is AdminCategoryError) {
+        if (state is AdminCategoryErrorState) {
           return Center(child: Text(state.error));
         }
-        if (state is AdminCategoryLoaded) {
+        if (state is AdminCategoryLoadedState) {
+          print("parentCategoryId: " + parentCategoryId.toString());
           List<DropdownMenuItem<int?>>? items = state.allCategories
               .map((category) => DropdownMenuItem<int?>(
                     value: category.id,
-                    child: Text(category.description.name),
+                    child: Text(category.id.toString() + " " + category.description.name ),
                   ))
               .toList();
           items.insert(
@@ -134,16 +133,15 @@ class CategoryFormState extends State<CategoryForm> {
             padding: const EdgeInsets.all(16.0),
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Row(
                     children: [
-                      IconButton(
+                      state.category.id != 0 ? IconButton(
                         onPressed: () => _onTapDelete(state.category.id),
                         icon: const Icon(
                           Icons.delete_forever,
                         ),
-                      ),
+                      ) : const SizedBox.shrink(),
                       Switch(
                           value: isAutoMode,
                           onChanged: (value) {
@@ -160,7 +158,6 @@ class CategoryFormState extends State<CategoryForm> {
                         onChanged: (value) {
                           setState(() {
                             isActive = value;
-                            print("setState isActive $isActive");
                           });
                         })
                   ]),
@@ -251,8 +248,8 @@ class CategoryFormState extends State<CategoryForm> {
                         ),
                       );
                       // widget.onSubmit(category);
-                      print(category);
                       injector<AdminCategoryBloc>().add(AdminCategorySaveEvent(category));
+                      context.pop();
                     },
                     child: const Text('Submit'),
                   ),
@@ -269,5 +266,6 @@ class CategoryFormState extends State<CategoryForm> {
 
   void _onTapDelete(int categoryId) {
     injector<AdminCategoryBloc>().add(AdminCategoryDeleteEvent(categoryId: categoryId));
+    context.pop();
   }
 }

@@ -1,8 +1,11 @@
 import 'package:fake_store/core/data/models/category_model.dart';
+import 'package:fake_store/core/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/route_constants.dart';
+import '../../../admin/category/presentation/manager/admin_category_bloc.dart';
+import '../manager/app_drawer_category_list_bloc.dart';
 
 class AppDrawerCategoryList extends StatefulWidget {
   final List<CategoryModel> allCategories;
@@ -17,25 +20,13 @@ class AppDrawerCategoryList extends StatefulWidget {
 
 class _AppDrawerCategoryListState extends State<AppDrawerCategoryList> {
   @override
-  void initState() {
-    print("AppDrawerCategoryList initState");
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    print("AppDrawerCategoryList didChangeDependencies");
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final List<CategoryModel> topMenuCategories = widget.allCategories.where((category) => category.parentCategoryId == widget.parentId).toList();
     return ListView.builder(
         shrinkWrap: true,
         // itemExtent: 75,
         itemBuilder: (context, index) {
-          final List<CategoryModel> cc = widget.allCategories.where((category) => category.parentCategoryId == topMenuCategories[index].id).toList();
+          final List<CategoryModel> childCategories = widget.allCategories.where((category) => category.parentCategoryId == topMenuCategories[index].id).toList();
           return ExpansionTile(
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,19 +46,32 @@ class _AppDrawerCategoryListState extends State<AppDrawerCategoryList> {
                   ),
                 ),
                 widget.isAdmin
-                    ? InkWell(
-                        onTap: () {
-                          context.pushNamed(RouteConstants.adminCategoryName, pathParameters: {'categoryId': topMenuCategories[index].id.toString()});
-                        },
-                        child: const Icon(
-                          Icons.edit,
-                          color: Colors.blue,
-                        ),
-                      )
+                    ? Row(
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              injector<AppDrawerCategoryListBloc>().add(AppDrawerCategoryListDeleteEvent(categoryId: topMenuCategories[index].id));
+                            },
+                            child: const Icon(
+                              Icons.delete,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        InkWell(
+                            onTap: () {
+                              context.pushNamed(RouteConstants.adminCategoryName, pathParameters: {'categoryId': topMenuCategories[index].id.toString()});
+                            },
+                            child: const Icon(
+                              Icons.edit,
+                              color: Colors.blue,
+                            ),
+                          ),
+                      ],
+                    )
                     : Container(),
               ],
             ),
-            trailing: cc.isNotEmpty ? null : const SizedBox(),
+            trailing: childCategories.isNotEmpty ? null : const SizedBox(),
             // subtitle: Text(topMenuCategories[index].description.description),
             children: <Widget>[
               // Дочерние элементы ExpansionTile
