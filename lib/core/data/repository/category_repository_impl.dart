@@ -5,7 +5,7 @@ import 'package:fpdart/fpdart.dart';
 import '../../domain/repository/category_repository.dart';
 import '../../error/exceptions.dart';
 import '../data_sources/remote/category_remote_data_source.dart';
-import '../models/category_model.dart';
+import '../models/category/category_model.dart';
 
 class CategoryRepositoryImpl extends CategoryRepository {
   final CategoryRemoteDataSource categoryRemoteDataSource;
@@ -63,6 +63,7 @@ class CategoryRepositoryImpl extends CategoryRepository {
   Future<Either<BaseException, CategoryModel>> addCategory({required CategoryModel categoryModel, bool force = false}) async {
     try {
       final CategoryModel response = await categoryRemoteDataSource.addCategory(categoryModel: categoryModel);
+      print("addCategory response.data : ${response.toJson()}");
         _categories.add(response);
         addToStream(Right([..._categories]));
       return Right(response);

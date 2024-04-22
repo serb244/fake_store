@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/data/models/category_model.dart';
+import '../../../../core/data/models/category/category_model.dart';
+
 
 class HorizontalMenuCategoryDetail extends StatefulWidget {
   final CategoryModel menuCategoryItem;

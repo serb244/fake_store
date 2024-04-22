@@ -1,10 +1,10 @@
-import 'package:fake_store/core/data/models/category_model.dart';
+
 import 'package:fake_store/core/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/data/models/category/category_model.dart';
 import '../../../../core/routes/route_constants.dart';
-import '../../../admin/category/presentation/manager/admin_category_bloc.dart';
 import '../manager/app_drawer_category_list_bloc.dart';
 
 class AppDrawerCategoryList extends StatefulWidget {

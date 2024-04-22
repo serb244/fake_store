@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'category_description.dart';
 
 part 'category_model.freezed.dart';
-
 part 'category_model.g.dart';
 
 @freezed
@@ -37,6 +36,7 @@ class CategoryModel with _$CategoryModel {
         languageId: 1,
         description: const CategoryDescription(
           categoryId: 0,
+          categoryDescriptionId: 0,
           languageId: 1,
           name: "name",
           slug: "",

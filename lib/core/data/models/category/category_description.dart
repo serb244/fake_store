@@ -6,7 +6,8 @@ part 'category_description.g.dart';
 @freezed
 abstract class CategoryDescription with _$CategoryDescription {
   const factory CategoryDescription({
-    @JsonKey(name: 'id') required int categoryId,
+    @JsonKey(name: 'id') required int categoryDescriptionId,
+    @JsonKey(name: 'category') required int categoryId,
     @JsonKey(name: 'language_id') required int languageId,
     @JsonKey(name: 'name') required String name,
     @JsonKey(name: 'slug') required String slug,

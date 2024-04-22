@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../core/data/models/category_description.dart';
-import '../../../../../core/data/models/category_model.dart';
+import '../../../../../core/data/models/category/category_description.dart';
+import '../../../../../core/data/models/category/category_model.dart';
+
 import '../../../../../core/di/injector.dart';
 import '../manager/admin_category_bloc.dart';
 
@@ -116,11 +117,11 @@ class CategoryFormState extends State<CategoryForm> {
           return Center(child: Text(state.error));
         }
         if (state is AdminCategoryLoadedState) {
-          print("parentCategoryId: " + parentCategoryId.toString());
+          print("parentCategoryId: $parentCategoryId");
           List<DropdownMenuItem<int?>>? items = state.allCategories
               .map((category) => DropdownMenuItem<int?>(
                     value: category.id,
-                    child: Text(category.id.toString() + " " + category.description.name ),
+                    child: Text("${category.id} ${category.description.name}" ),
                   ))
               .toList();
           items.insert(
@@ -234,6 +235,7 @@ class CategoryFormState extends State<CategoryForm> {
                         languageId: 1,
                         description: CategoryDescription(
                           categoryId: 0,
+                          categoryDescriptionId: 0,
                           languageId: 1,
                           name: _nameController.text,
                           slug: _slugController.text,

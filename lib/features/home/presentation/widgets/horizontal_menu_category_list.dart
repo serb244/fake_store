@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/data/models/category_model.dart';
+import '../../../../core/data/models/category/category_model.dart';
 import 'horizontal_menu_category_detail.dart';
 
 class HorizontalMenuCategoryList extends StatelessWidget {

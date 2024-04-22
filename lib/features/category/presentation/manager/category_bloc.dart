@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// import '../../../../core/data/models/category_model.dart';
-import '../../../../core/data/models/category_model.dart';
+
+import '../../../../core/data/models/category/category_model.dart';
 import '../../../../core/domain/repository/category_repository.dart';
 import '../../../../core/error/exceptions.dart';
 

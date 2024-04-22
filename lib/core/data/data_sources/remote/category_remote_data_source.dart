@@ -5,7 +5,7 @@ import '../../../error/error.dart';
 import '../../../utils/logging/my_logger.dart';
 import '../../../utils/request/consts.dart';
 import '../../../utils/request/request.dart';
-import '../../models/category_model.dart';
+import '../../models/category/category_model.dart';
 
 abstract class CategoryRemoteDataSource {
   Future<CategoryModel> addCategory({required CategoryModel categoryModel});

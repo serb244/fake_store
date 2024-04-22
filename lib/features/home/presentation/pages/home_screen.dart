@@ -1,11 +1,9 @@
 
-import 'package:fake_store/core/data/models/category_model.dart';
-import 'package:fake_store/core/di/di.dart';
+
 import 'package:fake_store/features/app_drawer/presentation/pages/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../app_drawer/presentation/manager/app_drawer_category_list_bloc.dart';
 import '../manager/home_bloc.dart';
 import '../widgets/horizontal_menu_category_list.dart';
 
