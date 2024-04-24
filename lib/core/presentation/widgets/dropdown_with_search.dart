@@ -5,6 +5,7 @@ class DropdownWithSearch extends StatefulWidget {
   final int initialValue;
   final String labelText;
   final double builderHeight;
+  final bool isNeedSearchInKeys;
   final void Function(int?)? onSelected;
   final void Function(String?)? onTextChanged;
 
@@ -15,6 +16,7 @@ class DropdownWithSearch extends StatefulWidget {
     this.onSelected,
     this.onTextChanged,
     this.builderHeight = 250,
+    this.isNeedSearchInKeys = true,
     super.key,
   });
 
@@ -36,7 +38,11 @@ class DropdownWithSearchState extends State<DropdownWithSearch> {
     return Autocomplete<MapEntry<int, dynamic>>(
       optionsBuilder: (TextEditingValue textEditingValue) {
         return widget.options.entries.where((entry) {
-          return entry.value.toString().toLowerCase().contains(textEditingValue.text.toLowerCase());
+          if (widget.isNeedSearchInKeys) {
+            return entry.toString().toLowerCase().contains(textEditingValue.text.toLowerCase());
+          }else{
+            return entry.value.toString().toLowerCase().contains(textEditingValue.text.toLowerCase());
+          }
         });
       },
       onSelected: (entry) {
@@ -45,7 +51,8 @@ class DropdownWithSearchState extends State<DropdownWithSearch> {
           selectedText = '${entry.key} ${entry.value}';
         });
       },
-      optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<MapEntry<int, dynamic>> onSelected, Iterable<MapEntry<int, dynamic>> options) {
+      optionsViewBuilder:
+          (BuildContext context, AutocompleteOnSelected<MapEntry<int, dynamic>> onSelected, Iterable<MapEntry<int, dynamic>> options) {
         return Align(
           alignment: Alignment.topLeft,
           child: Material(
