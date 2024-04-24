@@ -1,27 +1,38 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/di/injector.dart';
 import '../../../app_drawer/presentation/pages/app_drawer.dart';
 import '../manager/home_bloc.dart';
 import '../widgets/horizontal_menu_category_list.dart';
-
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double dragOffset = 0.0;
     return BlocConsumer<HomeBloc, HomeState>(
-      listener: (context, state) {
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          drawer:const AppDrawer(),
+          drawer: const AppDrawer(),
           appBar: AppBar(
             title: const Text("Home"),
           ),
-          body: _buildBody(context, state),
+          body: GestureDetector(
+            onVerticalDragUpdate: (details) {
+              // TODO: implement onVerticalDragUpdate show CircularProgressIndicator()
+
+              dragOffset += details.delta.dy;
+              print("dragOffset: $dragOffset");
+            },
+            onVerticalDragEnd: (DragEndDetails details) {
+              dragOffset > 150 ? injector<HomeBloc>().add(const HomeInitEvent()) : null;
+              dragOffset = 0.0;
+            },
+            child: _buildBody(context, state),
+          ),
         );
       },
     );
@@ -32,17 +43,15 @@ class HomeScreen extends StatelessWidget {
       return const Center(
         child: CircularProgressIndicator(),
       );
-    } else
-      if (state is HomeErrorState) {
+    } else if (state is HomeErrorState) {
       return Center(
         child: Text(state.error),
       );
     } else if (state is HomeSuccessState) {
-      return HorizontalMenuCategoryList (allCategoryList:state.categoryList );
+      return const HorizontalMenuCategoryList( );
+      // return Container();
     } else {
-      return Container(); // По умолчанию показываем пустой контейнер
+      return Container();
     }
   }
-
-
 }

@@ -5,15 +5,21 @@ part 'language.g.dart';
 @freezed
 class Language with _$Language {
   const factory Language({
-    required int languageId,
+    @JsonKey(name: 'language_id') required int id,
     required String name,
     required String code,
-    required String locale,
-    required String image,
-    required String directory,
-    required int sortOrder,
-    required bool status,
+    String? locale,
+     String? image,
+     String? directory,
+     int? sortOrder,
+     bool? status,
   }) = _Language;
 
   factory Language.fromJson(Map<String, dynamic> json) => _$LanguageFromJson(json);
+
+  factory Language.init() => const Language (
+    id:1,
+    name: 'ukrainian',
+    code: 'uk',
+  );
 }

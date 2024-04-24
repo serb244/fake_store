@@ -2,11 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../features/admin/app_settings/presentation/pages/admin_language.dart';
+import '../../features/admin/app_settings/presentation/pages/admin_language_list.dart';
+import '../../features/admin/app_settings/presentation/pages/app_settings.dart';
 import '../../features/admin/category/presentation/pages/admin_category.dart';
 import '../../features/admin/home/presentation/pages/admin_screen.dart';
 import '../../features/user/category/presentation/pages/category_screen.dart';
 import '../../features/user/home/presentation/pages/home_screen.dart';
 import '../../features/user/product_detail/presentation/pages/product_detail_screen.dart';
+import '../data/models/language/language.dart';
 import 'go_router_observer.dart';
 import 'route_constants.dart';
 import 'screens/screens.dart';
@@ -29,7 +33,7 @@ class AppRouter {
       GoRoute(
         path: RouteConstants.homePath,
         name: RouteConstants.homeName,
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) => HomeScreen(),
         routes: <GoRoute>[
           GoRoute(path: RouteConstants.categoryPath, name: RouteConstants.categoryName, builder: (context, state) => const CategoryScreen()),
           GoRoute(path: RouteConstants.productPath, name: RouteConstants.productName, builder: (context, state) => const ProductDetailScreen()),
@@ -44,8 +48,26 @@ class AppRouter {
               path: RouteConstants.adminCategoryPath,
               name: RouteConstants.adminCategoryName,
               builder: (context, state) => AdminCategory(
-                categoryId:state.pathParameters['categoryId'] ?? "0",
+                    categoryId: state.pathParameters['categoryId'] ?? "0",
                   )),
+          GoRoute(
+            path: RouteConstants.adminAppSettingsPath,
+            name: RouteConstants.adminAppSettingsName,
+            builder: (context, state) => const AppSettings(),
+          ),
+          GoRoute(
+              path: RouteConstants.adminLanguageListPath,
+              name: RouteConstants.adminLanguageListName,
+              builder: (context, state) => const AdminLanguageList(),
+              routes: <GoRoute>[
+                GoRoute(
+                    path: RouteConstants.adminLanguageDetailPath,
+                    name: RouteConstants.adminLanguageDetailName,
+                    builder: (context, GoRouterState state) {
+                      final   Language? language = state.extra as Language?;
+                      return AdminLanguageDetail(language: language);
+                    })
+              ]),
           // GoRoute(path: RouteConstants.productPath, name: RouteConstants.productName, builder: (context, state) => const ProductDetailScreen()),
         ],
       ),

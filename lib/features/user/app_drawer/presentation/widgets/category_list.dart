@@ -1,32 +1,72 @@
-
 import 'package:fake_store/core/di/di.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/data/models/category/category_model.dart';
 import '../../../../../core/routes/route_constants.dart';
+import '../../../category/presentation/manager/category_bloc.dart';
 import '../manager/app_drawer_category_list_bloc.dart';
 
-class AppDrawerCategoryList extends StatefulWidget {
-  final List<CategoryModel> allCategories;
-  final int? parentId;
-  final bool isAdmin = true;
+class AppDrawerCategoryList extends StatelessWidget {
+  const AppDrawerCategoryList({super.key});
 
-  const AppDrawerCategoryList({this.parentId, required this.allCategories, super.key});
-
-  @override
-  State<AppDrawerCategoryList> createState() => _AppDrawerCategoryListState();
-}
-
-class _AppDrawerCategoryListState extends State<AppDrawerCategoryList> {
   @override
   Widget build(BuildContext context) {
-    final List<CategoryModel> topMenuCategories = widget.allCategories.where((category) => category.parentCategoryId == widget.parentId).toList();
+    return ExpansionTile(
+      title: Row(
+        children: [
+          const Text('Categories'),
+          isAdmin
+              ? IconButton(
+                  onPressed: () => context.pushNamed(RouteConstants.adminCategoryName, pathParameters: {'categoryId': '0'}),
+                  icon: const Icon(Icons.add),
+                )
+              : const SizedBox.shrink()
+        ],
+      ),
+      children: [
+        BlocConsumer<CategoryBloc, CategoryState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              if (state is CategoryLoadingState) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is CategoryErrorState) {
+                return Center(
+                  child: Text(state.error),
+                );
+              } else if (state is CategorySuccessState) {
+                return AppDrawerCategoryListWidget(categoryModelList: state.categoryList, parentId: null);
+              } else {
+                return Container();
+              }
+            })
+      ],
+    );
+  }
+}
+
+class AppDrawerCategoryListWidget extends StatelessWidget {
+  final int? parentId;
+  final List<CategoryModel> categoryModelList;
+
+  const AppDrawerCategoryListWidget({required this.categoryModelList, required this.parentId, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // на каждой итерации из общего списка categoryModelList получаем currentCategories на основе parentId
+    final List<CategoryModel> currentCategories =
+    categoryModelList.where((category) => category.parentCategoryId == parentId).toList();
     return ListView.builder(
         shrinkWrap: true,
+        itemCount: currentCategories.length,
+        physics: const NeverScrollableScrollPhysics(),
         // itemExtent: 75,
         itemBuilder: (context, index) {
-          final List<CategoryModel> childCategories = widget.allCategories.where((category) => category.parentCategoryId == topMenuCategories[index].id).toList();
+          // для каждого элемента в currentCategories узнаем есть ли у него дочерние элементы
+          final bool isHasChild = categoryModelList.any((category) => category.parentCategoryId == currentCategories[index].id);
           return ExpansionTile(
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,48 +80,46 @@ class _AppDrawerCategoryListState extends State<AppDrawerCategoryList> {
                     child: Text(
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      topMenuCategories[index].description.name,
+                      currentCategories[index].description.name,
                       style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
                     ),
                   ),
                 ),
-                widget.isAdmin
+                isAdmin
                     ? Row(
-                      children: [
-                        InkWell(
+                        children: [
+                          InkWell(
                             onTap: () {
-                              injector<AppDrawerCategoryListBloc>().add(AppDrawerCategoryListDeleteEvent(categoryId: topMenuCategories[index].id));
+                              // injector<CategoryBloc>().add(CategoryDeleteEvent(categoryId: categoryModelList[index].id));
                             },
                             child: const Icon(
                               Icons.delete,
                               color: Colors.blue,
                             ),
                           ),
-                        InkWell(
+                          InkWell(
                             onTap: () {
-                              context.pushNamed(RouteConstants.adminCategoryName, pathParameters: {'categoryId': topMenuCategories[index].id.toString()});
+                              context.pushNamed(RouteConstants.adminCategoryName,
+                                  pathParameters: {'categoryId': currentCategories[index].id.toString()});
                             },
                             child: const Icon(
                               Icons.edit,
                               color: Colors.blue,
                             ),
                           ),
-                      ],
-                    )
+                        ],
+                      )
                     : Container(),
               ],
             ),
-            trailing: childCategories.isNotEmpty ? null : const SizedBox(),
-            // subtitle: Text(topMenuCategories[index].description.description),
+            trailing: isHasChild  ? null : const SizedBox(),
             children: <Widget>[
-              // Дочерние элементы ExpansionTile
-              AppDrawerCategoryList(
-                allCategories: widget.allCategories,
-                parentId: topMenuCategories[index].id,
+              AppDrawerCategoryListWidget(
+                categoryModelList: categoryModelList,
+                parentId: currentCategories[index].id,
               ),
             ],
           );
-        },
-        itemCount: topMenuCategories.length);
+        });
   }
 }

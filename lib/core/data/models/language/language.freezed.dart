@@ -20,14 +20,15 @@ Language _$LanguageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Language {
-  int get languageId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'language_id')
+  int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get code => throw _privateConstructorUsedError;
-  String get locale => throw _privateConstructorUsedError;
-  String get image => throw _privateConstructorUsedError;
-  String get directory => throw _privateConstructorUsedError;
-  int get sortOrder => throw _privateConstructorUsedError;
-  bool get status => throw _privateConstructorUsedError;
+  String? get locale => throw _privateConstructorUsedError;
+  String? get image => throw _privateConstructorUsedError;
+  String? get directory => throw _privateConstructorUsedError;
+  int? get sortOrder => throw _privateConstructorUsedError;
+  bool? get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,14 +42,14 @@ abstract class $LanguageCopyWith<$Res> {
       _$LanguageCopyWithImpl<$Res, Language>;
   @useResult
   $Res call(
-      {int languageId,
+      {@JsonKey(name: 'language_id') int id,
       String name,
       String code,
-      String locale,
-      String image,
-      String directory,
-      int sortOrder,
-      bool status});
+      String? locale,
+      String? image,
+      String? directory,
+      int? sortOrder,
+      bool? status});
 }
 
 /// @nodoc
@@ -64,19 +65,19 @@ class _$LanguageCopyWithImpl<$Res, $Val extends Language>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? languageId = null,
+    Object? id = null,
     Object? name = null,
     Object? code = null,
-    Object? locale = null,
-    Object? image = null,
-    Object? directory = null,
-    Object? sortOrder = null,
-    Object? status = null,
+    Object? locale = freezed,
+    Object? image = freezed,
+    Object? directory = freezed,
+    Object? sortOrder = freezed,
+    Object? status = freezed,
   }) {
     return _then(_value.copyWith(
-      languageId: null == languageId
-          ? _value.languageId
-          : languageId // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as int,
       name: null == name
           ? _value.name
@@ -86,26 +87,26 @@ class _$LanguageCopyWithImpl<$Res, $Val extends Language>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
-      locale: null == locale
+      locale: freezed == locale
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
-              as String,
-      image: null == image
+              as String?,
+      image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      directory: null == directory
+              as String?,
+      directory: freezed == directory
           ? _value.directory
           : directory // ignore: cast_nullable_to_non_nullable
-              as String,
-      sortOrder: null == sortOrder
+              as String?,
+      sortOrder: freezed == sortOrder
           ? _value.sortOrder
           : sortOrder // ignore: cast_nullable_to_non_nullable
-              as int,
-      status: null == status
+              as int?,
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
     ) as $Val);
   }
 }
@@ -119,14 +120,14 @@ abstract class _$$LanguageImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int languageId,
+      {@JsonKey(name: 'language_id') int id,
       String name,
       String code,
-      String locale,
-      String image,
-      String directory,
-      int sortOrder,
-      bool status});
+      String? locale,
+      String? image,
+      String? directory,
+      int? sortOrder,
+      bool? status});
 }
 
 /// @nodoc
@@ -140,19 +141,19 @@ class __$$LanguageImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? languageId = null,
+    Object? id = null,
     Object? name = null,
     Object? code = null,
-    Object? locale = null,
-    Object? image = null,
-    Object? directory = null,
-    Object? sortOrder = null,
-    Object? status = null,
+    Object? locale = freezed,
+    Object? image = freezed,
+    Object? directory = freezed,
+    Object? sortOrder = freezed,
+    Object? status = freezed,
   }) {
     return _then(_$LanguageImpl(
-      languageId: null == languageId
-          ? _value.languageId
-          : languageId // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as int,
       name: null == name
           ? _value.name
@@ -162,26 +163,26 @@ class __$$LanguageImplCopyWithImpl<$Res>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
-      locale: null == locale
+      locale: freezed == locale
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
-              as String,
-      image: null == image
+              as String?,
+      image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      directory: null == directory
+              as String?,
+      directory: freezed == directory
           ? _value.directory
           : directory // ignore: cast_nullable_to_non_nullable
-              as String,
-      sortOrder: null == sortOrder
+              as String?,
+      sortOrder: freezed == sortOrder
           ? _value.sortOrder
           : sortOrder // ignore: cast_nullable_to_non_nullable
-              as int,
-      status: null == status
+              as int?,
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
     ));
   }
 }
@@ -190,38 +191,39 @@ class __$$LanguageImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$LanguageImpl implements _Language {
   const _$LanguageImpl(
-      {required this.languageId,
+      {@JsonKey(name: 'language_id') required this.id,
       required this.name,
       required this.code,
-      required this.locale,
-      required this.image,
-      required this.directory,
-      required this.sortOrder,
-      required this.status});
+      this.locale,
+      this.image,
+      this.directory,
+      this.sortOrder,
+      this.status});
 
   factory _$LanguageImpl.fromJson(Map<String, dynamic> json) =>
       _$$LanguageImplFromJson(json);
 
   @override
-  final int languageId;
+  @JsonKey(name: 'language_id')
+  final int id;
   @override
   final String name;
   @override
   final String code;
   @override
-  final String locale;
+  final String? locale;
   @override
-  final String image;
+  final String? image;
   @override
-  final String directory;
+  final String? directory;
   @override
-  final int sortOrder;
+  final int? sortOrder;
   @override
-  final bool status;
+  final bool? status;
 
   @override
   String toString() {
-    return 'Language(languageId: $languageId, name: $name, code: $code, locale: $locale, image: $image, directory: $directory, sortOrder: $sortOrder, status: $status)';
+    return 'Language(id: $id, name: $name, code: $code, locale: $locale, image: $image, directory: $directory, sortOrder: $sortOrder, status: $status)';
   }
 
   @override
@@ -229,8 +231,7 @@ class _$LanguageImpl implements _Language {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LanguageImpl &&
-            (identical(other.languageId, languageId) ||
-                other.languageId == languageId) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.locale, locale) || other.locale == locale) &&
@@ -244,8 +245,8 @@ class _$LanguageImpl implements _Language {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, languageId, name, code, locale,
-      image, directory, sortOrder, status);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, code, locale, image, directory, sortOrder, status);
 
   @JsonKey(ignore: true)
   @override
@@ -263,34 +264,35 @@ class _$LanguageImpl implements _Language {
 
 abstract class _Language implements Language {
   const factory _Language(
-      {required final int languageId,
+      {@JsonKey(name: 'language_id') required final int id,
       required final String name,
       required final String code,
-      required final String locale,
-      required final String image,
-      required final String directory,
-      required final int sortOrder,
-      required final bool status}) = _$LanguageImpl;
+      final String? locale,
+      final String? image,
+      final String? directory,
+      final int? sortOrder,
+      final bool? status}) = _$LanguageImpl;
 
   factory _Language.fromJson(Map<String, dynamic> json) =
       _$LanguageImpl.fromJson;
 
   @override
-  int get languageId;
+  @JsonKey(name: 'language_id')
+  int get id;
   @override
   String get name;
   @override
   String get code;
   @override
-  String get locale;
+  String? get locale;
   @override
-  String get image;
+  String? get image;
   @override
-  String get directory;
+  String? get directory;
   @override
-  int get sortOrder;
+  int? get sortOrder;
   @override
-  bool get status;
+  bool? get status;
   @override
   @JsonKey(ignore: true)
   _$$LanguageImplCopyWith<_$LanguageImpl> get copyWith =>

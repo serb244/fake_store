@@ -8,24 +8,34 @@ class AdminCategorySaveEvent extends AdminCategoryEvent {
   final CategoryModel category;
 
   const AdminCategorySaveEvent(this.category);
+
   @override
   List<Object?> get props => [category];
 }
+
 class AdminCategoryInitEvent extends AdminCategoryEvent {
-final  int categoryId;
+  final int categoryId;
+
   const AdminCategoryInitEvent({required this.categoryId});
+
   @override
   List<Object?> get props => [categoryId];
 }
+
 class AdminCategoryDeleteEvent extends AdminCategoryEvent {
-final  int categoryId;
+  final int categoryId;
+
   const AdminCategoryDeleteEvent({required this.categoryId});
+
   @override
   List<Object?> get props => [categoryId];
 }
+
 class AdminCategoryErrorEvent extends AdminCategoryEvent {
-final  String message;
+  final String message;
+
   const AdminCategoryErrorEvent({required this.message});
+
   @override
   List<Object?> get props => [message];
 }

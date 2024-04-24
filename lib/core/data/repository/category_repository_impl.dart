@@ -14,7 +14,7 @@ class CategoryRepositoryImpl extends CategoryRepository {
 
   List<CategoryModel> _categories = [];
 
-  final _controller = StreamController<Either<BaseException, List<CategoryModel>>>.broadcast();
+  final StreamController<Either<BaseException, List<CategoryModel>>>_controller = StreamController<Either<BaseException, List<CategoryModel>>>.broadcast();
 
   @override
   Stream<Either<BaseException, List<CategoryModel>>> get allCategoriesStream => _controller.stream.asBroadcastStream();

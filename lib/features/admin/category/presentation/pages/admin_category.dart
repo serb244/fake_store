@@ -7,6 +7,7 @@ import '../../../../../core/data/models/category/category_description.dart';
 import '../../../../../core/data/models/category/category_model.dart';
 
 import '../../../../../core/di/injector.dart';
+import '../../../../../core/presentation/widgets/dropdown_with_search.dart';
 import '../manager/admin_category_bloc.dart';
 
 class AdminCategory extends StatelessWidget {
@@ -49,8 +50,6 @@ class CategoryFormState extends State<CategoryForm> {
   int? parentCategoryId;
   bool isAutoMode = true;
 
-  // Add controllers for other fields as needed
-
   @override
   void initState() {
     super.initState();
@@ -85,8 +84,11 @@ class CategoryFormState extends State<CategoryForm> {
 
   void _handleCategorySelection(int? categoryId, int index) {
     parentCategoryId = categoryId;
-    // Обновление списка дочерних категорий для следующего уровня
-    // ...
+  }
+
+  void _onParentCategorySelected(int? categoryId) {
+    // parentCategoryId = categoryId;
+    print("categoryId: $categoryId");
   }
 
   @override
@@ -94,7 +96,6 @@ class CategoryFormState extends State<CategoryForm> {
     return BlocConsumer<AdminCategoryBloc, AdminCategoryState>(
       listener: (context, state) {
         if (state is AdminCategoryLoadedState) {
-
           isActive = state.category.status;
           parentCategoryId = state.category.parentCategoryId;
           _nameController.text = state.category.description.name;
@@ -117,11 +118,20 @@ class CategoryFormState extends State<CategoryForm> {
           return Center(child: Text(state.error));
         }
         if (state is AdminCategoryLoadedState) {
-          print("parentCategoryId: $parentCategoryId");
+          print(" state.allCategories ${state.allCategories.length}");
+          const String nullCategoryString = "Корневая категория";
+          final Map<int, String> optionsReversed = {};
+          for (var element in state.allCategories) {
+            optionsReversed[element.id] = "${element.description.name}";
+          }
+          final String initialValue = parentCategoryId != null
+              ? "${state.allCategories.firstWhere((element) => element.id == parentCategoryId).id} ${state.allCategories.firstWhere((element) => element.id == parentCategoryId).description.name}"
+              : nullCategoryString;
+          optionsReversed[0] = nullCategoryString;
           List<DropdownMenuItem<int?>>? items = state.allCategories
               .map((category) => DropdownMenuItem<int?>(
                     value: category.id,
-                    child: Text("${category.id} ${category.description.name}" ),
+                    child: Text("${category.id} ${category.description.name}"),
                   ))
               .toList();
           items.insert(
@@ -137,12 +147,14 @@ class CategoryFormState extends State<CategoryForm> {
                 children: [
                   Row(
                     children: [
-                      state.category.id != 0 ? IconButton(
-                        onPressed: () => _onTapDelete(state.category.id),
-                        icon: const Icon(
-                          Icons.delete_forever,
-                        ),
-                      ) : const SizedBox.shrink(),
+                      state.category.id != 0
+                          ? IconButton(
+                              onPressed: () => _onTapDelete(state.category.id),
+                              icon: const Icon(
+                                Icons.delete_forever,
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                       Switch(
                           value: isAutoMode,
                           onChanged: (value) {
@@ -162,6 +174,12 @@ class CategoryFormState extends State<CategoryForm> {
                           });
                         })
                   ]),
+                  DropdownWithSearch(
+                    options: optionsReversed,
+                    labelText: 'Выберите категорию',
+                    initialValue: state.category.parentCategoryId ?? 0,
+                    onSelected: _onParentCategorySelected,
+                  ),
                   DropdownButtonFormField<int?>(
                     value: parentCategoryId,
                     items: items,

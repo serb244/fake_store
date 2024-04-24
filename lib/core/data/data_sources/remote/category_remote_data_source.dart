@@ -18,16 +18,16 @@ abstract class CategoryRemoteDataSource {
 }
 
 class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
-  final ApiClient _request;
+  final ApiClient _apiClient;
 
-  CategoryRemoteDataSourceImpl({required request}) : _request = request;
+  CategoryRemoteDataSourceImpl({required apiClient}) : _apiClient = apiClient;
 
   @override
   Future<CategoryModel> addCategory({required CategoryModel categoryModel}) async {
     final path = "${categoryByIdUrl}2/";
     try {
       final jsonData = categoryModel.toJson();
-      final response = await _request.request(
+      final response = await _apiClient.request(
         path,
         requestType: RequestType.post,
         data: jsonData,
@@ -35,7 +35,6 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
           contentType: Headers.jsonContentType,
         ),
       );
-      print("addCategory response.data : ${response.data}");
       // TODO check response statusCode is 201
       // return response.statusCode == 201 ?  true :  false;
       if (response.statusCode == 201) {
@@ -68,12 +67,9 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
   Future<bool> deleteCategory({required int categoryId}) async {
     final path = "$categoryByIdUrl$categoryId/";
     try {
-      final response = await _request.request(path, requestType: RequestType.delete);
-      print("deleteCategory response.data : ${response.data}");
+      final response = await _apiClient.request(path, requestType: RequestType.delete);
       try {
         //  TODO check response statusCode is 204
-        print("deleteCategory response.data : ${response.data}");
-        print(response.statusCode);
 
         return true;
       } catch (e) {
@@ -93,7 +89,7 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
   Future<CategoryModel> getCategoryById({int categoryId = 0}) async {
     final path = categoryByIdUrl + categoryId.toString();
     try {
-      final response = await _request.request(path);
+      final response = await _apiClient.request(path);
       try {
         CategoryModel value = CategoryModel.fromJson(response.data);
         return value;
@@ -114,7 +110,7 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
   Future<List<CategoryModel>> getChildCategoryListByMainCategoryId({int? categoryId}) async {
     final path = categoryId == null ? allCategoriesUrl : allCategoriesUrl + categoryId.toString();
     try {
-      final response = await _request.request(path);
+      final response = await _apiClient.request(path);
       try {
         List<CategoryModel> categoryModelList = [];
         // print("response.data : ${response.data}");

@@ -8,19 +8,19 @@ part of 'language.dart';
 
 _$LanguageImpl _$$LanguageImplFromJson(Map<String, dynamic> json) =>
     _$LanguageImpl(
-      languageId: json['languageId'] as int,
+      id: json['language_id'] as int,
       name: json['name'] as String,
       code: json['code'] as String,
-      locale: json['locale'] as String,
-      image: json['image'] as String,
-      directory: json['directory'] as String,
-      sortOrder: json['sortOrder'] as int,
-      status: json['status'] as bool,
+      locale: json['locale'] as String?,
+      image: json['image'] as String?,
+      directory: json['directory'] as String?,
+      sortOrder: json['sortOrder'] as int?,
+      status: json['status'] as bool?,
     );
 
 Map<String, dynamic> _$$LanguageImplToJson(_$LanguageImpl instance) =>
     <String, dynamic>{
-      'languageId': instance.languageId,
+      'language_id': instance.id,
       'name': instance.name,
       'code': instance.code,
       'locale': instance.locale,

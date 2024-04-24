@@ -7,6 +7,8 @@ const String defaultBaseUrl = 'http://127.0.0.1:8000/api/v1/shop/';
 String allCategoriesUrl =  '${getBaseUrl() }categories/';
 String categoryByIdUrl =  '${getBaseUrl() }category/';
 
+String languageListUrl =  '${getBaseUrl() }languages/';
+String languageDetailUrl =  '${getBaseUrl() }language/';
 String getBaseUrl() {
   if(kIsWeb) return defaultBaseUrl;
   if (Platform.isAndroid) {

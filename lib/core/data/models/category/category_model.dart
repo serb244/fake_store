@@ -23,7 +23,7 @@ class CategoryModel with _$CategoryModel {
   }) = _CategoryModel;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => _$CategoryModelFromJson(json);
-
+// String get dropDownListString => "$id $status ${description.name}";
   factory CategoryModel.init() => CategoryModel(
         id: 0,
         parentCategoryId: null,

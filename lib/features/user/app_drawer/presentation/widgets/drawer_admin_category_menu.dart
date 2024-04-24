@@ -14,12 +14,12 @@ class DrawerAdminCategoryMenu  extends StatelessWidget {
       height: 25,
       child: Row(children: [
         IconButton(onPressed: () {
-context.pushNamed(RouteConstants.adminCategoryName, pathParameters: {'categoryId': '1'});
-        }, icon: const Icon(Icons.edit),),
+context.pushNamed(RouteConstants.adminAppSettingsName,);
+        }, icon: const Icon(Icons.settings),),
         // TODO сделать pathParameters: {'categoryId': необязательно'}
-        IconButton(onPressed: () {
-context.pushNamed(RouteConstants.adminCategoryName, pathParameters: {'categoryId': '0'}) .then((value) => injector<HomeBloc>()..add(const HomeInitEvent()));
-        }, icon: const Icon(Icons.add),),
+//         IconButton(onPressed: () {
+// context.pushNamed(RouteConstants.adminCategoryName, pathParameters: {'categoryId': '0'}) .then((value) => injector<HomeBloc>()..add(const HomeInitEvent()));
+//         }, icon: const Icon(Icons.add),),
       ],),
     );
   }

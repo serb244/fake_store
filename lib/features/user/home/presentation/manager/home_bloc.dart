@@ -19,16 +19,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeErrorEvent>(_error);
     on<HomeLoadedEvent>(_loaded);
     on<HomeLoadEvent>(_load);
-    print("HomeBloc categoryRepository.hashCode ${categoryRepository.hashCode}");
     categoryRepository.allCategoriesStream.listen((Either<BaseException, List<CategoryModel>> eitherCategoriesOrException) {
       eitherCategoriesOrException.fold(
         (exception) {
-         print("HomeBloc: error: $exception");
           add(HomeErrorEvent(exception: exception));
         },
         (categories) {
-          print("HomeBloc categories $categories");
-          print("HomeBloc categories ${categories.length}");
           add(HomeLoadedEvent(categories: categories));
         },
       );
@@ -48,6 +44,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   _init(HomeInitEvent event, emit) async {
-    final result = await categoryRepository.getAllCategories(force: true);
+    emit(HomeLoadingState());
+    emit(HomeSuccessState(categoryList: []));
+    // final result = await categoryRepository.getAllCategories(force: true);
   }
 }

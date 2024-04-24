@@ -4,10 +4,10 @@ import '../../../../../core/data/models/category/category_model.dart';
 
 
 class HorizontalMenuCategoryDetail extends StatefulWidget {
-  final CategoryModel menuCategoryItem;
-  final List<CategoryModel> allCategories;
+  final CategoryModel topMenuCategory;
+  final List<CategoryModel> subCategories;
 
-  const HorizontalMenuCategoryDetail({required this.menuCategoryItem,  required this.allCategories, super.key});
+  const HorizontalMenuCategoryDetail({required this.topMenuCategory,  required this.subCategories, super.key});
 
   @override
   State<HorizontalMenuCategoryDetail> createState() => _HorizontalMenuCategoryDetailState();
@@ -26,6 +26,7 @@ void initState() {
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -36,7 +37,7 @@ void initState() {
               ),
               Expanded(
                 child: Text(
-                  widget.menuCategoryItem.description.name,
+                  widget.topMenuCategory.description.name,
                   style: const TextStyle(fontSize: 20),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -51,9 +52,9 @@ void initState() {
                     child: ListView.builder(
                         itemExtent: 20,
                         shrinkWrap: true,
-                        itemCount: getChildCategoryList(categoryId: widget.menuCategoryItem.id , categoryList: widget.allCategories).length,
+                        itemCount: getChildCategoryList(categoryId: widget.topMenuCategory.id , categoryList: widget.subCategories).length,
                         itemBuilder: (context, index) {
-                          final subCategory = getChildCategoryList(categoryId: widget.menuCategoryItem.id , categoryList: widget.allCategories) ;
+                          final subCategory = getChildCategoryList(categoryId: widget.topMenuCategory.id , categoryList: widget.subCategories) ;
                           return Text(subCategory[index].description.name);
                         }),
                   ),
