@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/blocs/category/category_bloc.dart';
 import '../../../../../core/data/models/category/category_model.dart';
 import '../../../../../core/routes/route_constants.dart';
-import '../../../category/presentation/manager/category_bloc.dart';
-import '../manager/app_drawer_category_list_bloc.dart';
 
 class AppDrawerCategoryList extends StatelessWidget {
   const AppDrawerCategoryList({super.key});
@@ -38,7 +37,7 @@ class AppDrawerCategoryList extends StatelessWidget {
                   child: Text(state.error),
                 );
               } else if (state is CategorySuccessState) {
-                return AppDrawerCategoryListWidget(categoryModelList: state.categoryList, parentId: null);
+                return AppDrawerCategoryListWidget(categoryModelList: state.allCategories, parentId: null);
               } else {
                 return Container();
               }
@@ -90,7 +89,7 @@ class AppDrawerCategoryListWidget extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              // injector<CategoryBloc>().add(CategoryDeleteEvent(categoryId: categoryModelList[index].id));
+                              injector<CategoryBloc>().add(CategoryDeleteEvent(categoryId: categoryModelList[index].id));
                             },
                             child: const Icon(
                               Icons.delete,

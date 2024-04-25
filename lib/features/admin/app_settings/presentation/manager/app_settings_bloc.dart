@@ -3,7 +3,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fpdart/fpdart.dart';
 
-import '../../../../../core/data/data_sources/remote/app_settings_remote_data_source.dart';
 import '../../../../../core/data/models/app_settings/app_settings.dart';
 import '../../../../../core/domain/repository/app_settings_repository.dart';
 import '../../../../../core/error/exceptions.dart';

@@ -40,7 +40,7 @@ class DropdownWithSearchState extends State<DropdownWithSearch> {
         return widget.options.entries.where((entry) {
           if (widget.isNeedSearchInKeys) {
             return entry.toString().toLowerCase().contains(textEditingValue.text.toLowerCase());
-          }else{
+          } else {
             return entry.value.toString().toLowerCase().contains(textEditingValue.text.toLowerCase());
           }
         });
@@ -74,14 +74,40 @@ class DropdownWithSearchState extends State<DropdownWithSearch> {
         );
       },
       fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
-        return TextFormField(
-          controller: textEditingController..text = selectedText,
-          focusNode: focusNode,
-          onChanged: widget.onTextChanged,
-          decoration: InputDecoration(
-            labelText: widget.labelText,
-            border: const OutlineInputBorder(),
-          ),
+        return Row(
+          children: [
+            Flexible(
+              child: TextFormField(
+                controller: textEditingController..text = selectedText,
+                focusNode: focusNode,
+                onChanged: widget.onTextChanged,
+                decoration: InputDecoration(
+                  labelText: widget.labelText,
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+            ),
+            Column(
+              children: [
+                InkWell(
+                  child: const Icon(Icons.close),
+                  onTap: () {
+                    selectedText = '';
+                    widget.onSelected?.call(0);
+                    setState(() {});
+                  },
+                ),
+                InkWell(
+                  child: const Icon(Icons.refresh),
+                  onTap: () {
+                    widget.onSelected?.call(widget.initialValue);
+                    selectedText = '${widget.initialValue} ${widget.options[widget.initialValue]}';
+                    setState(() {});
+                  },
+                ),
+              ],
+            ),
+          ],
         );
       },
     );

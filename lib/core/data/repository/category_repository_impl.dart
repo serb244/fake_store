@@ -24,8 +24,11 @@ class CategoryRepositoryImpl extends CategoryRepository {
   @override
   Future<Either<BaseException, CategoryModel>> getCategoryByID({int categoryId = 0, bool force = false}) async {
     try {
-      final response = await categoryRemoteDataSource.getCategoryById(categoryId: categoryId);
-      return Right(response);
+      CategoryModel category = CategoryModel.init();
+      if(categoryId != 0){
+        category = await categoryRemoteDataSource.getCategoryById(categoryId: categoryId);
+      }
+      return Right(category);
     } on BaseException catch (e) {
       return left(e);
     }
@@ -46,7 +49,7 @@ class CategoryRepositoryImpl extends CategoryRepository {
   }
 
   @override
-  Future<Either<BaseException, bool>> deleteCategory({required int categoryId, bool force = false}) async {
+  Future<Either<BaseException, bool>> deleteCategory({required int categoryId, bool force = true}) async {
     try {
       final bool response = await categoryRemoteDataSource.deleteCategory(categoryId: categoryId);
       if(response){
@@ -63,7 +66,6 @@ class CategoryRepositoryImpl extends CategoryRepository {
   Future<Either<BaseException, CategoryModel>> addCategory({required CategoryModel categoryModel, bool force = false}) async {
     try {
       final CategoryModel response = await categoryRemoteDataSource.addCategory(categoryModel: categoryModel);
-      print("addCategory response.data : ${response.toJson()}");
         _categories.add(response);
         addToStream(Right([..._categories]));
       return Right(response);
@@ -71,12 +73,12 @@ class CategoryRepositoryImpl extends CategoryRepository {
       return left(e);
     }
   }
-  Future<Either<BaseException, bool>> getAllCategoriesForce() async {
+  Future<Either<BaseException, List<CategoryModel>>> getAllCategoriesForce() async {
     try {
       final List<CategoryModel> response = await categoryRemoteDataSource.getChildCategoryListByMainCategoryId();
       _categories = [...response];
       addToStream(Right(_categories));
-      return  const Right(true);
+      return   Right(_categories);
     } on BaseException catch (e) {
       addToStream(Left(e));
       return Left(e);
@@ -84,17 +86,33 @@ class CategoryRepositoryImpl extends CategoryRepository {
   }
 
   @override
-  Future<Either<BaseException, bool>> getAllCategories({bool force = false}) async {
+  Future<Either<BaseException, List<CategoryModel>>> getAllCategories({bool force = false}) async {
     if (force) {
       return  await getAllCategoriesForce();
     } else {
       try {
-        addToStream(Right(_categories));
-        return const Right(true);
+        return  Right(_categories);
       } on BaseException catch (e) {
         addToStream(left(e));
         return Left(e);
       }
+    }
+  }
+
+  @override
+  Future<Either<BaseException, ItemAndList>> getCategoryAndListByID({int categoryId = 0, bool force = false})  async {
+    try {
+       CategoryModel category = CategoryModel.init();
+      if(categoryId != 0){
+        category = await categoryRemoteDataSource.getCategoryById(categoryId: categoryId);
+      }
+      List<CategoryModel> list = _categories;
+      if ( force) {
+       list = await categoryRemoteDataSource.getChildCategoryListByMainCategoryId();
+      }
+      return Right(ItemAndList(item: category, list: list));
+    } on BaseException catch (e) {
+      return left(e);
     }
   }
 }

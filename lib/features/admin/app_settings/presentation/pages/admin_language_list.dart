@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../core/data/models/language/language.dart';
-import '../../../../../core/di/injector.dart';
 import '../../../../../core/routes/route_constants.dart';
 import '../manager/language_bloc.dart';
 

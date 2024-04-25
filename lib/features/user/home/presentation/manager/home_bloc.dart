@@ -45,7 +45,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   _init(HomeInitEvent event, emit) async {
     emit(HomeLoadingState());
-    emit(HomeSuccessState(categoryList: []));
+    emit(const HomeSuccessState(categoryList: []));
     // final result = await categoryRepository.getAllCategories(force: true);
   }
 }

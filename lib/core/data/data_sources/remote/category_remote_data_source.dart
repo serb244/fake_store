@@ -24,7 +24,7 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
 
   @override
   Future<CategoryModel> addCategory({required CategoryModel categoryModel}) async {
-    final path = "${categoryByIdUrl}2/";
+    final path = "${categoryByIdUrl}0/";
     try {
       final jsonData = categoryModel.toJson();
       final response = await _apiClient.request(

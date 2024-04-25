@@ -35,9 +35,9 @@ mixin _$CategoryModel {
   @JsonKey(name: 'status')
   bool get status => throw _privateConstructorUsedError;
   @JsonKey(name: 'date_added')
-  DateTime get dateAdded => throw _privateConstructorUsedError;
+  DateTime? get dateAdded => throw _privateConstructorUsedError;
   @JsonKey(name: 'date_modified')
-  DateTime get dateModified => throw _privateConstructorUsedError;
+  DateTime? get dateModified => throw _privateConstructorUsedError;
   @JsonKey(name: 'languageId', defaultValue: 1)
   int get languageId => throw _privateConstructorUsedError;
   @JsonKey(name: 'description')
@@ -63,8 +63,8 @@ abstract class $CategoryModelCopyWith<$Res> {
       @JsonKey(name: 'column') int column,
       @JsonKey(name: 'sort_order') int sortOrder,
       @JsonKey(name: 'status') bool status,
-      @JsonKey(name: 'date_added') DateTime dateAdded,
-      @JsonKey(name: 'date_modified') DateTime dateModified,
+      @JsonKey(name: 'date_added') DateTime? dateAdded,
+      @JsonKey(name: 'date_modified') DateTime? dateModified,
       @JsonKey(name: 'languageId', defaultValue: 1) int languageId,
       @JsonKey(name: 'description') CategoryDescription description});
 
@@ -91,8 +91,8 @@ class _$CategoryModelCopyWithImpl<$Res, $Val extends CategoryModel>
     Object? column = null,
     Object? sortOrder = null,
     Object? status = null,
-    Object? dateAdded = null,
-    Object? dateModified = null,
+    Object? dateAdded = freezed,
+    Object? dateModified = freezed,
     Object? languageId = null,
     Object? description = null,
   }) {
@@ -125,14 +125,14 @@ class _$CategoryModelCopyWithImpl<$Res, $Val extends CategoryModel>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as bool,
-      dateAdded: null == dateAdded
+      dateAdded: freezed == dateAdded
           ? _value.dateAdded
           : dateAdded // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      dateModified: null == dateModified
+              as DateTime?,
+      dateModified: freezed == dateModified
           ? _value.dateModified
           : dateModified // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       languageId: null == languageId
           ? _value.languageId
           : languageId // ignore: cast_nullable_to_non_nullable
@@ -169,8 +169,8 @@ abstract class _$$CategoryModelImplCopyWith<$Res>
       @JsonKey(name: 'column') int column,
       @JsonKey(name: 'sort_order') int sortOrder,
       @JsonKey(name: 'status') bool status,
-      @JsonKey(name: 'date_added') DateTime dateAdded,
-      @JsonKey(name: 'date_modified') DateTime dateModified,
+      @JsonKey(name: 'date_added') DateTime? dateAdded,
+      @JsonKey(name: 'date_modified') DateTime? dateModified,
       @JsonKey(name: 'languageId', defaultValue: 1) int languageId,
       @JsonKey(name: 'description') CategoryDescription description});
 
@@ -196,8 +196,8 @@ class __$$CategoryModelImplCopyWithImpl<$Res>
     Object? column = null,
     Object? sortOrder = null,
     Object? status = null,
-    Object? dateAdded = null,
-    Object? dateModified = null,
+    Object? dateAdded = freezed,
+    Object? dateModified = freezed,
     Object? languageId = null,
     Object? description = null,
   }) {
@@ -230,14 +230,14 @@ class __$$CategoryModelImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as bool,
-      dateAdded: null == dateAdded
+      dateAdded: freezed == dateAdded
           ? _value.dateAdded
           : dateAdded // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      dateModified: null == dateModified
+              as DateTime?,
+      dateModified: freezed == dateModified
           ? _value.dateModified
           : dateModified // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       languageId: null == languageId
           ? _value.languageId
           : languageId // ignore: cast_nullable_to_non_nullable
@@ -263,8 +263,8 @@ class _$CategoryModelImpl
       @JsonKey(name: 'column') required this.column,
       @JsonKey(name: 'sort_order') required this.sortOrder,
       @JsonKey(name: 'status') required this.status,
-      @JsonKey(name: 'date_added') required this.dateAdded,
-      @JsonKey(name: 'date_modified') required this.dateModified,
+      @JsonKey(name: 'date_added') this.dateAdded,
+      @JsonKey(name: 'date_modified') this.dateModified,
       @JsonKey(name: 'languageId', defaultValue: 1) required this.languageId,
       @JsonKey(name: 'description') required this.description});
 
@@ -294,10 +294,10 @@ class _$CategoryModelImpl
   final bool status;
   @override
   @JsonKey(name: 'date_added')
-  final DateTime dateAdded;
+  final DateTime? dateAdded;
   @override
   @JsonKey(name: 'date_modified')
-  final DateTime dateModified;
+  final DateTime? dateModified;
   @override
   @JsonKey(name: 'languageId', defaultValue: 1)
   final int languageId;
@@ -391,8 +391,8 @@ abstract class _CategoryModel implements CategoryModel {
       @JsonKey(name: 'column') required final int column,
       @JsonKey(name: 'sort_order') required final int sortOrder,
       @JsonKey(name: 'status') required final bool status,
-      @JsonKey(name: 'date_added') required final DateTime dateAdded,
-      @JsonKey(name: 'date_modified') required final DateTime dateModified,
+      @JsonKey(name: 'date_added') final DateTime? dateAdded,
+      @JsonKey(name: 'date_modified') final DateTime? dateModified,
       @JsonKey(name: 'languageId', defaultValue: 1)
       required final int languageId,
       @JsonKey(name: 'description')
@@ -424,10 +424,10 @@ abstract class _CategoryModel implements CategoryModel {
   bool get status;
   @override
   @JsonKey(name: 'date_added')
-  DateTime get dateAdded;
+  DateTime? get dateAdded;
   @override
   @JsonKey(name: 'date_modified')
-  DateTime get dateModified;
+  DateTime? get dateModified;
   @override
   @JsonKey(name: 'languageId', defaultValue: 1)
   int get languageId;

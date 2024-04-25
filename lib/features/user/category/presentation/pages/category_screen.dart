@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../manager/category_bloc.dart';
+import '../../../../../core/blocs/category/category_bloc.dart';
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({super.key});
@@ -32,21 +32,21 @@ class CategoryScreen extends StatelessWidget {
                             Text(state.error.toString()),
                           ],
                         ),
-                      if (state is CategorySuccessState)
+                      if (state is CategoryListSuccessState)
                         Expanded(
                           child: ListView.builder(
                             itemBuilder: (context, index) {
                               return Row(
                                 children: [
-                                  Text(state.categoryList[index].description.name),
+                                  Text(state.allCategories[index].description.name),
                                   const Text(" "),
-                                  Text(state.categoryList[index].description.description),
+                                  Text(state.allCategories[index].description.description),
                                   const Text(" "),
-                                  Text(state.categoryList[index].image.toString()),
+                                  Text(state.allCategories[index].image.toString()),
                                 ],
                               );
                             },
-                            itemCount: state.categoryList.length,
+                            itemCount: state.allCategories.length,
                             itemExtent: 25,
                           ),
                         ),

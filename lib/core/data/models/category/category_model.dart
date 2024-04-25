@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'category_description.dart';
 
 part 'category_model.freezed.dart';
+
 part 'category_model.g.dart';
 
 @freezed
@@ -16,25 +17,23 @@ class CategoryModel with _$CategoryModel {
     @JsonKey(name: 'column') required int column,
     @JsonKey(name: 'sort_order') required int sortOrder,
     @JsonKey(name: 'status') required bool status,
-    @JsonKey(name: 'date_added') required DateTime dateAdded,
-    @JsonKey(name: 'date_modified') required DateTime dateModified,
+    @JsonKey(name: 'date_added')  DateTime? dateAdded,
+    @JsonKey(name: 'date_modified')  DateTime? dateModified,
     @JsonKey(name: 'languageId', defaultValue: 1) required int languageId,
     @JsonKey(name: 'description') required CategoryDescription description,
   }) = _CategoryModel;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => _$CategoryModelFromJson(json);
-// String get dropDownListString => "$id $status ${description.name}";
-  factory CategoryModel.init() => CategoryModel(
+
+  factory  CategoryModel.init() => const CategoryModel(
         id: 0,
         parentCategoryId: null,
         top: false,
         column: 0,
         sortOrder: 0,
         status: true,
-        dateAdded: DateTime.now(),
-        dateModified: DateTime.now(),
         languageId: 1,
-        description: const CategoryDescription(
+        description: CategoryDescription(
           categoryId: 0,
           categoryDescriptionId: 0,
           languageId: 1,
@@ -50,8 +49,32 @@ class CategoryModel with _$CategoryModel {
           seoH3: "",
         ),
       );
-
 }
+
+const initCategory =  CategoryModel(
+      id: 0,
+      parentCategoryId: null,
+      top: false,
+      column: 0,
+      sortOrder: 0,
+      status: true,
+      languageId: 1,
+      description:  CategoryDescription(
+        categoryId: 0,
+        categoryDescriptionId: 0,
+        languageId: 1,
+        name: "name",
+        slug: "",
+        description: "",
+        metaTitle: "",
+        metaDescription: "",
+        metaKeyword: "",
+        seoKeyword: "",
+        seoH1: "",
+        seoH2: "",
+        seoH3: "",
+      ),
+    );
 
 List<CategoryModel> getChildCategoryList({required int? categoryId, required List<CategoryModel> categoryList}) {
   List<CategoryModel> categoryModelList = [];
@@ -61,4 +84,29 @@ List<CategoryModel> getChildCategoryList({required int? categoryId, required Lis
     }
   }
   return categoryModelList;
+}
+
+List<CategoryModel> findParentCategories(CategoryModel category, List<CategoryModel> allCategories) {
+  final List<CategoryModel> parentCategories = [];
+  CategoryModel? currentCategory = category;
+  while (currentCategory?.parentCategoryId != null) {
+    final parentCategory = allCategories.firstWhere((cat) => cat.id == currentCategory!.parentCategoryId);
+    parentCategories.add(parentCategory);
+    currentCategory = parentCategory;
+  }
+  final res = parentCategories.reversed.toList();
+  // if(res.isNotEmpty){
+  //
+  //   print("category: $category");
+  //   print("res: $res");
+  //
+  // }
+  return res;
+}
+
+class ItemAndList {
+  final CategoryModel item;
+  final List<CategoryModel> list;
+
+  ItemAndList({required this.item, required this.list});
 }

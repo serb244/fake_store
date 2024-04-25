@@ -33,7 +33,7 @@ class AppRouter {
       GoRoute(
         path: RouteConstants.homePath,
         name: RouteConstants.homeName,
-        builder: (context, state) => HomeScreen(),
+        builder: (context, state) => const HomeScreen(),
         routes: <GoRoute>[
           GoRoute(path: RouteConstants.categoryPath, name: RouteConstants.categoryName, builder: (context, state) => const CategoryScreen()),
           GoRoute(path: RouteConstants.productPath, name: RouteConstants.productName, builder: (context, state) => const ProductDetailScreen()),

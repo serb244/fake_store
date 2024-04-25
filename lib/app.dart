@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'core/blocs/category/category_bloc.dart';
 import 'features/admin/app_settings/presentation/manager/app_settings_bloc.dart';
 import 'features/admin/app_settings/presentation/manager/language_bloc.dart';
-import 'features/admin/category/presentation/manager/admin_category_bloc.dart';
-import 'features/user/app_drawer/presentation/manager/app_drawer_category_list_bloc.dart';
-import 'features/user/category/presentation/manager/category_bloc.dart';
 import 'features/user/home/presentation/manager/home_bloc.dart';
 import 'generated/l10n.dart';
 
@@ -20,7 +18,7 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         // BlocProvider(create: (context) => injector<AppDrawerCategoryListBloc>()),
-        BlocProvider(create: (context) => injector<AdminCategoryBloc>()),
+        // BlocProvider(create: (context) => injector<AdminCategoryBloc>()),
         BlocProvider(create: (context) => injector<CategoryBloc>()),
         BlocProvider(create: (context) => injector<HomeBloc>()),
         BlocProvider(create: (context) => injector<AppSettingsBloc>()),

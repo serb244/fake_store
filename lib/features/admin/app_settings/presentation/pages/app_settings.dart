@@ -49,9 +49,9 @@ class _AppSettingsState extends State<AppSettings> {
   }
 
   Widget _buildLoadedWidget({required BuildContext context, required AppSettingsLoadedState state}) {
-    return Column(
+    return const Column(
       children: [
-        const AdminLanguageList(),
+        AdminLanguageList(),
       ],
     );
   }

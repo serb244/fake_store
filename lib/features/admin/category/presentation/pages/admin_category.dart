@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/blocs/category/category_bloc.dart';
 import '../../../../../core/data/models/category/category_description.dart';
 import '../../../../../core/data/models/category/category_model.dart';
 
 import '../../../../../core/di/injector.dart';
 import '../../../../../core/presentation/widgets/dropdown_with_search.dart';
-import '../manager/admin_category_bloc.dart';
 
 class AdminCategory extends StatelessWidget {
   final String categoryId;
@@ -17,7 +17,7 @@ class AdminCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    injector<AdminCategoryBloc>().add(AdminCategoryInitEvent(categoryId: int.parse(categoryId)));
+    injector<CategoryBloc>().add(CategoryGetByIdEvent(categoryId: int.parse(categoryId)));
     return Scaffold(
       appBar: AppBar(
         title: Text(categoryId == "0" ? "Add Category" : "Category: $categoryId"),
@@ -82,20 +82,21 @@ class CategoryFormState extends State<CategoryForm> {
     super.dispose();
   }
 
-  void _handleCategorySelection(int? categoryId, int index) {
-    parentCategoryId = categoryId;
-  }
+  // void _handleCategorySelection(int? categoryId, int index) {
+  //   parentCategoryId = categoryId;
+  // }
 
   void _onParentCategorySelected(int? categoryId) {
+    parentCategoryId = categoryId;
     // parentCategoryId = categoryId;
     print("categoryId: $categoryId");
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AdminCategoryBloc, AdminCategoryState>(
+    return BlocConsumer<CategoryBloc, CategoryState>(
       listener: (context, state) {
-        if (state is AdminCategoryLoadedState) {
+        if (state is CategorySuccessState) {
           isActive = state.category.status;
           parentCategoryId = state.category.parentCategoryId;
           _nameController.text = state.category.description.name;
@@ -111,18 +112,17 @@ class CategoryFormState extends State<CategoryForm> {
         }
       },
       builder: (context, state) {
-        if (state is AdminCategoryLoadingState) {
+        if (state is CategoryLoadingState) {
           return const Center(child: CircularProgressIndicator());
         }
-        if (state is AdminCategoryErrorState) {
+        if (state is CategoryErrorState) {
           return Center(child: Text(state.error));
         }
-        if (state is AdminCategoryLoadedState) {
-          print(" state.allCategories ${state.allCategories.length}");
+        if (state is CategorySuccessState) {
           const String nullCategoryString = "Корневая категория";
           final Map<int, String> optionsReversed = {};
           for (var element in state.allCategories) {
-            optionsReversed[element.id] = "${element.description.name}";
+            optionsReversed[element.id] = element.description.name;
           }
           final String initialValue = parentCategoryId != null
               ? "${state.allCategories.firstWhere((element) => element.id == parentCategoryId).id} ${state.allCategories.firstWhere((element) => element.id == parentCategoryId).description.name}"
@@ -180,12 +180,12 @@ class CategoryFormState extends State<CategoryForm> {
                     initialValue: state.category.parentCategoryId ?? 0,
                     onSelected: _onParentCategorySelected,
                   ),
-                  DropdownButtonFormField<int?>(
-                    value: parentCategoryId,
-                    items: items,
-                    onChanged: (value) => _handleCategorySelection(value, 0),
-                    hint: const Text('Выберите категорию 1'),
-                  ),
+                  // DropdownButtonFormField<int?>(
+                  //   value: parentCategoryId,
+                  //   items: items,
+                  //   onChanged: (value) => _handleCategorySelection(value, 0),
+                  //   hint: const Text('Выберите категорию 1'),
+                  // ),
                   TextField(
                     controller: _nameController,
                     decoration: const InputDecoration(labelText: 'Name'),
@@ -268,7 +268,7 @@ class CategoryFormState extends State<CategoryForm> {
                         ),
                       );
                       // widget.onSubmit(category);
-                      injector<AdminCategoryBloc>().add(AdminCategorySaveEvent(category));
+                      injector<CategoryBloc>().add(CategorySaveEvent(category));
                       context.pop();
                     },
                     child: const Text('Submit'),
@@ -285,7 +285,7 @@ class CategoryFormState extends State<CategoryForm> {
   }
 
   void _onTapDelete(int categoryId) {
-    injector<AdminCategoryBloc>().add(AdminCategoryDeleteEvent(categoryId: categoryId));
+    injector<CategoryBloc>().add(CategoryDeleteEvent(categoryId: categoryId));
     context.pop();
   }
 }

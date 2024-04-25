@@ -18,7 +18,7 @@ class AppSettingsLoadedState extends AppSettingsState {
   final AppSettings appSettings;
 
    AppSettingsLoadedState({required this.appSettings}){
-     print( "appSettings.toString() : ${appSettings.toString()}" ); ;
+     print( "appSettings.toString() : ${appSettings.toString()}" );
    }
   @override
   List<Object> get props => [appSettings];

@@ -15,8 +15,12 @@ _$CategoryModelImpl _$$CategoryModelImplFromJson(Map<String, dynamic> json) =>
       column: json['column'] as int,
       sortOrder: json['sort_order'] as int,
       status: json['status'] as bool,
-      dateAdded: DateTime.parse(json['date_added'] as String),
-      dateModified: DateTime.parse(json['date_modified'] as String),
+      dateAdded: json['date_added'] == null
+          ? null
+          : DateTime.parse(json['date_added'] as String),
+      dateModified: json['date_modified'] == null
+          ? null
+          : DateTime.parse(json['date_modified'] as String),
       languageId: json['languageId'] as int? ?? 1,
       description: CategoryDescription.fromJson(
           json['description'] as Map<String, dynamic>),
@@ -31,8 +35,8 @@ Map<String, dynamic> _$$CategoryModelImplToJson(_$CategoryModelImpl instance) =>
       'column': instance.column,
       'sort_order': instance.sortOrder,
       'status': instance.status,
-      'date_added': instance.dateAdded.toIso8601String(),
-      'date_modified': instance.dateModified.toIso8601String(),
+      'date_added': instance.dateAdded?.toIso8601String(),
+      'date_modified': instance.dateModified?.toIso8601String(),
       'languageId': instance.languageId,
       'description': instance.description,
     };

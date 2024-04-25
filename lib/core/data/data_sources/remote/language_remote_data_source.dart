@@ -27,7 +27,7 @@ class LanguageRemoteDataSourceImpl implements LanguageRemoteDataSource {
   LanguageRemoteDataSourceImpl({required apiClient}) : _apiClient = apiClient;
   @override
   Future<Language> saveLanguage({required Language language, bool force = true}) async {
-    final path = "${languageDetailUrl}${language.id}/";
+    final path = "$languageDetailUrl${language.id}/";
     try {
       final jsonData = language.toJson();
       final response = await _apiClient.request(
