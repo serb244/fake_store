@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/data/models/language/language.dart';
 import '../../../../../core/di/injector.dart';
-import '../manager/language_bloc.dart';
+import '../../../../../core/blocs/language/language_bloc.dart';
 
 class AdminLanguageDetail extends StatefulWidget {
   final Language? language;

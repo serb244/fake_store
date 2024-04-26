@@ -18,7 +18,7 @@ class MyLogger {
   }
 
   void log({
-    String? message,
+    String message = '',
     Object? error,
     LogLevel logLevel = LogLevel.info,
     StackTrace? stackTrace,

@@ -12,5 +12,5 @@ abstract class LanguageRepository {
   Future<Either<BaseException, bool>> deleteLanguage({required int languageId, bool force = true});
 
   // Future<Either<BaseException, List<Language>>> getAllLanguages({bool force = false});
-  Future<Either<BaseException, bool>> getAllLanguages({bool force = false});
+  Future<Either<BaseException, List<Language>>> getAllLanguages({bool force = false});
 }

@@ -17,19 +17,20 @@ class AdminCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    injector<CategoryBloc>().add(CategoryGetByIdEvent(categoryId: int.parse(categoryId)));
+    final int id = int.parse(categoryId);
     return Scaffold(
       appBar: AppBar(
         title: Text(categoryId == "0" ? "Add Category" : "Category: $categoryId"),
         actions: const [],
       ),
-      body: const CategoryForm(),
+      body:  CategoryForm(id:  id,),
     );
   }
 }
 
 class CategoryForm extends StatefulWidget {
-  const CategoryForm({super.key});
+  final int id;
+  const CategoryForm({required this.id, super.key});
 
   @override
   CategoryFormState createState() => CategoryFormState();
@@ -63,7 +64,6 @@ class CategoryFormState extends State<CategoryForm> {
     _seoH1Controller = TextEditingController();
     _seoH2Controller = TextEditingController();
     _seoH3Controller = TextEditingController();
-    // Initialize controllers for other fields as needed
   }
 
   @override
@@ -89,11 +89,12 @@ class CategoryFormState extends State<CategoryForm> {
   void _onParentCategorySelected(int? categoryId) {
     parentCategoryId = categoryId;
     // parentCategoryId = categoryId;
-    print("categoryId: $categoryId");
   }
 
   @override
   Widget build(BuildContext context) {
+
+    injector<CategoryBloc>().add(CategoryGetByIdEvent(categoryId: widget.id, isNedAllCategories: true));
     return BlocConsumer<CategoryBloc, CategoryState>(
       listener: (context, state) {
         if (state is CategorySuccessState) {
@@ -110,36 +111,43 @@ class CategoryFormState extends State<CategoryForm> {
           _seoH2Controller.text = state.category.description.seoH2;
           _seoH3Controller.text = state.category.description.seoH3;
         }
+        if (state is CategoryErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error.toString())));
+          // injector<CategoryBloc>().add(const CategoryInitEvent());
+          injector<CategoryBloc>().add(CategoryGetByIdEvent(categoryId: widget.id));
+        }
       },
       builder: (context, state) {
         if (state is CategoryLoadingState) {
           return const Center(child: CircularProgressIndicator());
         }
-        if (state is CategoryErrorState) {
-          return Center(child: Text(state.error));
-        }
+        // if (state is CategoryErrorState) {
+        //   return Center(child: Text(state.error));
+        // }
         if (state is CategorySuccessState) {
+          // добавляем все категории к выпадающему списку (кроме вібранной категории )
           const String nullCategoryString = "Корневая категория";
           final Map<int, String> optionsReversed = {};
           for (var element in state.allCategories) {
+            if (element.id == state.category.id) continue;
             optionsReversed[element.id] = element.description.name;
           }
-          final String initialValue = parentCategoryId != null
-              ? "${state.allCategories.firstWhere((element) => element.id == parentCategoryId).id} ${state.allCategories.firstWhere((element) => element.id == parentCategoryId).description.name}"
-              : nullCategoryString;
+          // final String initialValue = parentCategoryId != null
+          //     ? "${state.allCategories.firstWhere((element) => element.id == parentCategoryId).id} ${state.allCategories.firstWhere((element) => element.id == parentCategoryId).description.name}"
+          //     : nullCategoryString;
           optionsReversed[0] = nullCategoryString;
-          List<DropdownMenuItem<int?>>? items = state.allCategories
-              .map((category) => DropdownMenuItem<int?>(
-                    value: category.id,
-                    child: Text("${category.id} ${category.description.name}"),
-                  ))
-              .toList();
-          items.insert(
-              0,
-              const DropdownMenuItem<int?>(
-                value: null,
-                child: Text('Корневая категория'),
-              ));
+          // List<DropdownMenuItem<int?>>? items = state.allCategories
+          //     .map((category) => DropdownMenuItem<int?>(
+          //           value: category.id,
+          //           child: Text("${category.id} ${category.description.name}"),
+          //         ))
+          //     .toList();
+          // items.insert(
+          //     0,
+          //     const DropdownMenuItem<int?>(
+          //       value: null,
+          //       child: Text('Корневая категория'),
+          //     ));
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: SingleChildScrollView(
@@ -174,10 +182,10 @@ class CategoryFormState extends State<CategoryForm> {
                           });
                         })
                   ]),
-                  DropdownWithSearch(
+                  DropdownWithSearchWidget(
                     options: optionsReversed,
                     labelText: 'Выберите категорию',
-                    initialValue: state.category.parentCategoryId ?? 0,
+                    initialValue: parentCategoryId ?? 0,
                     onSelected: _onParentCategorySelected,
                   ),
                   // DropdownButtonFormField<int?>(
@@ -242,13 +250,13 @@ class CategoryFormState extends State<CategoryForm> {
                   ElevatedButton(
                     onPressed: () {
                       final category = CategoryModel(
-                        id: 0,
+                        id: state.category.id,
                         parentCategoryId: parentCategoryId,
                         top: false,
                         column: 0,
                         sortOrder: 0,
                         status: true,
-                        dateAdded: DateTime.now(),
+                        dateAdded: state.category.id == 0 ? DateTime.now() : state.category.dateAdded,
                         dateModified: DateTime.now(),
                         languageId: 1,
                         description: CategoryDescription(
@@ -269,7 +277,7 @@ class CategoryFormState extends State<CategoryForm> {
                       );
                       // widget.onSubmit(category);
                       injector<CategoryBloc>().add(CategorySaveEvent(category));
-                      context.pop();
+                      // context.pop();
                     },
                     child: const Text('Submit'),
                   ),

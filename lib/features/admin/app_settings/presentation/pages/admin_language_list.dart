@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/routes/route_constants.dart';
-import '../manager/language_bloc.dart';
+import '../../../../../core/blocs/language/language_bloc.dart';
 
 class AdminLanguageList extends StatefulWidget {
   const AdminLanguageList({super.key});

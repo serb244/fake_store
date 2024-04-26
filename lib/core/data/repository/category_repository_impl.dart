@@ -14,7 +14,8 @@ class CategoryRepositoryImpl extends CategoryRepository {
 
   List<CategoryModel> _categories = [];
 
-  final StreamController<Either<BaseException, List<CategoryModel>>>_controller = StreamController<Either<BaseException, List<CategoryModel>>>.broadcast();
+  final StreamController<Either<BaseException, List<CategoryModel>>> _controller =
+      StreamController<Either<BaseException, List<CategoryModel>>>.broadcast();
 
   @override
   Stream<Either<BaseException, List<CategoryModel>>> get allCategoriesStream => _controller.stream.asBroadcastStream();
@@ -25,11 +26,12 @@ class CategoryRepositoryImpl extends CategoryRepository {
   Future<Either<BaseException, CategoryModel>> getCategoryByID({int categoryId = 0, bool force = false}) async {
     try {
       CategoryModel category = CategoryModel.init();
-      if(categoryId != 0){
+      if (categoryId != 0) {
         category = await categoryRemoteDataSource.getCategoryById(categoryId: categoryId);
       }
       return Right(category);
     } on BaseException catch (e) {
+      addToStream(Left(e));
       return left(e);
     }
   }
@@ -41,9 +43,10 @@ class CategoryRepositoryImpl extends CategoryRepository {
         final List<CategoryModel> response = await categoryRemoteDataSource.getChildCategoryListByMainCategoryId(categoryId: categoryId);
         return Right(response);
       } on BaseException catch (e) {
+        addToStream(Left(e));
         return left(e);
       }
-    }else{
+    } else {
       return Right(_categories);
     }
   }
@@ -52,12 +55,13 @@ class CategoryRepositoryImpl extends CategoryRepository {
   Future<Either<BaseException, bool>> deleteCategory({required int categoryId, bool force = true}) async {
     try {
       final bool response = await categoryRemoteDataSource.deleteCategory(categoryId: categoryId);
-      if(response){
+      if (response) {
         _categories.removeWhere((element) => element.id == categoryId);
         addToStream(Right([..._categories]));
       }
       return Right(response);
     } on BaseException catch (e) {
+      addToStream(Left(e));
       return left(e);
     }
   }
@@ -66,19 +70,21 @@ class CategoryRepositoryImpl extends CategoryRepository {
   Future<Either<BaseException, CategoryModel>> addCategory({required CategoryModel categoryModel, bool force = false}) async {
     try {
       final CategoryModel response = await categoryRemoteDataSource.addCategory(categoryModel: categoryModel);
-        _categories.add(response);
-        addToStream(Right([..._categories]));
+      _categories.add(response);
+      addToStream(Right([..._categories]));
       return Right(response);
     } on BaseException catch (e) {
+      addToStream(Left(e));
       return left(e);
     }
   }
+
   Future<Either<BaseException, List<CategoryModel>>> getAllCategoriesForce() async {
     try {
       final List<CategoryModel> response = await categoryRemoteDataSource.getChildCategoryListByMainCategoryId();
       _categories = [...response];
       addToStream(Right(_categories));
-      return   Right(_categories);
+      return Right(_categories);
     } on BaseException catch (e) {
       addToStream(Left(e));
       return Left(e);
@@ -88,10 +94,11 @@ class CategoryRepositoryImpl extends CategoryRepository {
   @override
   Future<Either<BaseException, List<CategoryModel>>> getAllCategories({bool force = false}) async {
     if (force) {
-      return  await getAllCategoriesForce();
+      return await getAllCategoriesForce();
     } else {
       try {
-        return  Right(_categories);
+        addToStream(Right(_categories));
+        return Right(_categories);
       } on BaseException catch (e) {
         addToStream(left(e));
         return Left(e);
@@ -100,18 +107,23 @@ class CategoryRepositoryImpl extends CategoryRepository {
   }
 
   @override
-  Future<Either<BaseException, ItemAndList>> getCategoryAndListByID({int categoryId = 0, bool force = false})  async {
+  Future<Either<BaseException, ItemAndList>> getCategoryAndListByID({int categoryId = 0, bool force = false}) async {
     try {
-       CategoryModel category = CategoryModel.init();
-      if(categoryId != 0){
-        category = await categoryRemoteDataSource.getCategoryById(categoryId: categoryId);
+      CategoryModel item = CategoryModel.init();
+      if (categoryId != 0) {
+        if (force) {
+          item = await categoryRemoteDataSource.getCategoryById(categoryId: categoryId);
+        } else {
+          item = _categories.firstWhere((element) => element.id == categoryId);
+        }
       }
       List<CategoryModel> list = _categories;
-      if ( force) {
-       list = await categoryRemoteDataSource.getChildCategoryListByMainCategoryId();
+      if (force) {
+        list = await categoryRemoteDataSource.getChildCategoryListByMainCategoryId();
       }
-      return Right(ItemAndList(item: category, list: list));
+      return Right(ItemAndList(item: item, list: list));
     } on BaseException catch (e) {
+      addToStream(Left(e));
       return left(e);
     }
   }

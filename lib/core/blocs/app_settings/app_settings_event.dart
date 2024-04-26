@@ -9,3 +9,10 @@ class AppSettingsInitEvent extends AppSettingsEvent {
   @override
   List<Object?> get props => [];
 }
+class AppSettingsChangeEvent extends AppSettingsEvent {
+  final AppSettings appSettings;
+  const AppSettingsChangeEvent({ required this.appSettings });
+
+  @override
+  List<Object?> get props => [appSettings];
+}

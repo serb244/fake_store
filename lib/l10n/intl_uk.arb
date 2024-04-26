@@ -38,5 +38,9 @@
   "error_password_reset_failed": "Скидання пароля не вдалося.",
   "error_invalid_token": "Недійсний токен.",
   "error_token_expired": "Термін дії токена закінчився.",
-  "error_session_expired": "Ваш сеанс закінчився. Будь ласка, увійдіть ще раз."
+  "error_session_expired": "Ваш сеанс закінчився. Будь ласка, увійдіть ще раз.",
+  "errorSharedpreferencesGetappsettingsGetinstance": "SharedPreferences getAppSettings getInstance error",
+  "anErrorOccurredWhileDecodingJson": "An error occurred while decoding JSON",
+  "errorSavingSettingsPleaseTryAgain": "Error saving settings. Please try again.",
+  "anErrorOccurredWhileSavingTheApplicationSettings": "An error occurred while saving the application settings."
 }

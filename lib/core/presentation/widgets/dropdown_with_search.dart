@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DropdownWithSearch extends StatefulWidget {
+class DropdownWithSearchWidget extends StatefulWidget {
   final Map<int, dynamic> options;
   final int initialValue;
   final String labelText;
@@ -9,7 +9,7 @@ class DropdownWithSearch extends StatefulWidget {
   final void Function(int?)? onSelected;
   final void Function(String?)? onTextChanged;
 
-  const DropdownWithSearch({
+  const DropdownWithSearchWidget({
     required this.options,
     required this.labelText,
     required this.initialValue,
@@ -21,10 +21,10 @@ class DropdownWithSearch extends StatefulWidget {
   });
 
   @override
-  DropdownWithSearchState createState() => DropdownWithSearchState();
+  DropdownWithSearchWidgetState createState() => DropdownWithSearchWidgetState();
 }
 
-class DropdownWithSearchState extends State<DropdownWithSearch> {
+class DropdownWithSearchWidgetState extends State<DropdownWithSearchWidget> {
   late String selectedText;
 
   @override
@@ -32,7 +32,11 @@ class DropdownWithSearchState extends State<DropdownWithSearch> {
     super.initState();
     selectedText = '${widget.initialValue} ${widget.options[widget.initialValue]}';
   }
-
+  @override
+  void didUpdateWidget(covariant DropdownWithSearchWidget oldWidget) {
+    selectedText = '${widget.initialValue} ${widget.options[widget.initialValue]}';
+    super.didUpdateWidget(oldWidget);
+  }
   @override
   Widget build(BuildContext context) {
     return Autocomplete<MapEntry<int, dynamic>>(
@@ -78,6 +82,7 @@ class DropdownWithSearchState extends State<DropdownWithSearch> {
           children: [
             Flexible(
               child: TextFormField(
+                // key:  Key(selectedText),
                 controller: textEditingController..text = selectedText,
                 focusNode: focusNode,
                 onChanged: widget.onTextChanged,

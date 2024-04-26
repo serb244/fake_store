@@ -1,16 +1,17 @@
-part of 'language_bloc.dart';
+part of '../../../../../core/blocs/language/language_bloc.dart';
 
 abstract class LanguageEvent extends Equatable {
   const LanguageEvent();
 }
 
-class LanguageChangeEvent extends LanguageEvent {
-  final String language;
+///Admin
+class LanguageLoadedEvent extends LanguageEvent {
+  final List<Language> languages;
 
-  const LanguageChangeEvent(this.language);
+  const LanguageLoadedEvent({required this.languages});
 
   @override
-  List<Object?> get props => [language];
+  List<Object?> get props => [languages];
 }
 
 class LanguageSaveEvent extends LanguageEvent {
@@ -25,34 +26,37 @@ class LanguageSaveEvent extends LanguageEvent {
 class LanguageDeleteEvent extends LanguageEvent {
   final int languageId;
 
-  const LanguageDeleteEvent({ required this.languageId});
+  const LanguageDeleteEvent({required this.languageId});
 
   @override
   List<Object?> get props => [languageId];
 }
+
+/// User
+
+class LanguageChangeEvent extends LanguageEvent {
+  final String language;
+
+  const LanguageChangeEvent(this.language);
+
+  @override
+  List<Object?> get props => [language];
+}
+
 class LanguageInitEvent extends LanguageEvent {
   // final int languageId;
 
-  const LanguageInitEvent( );
+  const LanguageInitEvent();
 
   @override
   List<Object?> get props => [];
 }
-class LanguageErrorEvent extends LanguageEvent {
-  final  String message;
 
-  const LanguageErrorEvent({ required this.message});
+class LanguageErrorEvent extends LanguageEvent {
+  final String message;
+
+  const LanguageErrorEvent({required this.message});
 
   @override
   List<Object?> get props => [message];
 }
-class LanguageLoadedEvent extends LanguageEvent {
-  final  List<Language> languages;
-
-  const LanguageLoadedEvent({ required this.languages});
-
-  @override
-  List<Object?> get props => [languages];
-}
-
-

@@ -1,9 +1,10 @@
 import 'package:get_it/get_it.dart';
 
-import '../../features/admin/app_settings/presentation/manager/app_settings_bloc.dart';
-import '../../features/admin/app_settings/presentation/manager/language_bloc.dart';
+import '../blocs/app_settings/app_settings_bloc.dart';
+import '../blocs/language/language_bloc.dart';
 import '../../features/user/home/presentation/manager/home_bloc.dart';
 import '../blocs/category/category_bloc.dart';
+import '../data/data_sources/local/app_settings_local_data_source.dart';
 import '../data/data_sources/remote/app_settings_remote_data_source.dart';
 import '../data/data_sources/remote/category_remote_data_source.dart';
 import '../data/data_sources/remote/language_remote_data_source.dart';
@@ -21,14 +22,17 @@ Future<void> initDependencies() async {
   /// request ///
   injector.registerSingleton<ApiClient>(ApiClient());
 
+  ///Local Data Source ///
+  injector.registerLazySingleton<AppSettingsLocalDataSource>(() => AppSettingsLocalDataSourceImpl());
+
   ///Remote Data Source ///
   injector.registerLazySingleton<CategoryRemoteDataSource>(() => CategoryRemoteDataSourceImpl(apiClient: injector<ApiClient>()));
-  injector.registerLazySingleton<AppSettingsRemoteDataSource>(() => AppSettingsRemoteDataSourceImpl(apiClient: injector<ApiClient>()));
+  // injector.registerLazySingleton<AppSettingsRemoteDataSource>(() => AppSettingsRemoteDataSourceImpl(apiClient: injector<ApiClient>()));
   injector.registerLazySingleton<LanguageRemoteDataSource>(() => LanguageRemoteDataSourceImpl(apiClient: injector<ApiClient>()));
 
   /// Repository ///
   injector.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(categoryRemoteDataSource: injector<CategoryRemoteDataSource>()));
-  injector.registerLazySingleton<AppSettingsRepository>(() =>AppSettingsRepositoryImpl(appSettingsRemoteDataSource: injector<AppSettingsRemoteDataSource>()));
+  injector.registerLazySingleton<AppSettingsRepository>(() =>AppSettingsRepositoryImpl(appSettingsLocalDataSource: injector<AppSettingsLocalDataSource>()));
   injector.registerLazySingleton<LanguageRepository>(() =>LanguageRepositoryImpl(languageRemoteDataSource: injector<LanguageRemoteDataSource>()));
 
   /// BloC ///

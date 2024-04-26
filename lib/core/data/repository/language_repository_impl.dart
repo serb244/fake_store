@@ -42,12 +42,12 @@ class LanguageRepositoryImpl implements LanguageRepository {
     throw UnimplementedError();
   }
 
-  Future<Either<BaseException, bool>> getAllLanguagesForce() async {
+  Future<Either<BaseException,  List<Language>>> getAllLanguagesForce() async {
     try {
       final List<Language> response = await languageRemoteDataSource.getAllLanguages();
       _languages = [...response];
       addToStream(Right(_languages));
-      return const Right(true);
+      return  Right(_languages);
     } on BaseException catch (e) {
       addToStream(Left(e));
       return Left(e);
@@ -55,13 +55,12 @@ class LanguageRepositoryImpl implements LanguageRepository {
   }
 
   @override
-  Future<Either<BaseException, bool>> getAllLanguages({bool force = false}) async {
+  Future<Either<BaseException,  List<Language>>> getAllLanguages({bool force = false}) async {
     if (force) {
       return await getAllLanguagesForce();
     } else {
       try {
-        addToStream(Right(_languages));
-        return const Right(true);
+        return Right(_languages);
       } on BaseException catch (e) {
         addToStream(left(e));
         return Left(e);

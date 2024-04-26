@@ -22,6 +22,18 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "anErrorOccurredWhileDecodingJson":
+            MessageLookupByLibrary.simpleMessage(
+                "An error occurred while decoding JSON"),
+        "anErrorOccurredWhileSavingTheApplicationSettings":
+            MessageLookupByLibrary.simpleMessage(
+                "An error occurred while saving the application settings."),
+        "errorSavingSettingsPleaseTryAgain":
+            MessageLookupByLibrary.simpleMessage(
+                "Error saving settings. Please try again."),
+        "errorSharedpreferencesGetappsettingsGetinstance":
+            MessageLookupByLibrary.simpleMessage(
+                "SharedPreferences getAppSettings getInstance error"),
         "error_account_blocked": MessageLookupByLibrary.simpleMessage(
             "Ваш аккаунт заблоковано. Зверніться до служби підтримки за допомогою."),
         "error_account_not_activated": MessageLookupByLibrary.simpleMessage(

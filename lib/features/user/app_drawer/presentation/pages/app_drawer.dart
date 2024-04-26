@@ -1,4 +1,5 @@
 import 'package:fake_store/features/user/app_drawer/presentation/widgets/drawer_admin_category_menu.dart';
+import 'package:fake_store/features/user/app_drawer/presentation/widgets/language.dart';
 import 'package:flutter/material.dart';
 import '../widgets/category_list.dart';
 
@@ -21,6 +22,7 @@ class _AppDrawerState extends State<AppDrawer> {
             children: <Widget>[
               DrawerAdminCategoryMenu(),
               AppDrawerCategoryList(),
+              DrawerLanguageWidget(),
               ExpansionTile(
                 initiallyExpanded: true,
                 title: Text('ExpansionTile 2'),

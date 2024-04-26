@@ -20,7 +20,6 @@ Language _$LanguageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Language {
-  @JsonKey(name: 'language_id')
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get code => throw _privateConstructorUsedError;
@@ -42,7 +41,7 @@ abstract class $LanguageCopyWith<$Res> {
       _$LanguageCopyWithImpl<$Res, Language>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'language_id') int id,
+      {int id,
       String name,
       String code,
       String? locale,
@@ -120,7 +119,7 @@ abstract class _$$LanguageImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'language_id') int id,
+      {int id,
       String name,
       String code,
       String? locale,
@@ -191,7 +190,7 @@ class __$$LanguageImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$LanguageImpl implements _Language {
   const _$LanguageImpl(
-      {@JsonKey(name: 'language_id') required this.id,
+      {required this.id,
       required this.name,
       required this.code,
       this.locale,
@@ -204,7 +203,6 @@ class _$LanguageImpl implements _Language {
       _$$LanguageImplFromJson(json);
 
   @override
-  @JsonKey(name: 'language_id')
   final int id;
   @override
   final String name;
@@ -264,7 +262,7 @@ class _$LanguageImpl implements _Language {
 
 abstract class _Language implements Language {
   const factory _Language(
-      {@JsonKey(name: 'language_id') required final int id,
+      {required final int id,
       required final String name,
       required final String code,
       final String? locale,
@@ -277,7 +275,6 @@ abstract class _Language implements Language {
       _$LanguageImpl.fromJson;
 
   @override
-  @JsonKey(name: 'language_id')
   int get id;
   @override
   String get name;

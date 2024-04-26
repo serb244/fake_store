@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../manager/app_settings_bloc.dart';
+import '../../../../../core/blocs/app_settings/app_settings_bloc.dart';
 import 'admin_language_list.dart';
 
 class AppSettings extends StatefulWidget {

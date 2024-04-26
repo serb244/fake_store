@@ -5,7 +5,7 @@ part 'language.g.dart';
 @freezed
 class Language with _$Language {
   const factory Language({
-    @JsonKey(name: 'language_id') required int id,
+    required int id,
     required String name,
     required String code,
     String? locale,

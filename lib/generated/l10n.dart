@@ -399,6 +399,46 @@ class S {
       args: [],
     );
   }
+
+  /// `SharedPreferences getAppSettings getInstance error`
+  String get errorSharedpreferencesGetappsettingsGetinstance {
+    return Intl.message(
+      'SharedPreferences getAppSettings getInstance error',
+      name: 'errorSharedpreferencesGetappsettingsGetinstance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while decoding JSON`
+  String get anErrorOccurredWhileDecodingJson {
+    return Intl.message(
+      'An error occurred while decoding JSON',
+      name: 'anErrorOccurredWhileDecodingJson',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error saving settings. Please try again.`
+  String get errorSavingSettingsPleaseTryAgain {
+    return Intl.message(
+      'Error saving settings. Please try again.',
+      name: 'errorSavingSettingsPleaseTryAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while saving the application settings.`
+  String get anErrorOccurredWhileSavingTheApplicationSettings {
+    return Intl.message(
+      'An error occurred while saving the application settings.',
+      name: 'anErrorOccurredWhileSavingTheApplicationSettings',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

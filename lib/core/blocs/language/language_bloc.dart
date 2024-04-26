@@ -3,8 +3,8 @@ import 'package:fake_store/core/data/models/language/language.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 
-import '../../../../../core/domain/repository/language_repository.dart';
-import '../../../../../core/error/exceptions.dart';
+import '../../domain/repository/language_repository.dart';
+import '../../error/exceptions.dart';
 
 part 'language_event.dart';
 
@@ -52,7 +52,7 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
   _init(LanguageInitEvent event, Emitter<LanguageState> emit) async {
     emit(const LanguageLoadingState());
     final res = await languageRepository.getAllLanguages(force: true);
-    print("_init");
+    print("LanguageInitEvent");
     // res.fold(
     //   (l) => emit(LanguageErrorState(error: l.userMessage.toString())),
     //   (List<Language> r) {

@@ -8,7 +8,7 @@ part of 'language.dart';
 
 _$LanguageImpl _$$LanguageImplFromJson(Map<String, dynamic> json) =>
     _$LanguageImpl(
-      id: json['language_id'] as int,
+      id: json['id'] as int,
       name: json['name'] as String,
       code: json['code'] as String,
       locale: json['locale'] as String?,
@@ -20,7 +20,7 @@ _$LanguageImpl _$$LanguageImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$LanguageImplToJson(_$LanguageImpl instance) =>
     <String, dynamic>{
-      'language_id': instance.id,
+      'id': instance.id,
       'name': instance.name,
       'code': instance.code,
       'locale': instance.locale,

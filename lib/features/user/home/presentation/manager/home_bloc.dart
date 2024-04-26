@@ -19,16 +19,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeErrorEvent>(_error);
     on<HomeLoadedEvent>(_loaded);
     on<HomeLoadEvent>(_load);
-    categoryRepository.allCategoriesStream.listen((Either<BaseException, List<CategoryModel>> eitherCategoriesOrException) {
-      eitherCategoriesOrException.fold(
-        (exception) {
-          add(HomeErrorEvent(exception: exception));
-        },
-        (categories) {
-          add(HomeLoadedEvent(categories: categories));
-        },
-      );
-    });
+    // categoryRepository.allCategoriesStream.listen((Either<BaseException, List<CategoryModel>> eitherCategoriesOrException) {
+    //   eitherCategoriesOrException.fold(
+    //     (exception) {
+    //       add(HomeErrorEvent(exception: exception));
+    //     },
+    //     (categories) {
+    //       add(HomeLoadedEvent(categories: categories));
+    //     },
+    //   );
+    // });
 
     add(const HomeInitEvent());
   }

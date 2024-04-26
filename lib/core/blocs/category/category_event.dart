@@ -16,7 +16,8 @@ class CategorySaveEvent extends CategoryEvent {
 class CategoryGetByIdEvent extends CategoryEvent {
   final int categoryId;
   final bool isNedAllCategories;
-  const CategoryGetByIdEvent({required this.categoryId, this.isNedAllCategories = true});
+  final bool force;
+  const CategoryGetByIdEvent({required this.categoryId, this.isNedAllCategories = true, this.force = false});
 
   @override
   List<Object?> get props => [categoryId];

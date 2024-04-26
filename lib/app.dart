@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/blocs/category/category_bloc.dart';
-import 'features/admin/app_settings/presentation/manager/app_settings_bloc.dart';
-import 'features/admin/app_settings/presentation/manager/language_bloc.dart';
+import 'core/blocs/app_settings/app_settings_bloc.dart';
+import 'core/blocs/language/language_bloc.dart';
 import 'features/user/home/presentation/manager/home_bloc.dart';
 import 'generated/l10n.dart';
 

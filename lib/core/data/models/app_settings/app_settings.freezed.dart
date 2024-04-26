@@ -20,7 +20,10 @@ AppSettings _$AppSettingsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AppSettings {
-  List<Language> get languages => throw _privateConstructorUsedError;
+  /// languageId храним в шареде,
+  /// 0 пока нет языка из бекенда, при первом запуске = id языка из бекенда
+  /// 0 - єто текста с базовіми возможніми ошибками на случай проблем с бекендом
+  int get languageId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +37,7 @@ abstract class $AppSettingsCopyWith<$Res> {
           AppSettings value, $Res Function(AppSettings) then) =
       _$AppSettingsCopyWithImpl<$Res, AppSettings>;
   @useResult
-  $Res call({List<Language> languages});
+  $Res call({int languageId});
 }
 
 /// @nodoc
@@ -50,13 +53,13 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? languages = null,
+    Object? languageId = null,
   }) {
     return _then(_value.copyWith(
-      languages: null == languages
-          ? _value.languages
-          : languages // ignore: cast_nullable_to_non_nullable
-              as List<Language>,
+      languageId: null == languageId
+          ? _value.languageId
+          : languageId // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -69,7 +72,7 @@ abstract class _$$AppSettingsImplCopyWith<$Res>
       __$$AppSettingsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Language> languages});
+  $Res call({int languageId});
 }
 
 /// @nodoc
@@ -83,13 +86,13 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? languages = null,
+    Object? languageId = null,
   }) {
     return _then(_$AppSettingsImpl(
-      languages: null == languages
-          ? _value._languages
-          : languages // ignore: cast_nullable_to_non_nullable
-              as List<Language>,
+      languageId: null == languageId
+          ? _value.languageId
+          : languageId // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -97,23 +100,20 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AppSettingsImpl implements _AppSettings {
-  const _$AppSettingsImpl({required final List<Language> languages})
-      : _languages = languages;
+  const _$AppSettingsImpl({required this.languageId});
 
   factory _$AppSettingsImpl.fromJson(Map<String, dynamic> json) =>
       _$$AppSettingsImplFromJson(json);
 
-  final List<Language> _languages;
+  /// languageId храним в шареде,
+  /// 0 пока нет языка из бекенда, при первом запуске = id языка из бекенда
+  /// 0 - єто текста с базовіми возможніми ошибками на случай проблем с бекендом
   @override
-  List<Language> get languages {
-    if (_languages is EqualUnmodifiableListView) return _languages;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_languages);
-  }
+  final int languageId;
 
   @override
   String toString() {
-    return 'AppSettings(languages: $languages)';
+    return 'AppSettings(languageId: $languageId)';
   }
 
   @override
@@ -121,14 +121,13 @@ class _$AppSettingsImpl implements _AppSettings {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AppSettingsImpl &&
-            const DeepCollectionEquality()
-                .equals(other._languages, _languages));
+            (identical(other.languageId, languageId) ||
+                other.languageId == languageId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_languages));
+  int get hashCode => Object.hash(runtimeType, languageId);
 
   @JsonKey(ignore: true)
   @override
@@ -145,14 +144,18 @@ class _$AppSettingsImpl implements _AppSettings {
 }
 
 abstract class _AppSettings implements AppSettings {
-  const factory _AppSettings({required final List<Language> languages}) =
+  const factory _AppSettings({required final int languageId}) =
       _$AppSettingsImpl;
 
   factory _AppSettings.fromJson(Map<String, dynamic> json) =
       _$AppSettingsImpl.fromJson;
 
   @override
-  List<Language> get languages;
+
+  /// languageId храним в шареде,
+  /// 0 пока нет языка из бекенда, при первом запуске = id языка из бекенда
+  /// 0 - єто текста с базовіми возможніми ошибками на случай проблем с бекендом
+  int get languageId;
   @override
   @JsonKey(ignore: true)
   _$$AppSettingsImplCopyWith<_$AppSettingsImpl> get copyWith =>
