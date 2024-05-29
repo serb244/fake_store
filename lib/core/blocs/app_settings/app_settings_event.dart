@@ -4,7 +4,8 @@ abstract class AppSettingsEvent extends Equatable {
   const AppSettingsEvent();
 }
 class AppSettingsInitEvent extends AppSettingsEvent {
-  const AppSettingsInitEvent();
+  final bool force;
+  const AppSettingsInitEvent({this.force = true});
 
   @override
   List<Object?> get props => [];

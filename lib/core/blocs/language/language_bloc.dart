@@ -51,8 +51,8 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
 
   _init(LanguageInitEvent event, Emitter<LanguageState> emit) async {
     emit(const LanguageLoadingState());
-    final res = await languageRepository.getAllLanguages(force: true);
-    print("LanguageInitEvent");
+    final res = await languageRepository.getAllLanguages(force: event.force);
+    print("LanguageInitEvent res ${res.toString()}");
     // res.fold(
     //   (l) => emit(LanguageErrorState(error: l.userMessage.toString())),
     //   (List<Language> r) {

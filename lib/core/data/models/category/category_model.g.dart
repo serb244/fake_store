@@ -8,7 +8,7 @@ part of 'category_model.dart';
 
 _$CategoryModelImpl _$$CategoryModelImplFromJson(Map<String, dynamic> json) =>
     _$CategoryModelImpl(
-      id: json['category_id'] as int,
+      id: json['id'] as int,
       image: json['image'] as String?,
       parentCategoryId: json['parent'] as int?,
       top: json['top'] as bool,
@@ -21,14 +21,14 @@ _$CategoryModelImpl _$$CategoryModelImplFromJson(Map<String, dynamic> json) =>
       dateModified: json['date_modified'] == null
           ? null
           : DateTime.parse(json['date_modified'] as String),
-      languageId: json['languageId'] as int? ?? 1,
-      description: CategoryDescription.fromJson(
-          json['description'] as Map<String, dynamic>),
+      description: (json['description'] as List<dynamic>)
+          .map((e) => CategoryDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$CategoryModelImplToJson(_$CategoryModelImpl instance) =>
     <String, dynamic>{
-      'category_id': instance.id,
+      'id': instance.id,
       'image': instance.image,
       'parent': instance.parentCategoryId,
       'top': instance.top,
@@ -37,6 +37,5 @@ Map<String, dynamic> _$$CategoryModelImplToJson(_$CategoryModelImpl instance) =>
       'status': instance.status,
       'date_added': instance.dateAdded?.toIso8601String(),
       'date_modified': instance.dateModified?.toIso8601String(),
-      'languageId': instance.languageId,
       'description': instance.description,
     };

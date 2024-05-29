@@ -38,9 +38,9 @@ class CategoryScreen extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return Row(
                                 children: [
-                                  Text(state.allCategories[index].description.name),
+                                  Text(state.allCategories[index].description[1].name),
                                   const Text(" "),
-                                  Text(state.allCategories[index].description.description),
+                                  Text(state.allCategories[index].description[1].description),
                                   const Text(" "),
                                   Text(state.allCategories[index].image.toString()),
                                 ],

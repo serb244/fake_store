@@ -25,7 +25,9 @@ class AdminCategory extends StatelessWidget {
         title: Text(categoryId == "0" ? "Add Category" : "Category: $categoryId"),
         actions: const [],
       ),
-      body: CategoryForm(id: id),
+      body: CategoryForm(
+        id: id,
+      ),
     );
   }
 }
@@ -125,11 +127,11 @@ class CategoryFormState extends State<CategoryForm> {
                             ),
                             currentCategory.id != 0
                                 ? IconButton(
-                                    onPressed: () => _onTapDelete(currentCategory.id),
-                                    icon: const Icon(
-                                      Icons.delete_forever,
-                                    ),
-                                  )
+                              onPressed: () => _onTapDelete(currentCategory.id),
+                              icon: const Icon(
+                                Icons.delete_forever,
+                              ),
+                            )
                                 : const SizedBox.shrink(),
                           ],
                         ),
@@ -140,7 +142,7 @@ class CategoryFormState extends State<CategoryForm> {
                               Switch(
                                   value: currentCategory.status,
                                   onChanged: (value) {
-                                    print("value: $value");
+                                    print ("value: $value");
                                     currentCategory = currentCategory.copyWith(status: value);
                                     print("currentCategory: $currentCategory");
                                     setState(() {});
@@ -185,7 +187,7 @@ class CategoryFormState extends State<CategoryForm> {
                                 } else {
                                   return AdminCategoryDescription(
                                     categoryDescription:
-                                        CategoryDescription.init().copyWith(languageId: languageId, categoryId: currentCategory.id, name: ""),
+                                    CategoryDescription.init().copyWith(languageId: languageId, categoryId: currentCategory.id, name: ""),
                                   );
                                 }
                               }),

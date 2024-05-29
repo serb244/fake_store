@@ -37,7 +37,7 @@ void initState() {
               ),
               Expanded(
                 child: Text(
-                  widget.topMenuCategory.description.name,
+                  widget.topMenuCategory.description[1].name,
                   style: const TextStyle(fontSize: 20),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -55,7 +55,7 @@ void initState() {
                         itemCount: getChildCategoryList(categoryId: widget.topMenuCategory.id , categoryList: widget.subCategories).length,
                         itemBuilder: (context, index) {
                           final subCategory = getChildCategoryList(categoryId: widget.topMenuCategory.id , categoryList: widget.subCategories) ;
-                          return Text(subCategory[index].description.name);
+                          return Text(subCategory[index].description[1].name);
                         }),
                   ),
                 )

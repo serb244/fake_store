@@ -24,7 +24,7 @@ mixin _$CategoryDescription {
   int get categoryDescriptionId => throw _privateConstructorUsedError;
   @JsonKey(name: 'category')
   int get categoryId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'language_id')
+  @JsonKey(name: 'language')
   int get languageId => throw _privateConstructorUsedError;
   @JsonKey(name: 'name')
   String get name => throw _privateConstructorUsedError;
@@ -62,7 +62,7 @@ abstract class $CategoryDescriptionCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'id') int categoryDescriptionId,
       @JsonKey(name: 'category') int categoryId,
-      @JsonKey(name: 'language_id') int languageId,
+      @JsonKey(name: 'language') int languageId,
       @JsonKey(name: 'name') String name,
       @JsonKey(name: 'slug') String slug,
       @JsonKey(name: 'description') String description,
@@ -170,7 +170,7 @@ abstract class _$$CategoryDescriptionImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'id') int categoryDescriptionId,
       @JsonKey(name: 'category') int categoryId,
-      @JsonKey(name: 'language_id') int languageId,
+      @JsonKey(name: 'language') int languageId,
       @JsonKey(name: 'name') String name,
       @JsonKey(name: 'slug') String slug,
       @JsonKey(name: 'description') String description,
@@ -271,7 +271,7 @@ class _$CategoryDescriptionImpl implements _CategoryDescription {
   const _$CategoryDescriptionImpl(
       {@JsonKey(name: 'id') required this.categoryDescriptionId,
       @JsonKey(name: 'category') required this.categoryId,
-      @JsonKey(name: 'language_id') required this.languageId,
+      @JsonKey(name: 'language') required this.languageId,
       @JsonKey(name: 'name') required this.name,
       @JsonKey(name: 'slug') required this.slug,
       @JsonKey(name: 'description') required this.description,
@@ -293,7 +293,7 @@ class _$CategoryDescriptionImpl implements _CategoryDescription {
   @JsonKey(name: 'category')
   final int categoryId;
   @override
-  @JsonKey(name: 'language_id')
+  @JsonKey(name: 'language')
   final int languageId;
   @override
   @JsonKey(name: 'name')
@@ -396,7 +396,7 @@ abstract class _CategoryDescription implements CategoryDescription {
   const factory _CategoryDescription(
       {@JsonKey(name: 'id') required final int categoryDescriptionId,
       @JsonKey(name: 'category') required final int categoryId,
-      @JsonKey(name: 'language_id') required final int languageId,
+      @JsonKey(name: 'language') required final int languageId,
       @JsonKey(name: 'name') required final String name,
       @JsonKey(name: 'slug') required final String slug,
       @JsonKey(name: 'description') required final String description,
@@ -419,7 +419,7 @@ abstract class _CategoryDescription implements CategoryDescription {
   @JsonKey(name: 'category')
   int get categoryId;
   @override
-  @JsonKey(name: 'language_id')
+  @JsonKey(name: 'language')
   int get languageId;
   @override
   @JsonKey(name: 'name')

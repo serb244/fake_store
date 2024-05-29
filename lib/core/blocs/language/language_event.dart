@@ -44,9 +44,8 @@ class LanguageChangeEvent extends LanguageEvent {
 }
 
 class LanguageInitEvent extends LanguageEvent {
-  // final int languageId;
-
-  const LanguageInitEvent();
+  final bool force;
+  const LanguageInitEvent( {required this.force});
 
   @override
   List<Object?> get props => [];

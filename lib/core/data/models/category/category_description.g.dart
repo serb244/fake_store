@@ -11,7 +11,7 @@ _$CategoryDescriptionImpl _$$CategoryDescriptionImplFromJson(
     _$CategoryDescriptionImpl(
       categoryDescriptionId: json['id'] as int,
       categoryId: json['category'] as int,
-      languageId: json['language_id'] as int,
+      languageId: json['language'] as int,
       name: json['name'] as String,
       slug: json['slug'] as String,
       description: json['description'] as String,
@@ -29,7 +29,7 @@ Map<String, dynamic> _$$CategoryDescriptionImplToJson(
     <String, dynamic>{
       'id': instance.categoryDescriptionId,
       'category': instance.categoryId,
-      'language_id': instance.languageId,
+      'language': instance.languageId,
       'name': instance.name,
       'slug': instance.slug,
       'description': instance.description,

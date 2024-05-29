@@ -18,7 +18,7 @@ Future<void> main() async {
   Bloc.observer = MyBlocObserver();
   injector<AppSettingsBloc>().add(const AppSettingsInitEvent());
   ///LanguageInitEvent - get all languages from server, add to stream, set selected by user language
-  injector<LanguageBloc>().add(const LanguageInitEvent());
+  injector<LanguageBloc>().add(const LanguageInitEvent( force: true));
   /// CategoryInitEvent - get all categories from server, add to stream
   injector<CategoryBloc>().add(const CategoryInitEvent(force: true));
   runApp(const App());

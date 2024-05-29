@@ -79,7 +79,7 @@ class AppDrawerCategoryListWidget extends StatelessWidget {
                     child: Text(
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      currentCategories[index].description.name,
+                      currentCategories[index].description[1].name,
                       style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
                     ),
                   ),

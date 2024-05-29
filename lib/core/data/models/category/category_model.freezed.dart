@@ -20,7 +20,6 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CategoryModel {
-  @JsonKey(name: 'category_id')
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'image')
   String? get image => throw _privateConstructorUsedError;
@@ -37,11 +36,11 @@ mixin _$CategoryModel {
   @JsonKey(name: 'date_added')
   DateTime? get dateAdded => throw _privateConstructorUsedError;
   @JsonKey(name: 'date_modified')
-  DateTime? get dateModified => throw _privateConstructorUsedError;
-  @JsonKey(name: 'languageId', defaultValue: 1)
-  int get languageId => throw _privateConstructorUsedError;
+  DateTime? get dateModified =>
+      throw _privateConstructorUsedError; // @JsonKey(name: 'languageId', defaultValue: 1) required int languageId,
   @JsonKey(name: 'description')
-  CategoryDescription get description => throw _privateConstructorUsedError;
+  List<CategoryDescription> get description =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -56,7 +55,7 @@ abstract class $CategoryModelCopyWith<$Res> {
       _$CategoryModelCopyWithImpl<$Res, CategoryModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'category_id') int id,
+      {int id,
       @JsonKey(name: 'image') String? image,
       @JsonKey(name: 'parent') int? parentCategoryId,
       @JsonKey(name: 'top') bool top,
@@ -65,10 +64,7 @@ abstract class $CategoryModelCopyWith<$Res> {
       @JsonKey(name: 'status') bool status,
       @JsonKey(name: 'date_added') DateTime? dateAdded,
       @JsonKey(name: 'date_modified') DateTime? dateModified,
-      @JsonKey(name: 'languageId', defaultValue: 1) int languageId,
-      @JsonKey(name: 'description') CategoryDescription description});
-
-  $CategoryDescriptionCopyWith<$Res> get description;
+      @JsonKey(name: 'description') List<CategoryDescription> description});
 }
 
 /// @nodoc
@@ -93,7 +89,6 @@ class _$CategoryModelCopyWithImpl<$Res, $Val extends CategoryModel>
     Object? status = null,
     Object? dateAdded = freezed,
     Object? dateModified = freezed,
-    Object? languageId = null,
     Object? description = null,
   }) {
     return _then(_value.copyWith(
@@ -133,23 +128,11 @@ class _$CategoryModelCopyWithImpl<$Res, $Val extends CategoryModel>
           ? _value.dateModified
           : dateModified // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      languageId: null == languageId
-          ? _value.languageId
-          : languageId // ignore: cast_nullable_to_non_nullable
-              as int,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as CategoryDescription,
+              as List<CategoryDescription>,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $CategoryDescriptionCopyWith<$Res> get description {
-    return $CategoryDescriptionCopyWith<$Res>(_value.description, (value) {
-      return _then(_value.copyWith(description: value) as $Val);
-    });
   }
 }
 
@@ -162,7 +145,7 @@ abstract class _$$CategoryModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'category_id') int id,
+      {int id,
       @JsonKey(name: 'image') String? image,
       @JsonKey(name: 'parent') int? parentCategoryId,
       @JsonKey(name: 'top') bool top,
@@ -171,11 +154,7 @@ abstract class _$$CategoryModelImplCopyWith<$Res>
       @JsonKey(name: 'status') bool status,
       @JsonKey(name: 'date_added') DateTime? dateAdded,
       @JsonKey(name: 'date_modified') DateTime? dateModified,
-      @JsonKey(name: 'languageId', defaultValue: 1) int languageId,
-      @JsonKey(name: 'description') CategoryDescription description});
-
-  @override
-  $CategoryDescriptionCopyWith<$Res> get description;
+      @JsonKey(name: 'description') List<CategoryDescription> description});
 }
 
 /// @nodoc
@@ -198,7 +177,6 @@ class __$$CategoryModelImplCopyWithImpl<$Res>
     Object? status = null,
     Object? dateAdded = freezed,
     Object? dateModified = freezed,
-    Object? languageId = null,
     Object? description = null,
   }) {
     return _then(_$CategoryModelImpl(
@@ -238,14 +216,10 @@ class __$$CategoryModelImplCopyWithImpl<$Res>
           ? _value.dateModified
           : dateModified // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      languageId: null == languageId
-          ? _value.languageId
-          : languageId // ignore: cast_nullable_to_non_nullable
-              as int,
       description: null == description
-          ? _value.description
+          ? _value._description
           : description // ignore: cast_nullable_to_non_nullable
-              as CategoryDescription,
+              as List<CategoryDescription>,
     ));
   }
 }
@@ -256,7 +230,7 @@ class _$CategoryModelImpl
     with DiagnosticableTreeMixin
     implements _CategoryModel {
   const _$CategoryModelImpl(
-      {@JsonKey(name: 'category_id') required this.id,
+      {required this.id,
       @JsonKey(name: 'image') this.image,
       @JsonKey(name: 'parent') required this.parentCategoryId,
       @JsonKey(name: 'top') required this.top,
@@ -265,14 +239,14 @@ class _$CategoryModelImpl
       @JsonKey(name: 'status') required this.status,
       @JsonKey(name: 'date_added') this.dateAdded,
       @JsonKey(name: 'date_modified') this.dateModified,
-      @JsonKey(name: 'languageId', defaultValue: 1) required this.languageId,
-      @JsonKey(name: 'description') required this.description});
+      @JsonKey(name: 'description')
+      required final List<CategoryDescription> description})
+      : _description = description;
 
   factory _$CategoryModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$CategoryModelImplFromJson(json);
 
   @override
-  @JsonKey(name: 'category_id')
   final int id;
   @override
   @JsonKey(name: 'image')
@@ -298,16 +272,20 @@ class _$CategoryModelImpl
   @override
   @JsonKey(name: 'date_modified')
   final DateTime? dateModified;
-  @override
-  @JsonKey(name: 'languageId', defaultValue: 1)
-  final int languageId;
+// @JsonKey(name: 'languageId', defaultValue: 1) required int languageId,
+  final List<CategoryDescription> _description;
+// @JsonKey(name: 'languageId', defaultValue: 1) required int languageId,
   @override
   @JsonKey(name: 'description')
-  final CategoryDescription description;
+  List<CategoryDescription> get description {
+    if (_description is EqualUnmodifiableListView) return _description;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_description);
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CategoryModel(id: $id, image: $image, parentCategoryId: $parentCategoryId, top: $top, column: $column, sortOrder: $sortOrder, status: $status, dateAdded: $dateAdded, dateModified: $dateModified, languageId: $languageId, description: $description)';
+    return 'CategoryModel(id: $id, image: $image, parentCategoryId: $parentCategoryId, top: $top, column: $column, sortOrder: $sortOrder, status: $status, dateAdded: $dateAdded, dateModified: $dateModified, description: $description)';
   }
 
   @override
@@ -324,7 +302,6 @@ class _$CategoryModelImpl
       ..add(DiagnosticsProperty('status', status))
       ..add(DiagnosticsProperty('dateAdded', dateAdded))
       ..add(DiagnosticsProperty('dateModified', dateModified))
-      ..add(DiagnosticsProperty('languageId', languageId))
       ..add(DiagnosticsProperty('description', description));
   }
 
@@ -346,10 +323,8 @@ class _$CategoryModelImpl
                 other.dateAdded == dateAdded) &&
             (identical(other.dateModified, dateModified) ||
                 other.dateModified == dateModified) &&
-            (identical(other.languageId, languageId) ||
-                other.languageId == languageId) &&
-            (identical(other.description, description) ||
-                other.description == description));
+            const DeepCollectionEquality()
+                .equals(other._description, _description));
   }
 
   @JsonKey(ignore: true)
@@ -365,8 +340,7 @@ class _$CategoryModelImpl
       status,
       dateAdded,
       dateModified,
-      languageId,
-      description);
+      const DeepCollectionEquality().hash(_description));
 
   @JsonKey(ignore: true)
   @override
@@ -384,25 +358,23 @@ class _$CategoryModelImpl
 
 abstract class _CategoryModel implements CategoryModel {
   const factory _CategoryModel(
-      {@JsonKey(name: 'category_id') required final int id,
-      @JsonKey(name: 'image') final String? image,
-      @JsonKey(name: 'parent') required final int? parentCategoryId,
-      @JsonKey(name: 'top') required final bool top,
-      @JsonKey(name: 'column') required final int column,
-      @JsonKey(name: 'sort_order') required final int sortOrder,
-      @JsonKey(name: 'status') required final bool status,
-      @JsonKey(name: 'date_added') final DateTime? dateAdded,
-      @JsonKey(name: 'date_modified') final DateTime? dateModified,
-      @JsonKey(name: 'languageId', defaultValue: 1)
-      required final int languageId,
-      @JsonKey(name: 'description')
-      required final CategoryDescription description}) = _$CategoryModelImpl;
+          {required final int id,
+          @JsonKey(name: 'image') final String? image,
+          @JsonKey(name: 'parent') required final int? parentCategoryId,
+          @JsonKey(name: 'top') required final bool top,
+          @JsonKey(name: 'column') required final int column,
+          @JsonKey(name: 'sort_order') required final int sortOrder,
+          @JsonKey(name: 'status') required final bool status,
+          @JsonKey(name: 'date_added') final DateTime? dateAdded,
+          @JsonKey(name: 'date_modified') final DateTime? dateModified,
+          @JsonKey(name: 'description')
+          required final List<CategoryDescription> description}) =
+      _$CategoryModelImpl;
 
   factory _CategoryModel.fromJson(Map<String, dynamic> json) =
       _$CategoryModelImpl.fromJson;
 
   @override
-  @JsonKey(name: 'category_id')
   int get id;
   @override
   @JsonKey(name: 'image')
@@ -428,12 +400,9 @@ abstract class _CategoryModel implements CategoryModel {
   @override
   @JsonKey(name: 'date_modified')
   DateTime? get dateModified;
-  @override
-  @JsonKey(name: 'languageId', defaultValue: 1)
-  int get languageId;
-  @override
+  @override // @JsonKey(name: 'languageId', defaultValue: 1) required int languageId,
   @JsonKey(name: 'description')
-  CategoryDescription get description;
+  List<CategoryDescription> get description;
   @override
   @JsonKey(ignore: true)
   _$$CategoryModelImplCopyWith<_$CategoryModelImpl> get copyWith =>

@@ -28,7 +28,6 @@ class ApiClient with ConnectivityMixin {
     String logMessage = "",
     Object? data,
   }) async {
-    // emulateDioError(401);
     if (await isConnected == false) {
       throw NetworkException(
           stackTrace: StackTrace.current,

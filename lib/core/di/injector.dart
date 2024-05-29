@@ -5,7 +5,6 @@ import '../blocs/language/language_bloc.dart';
 import '../../features/user/home/presentation/manager/home_bloc.dart';
 import '../blocs/category/category_bloc.dart';
 import '../data/data_sources/local/app_settings_local_data_source.dart';
-import '../data/data_sources/remote/app_settings_remote_data_source.dart';
 import '../data/data_sources/remote/category_remote_data_source.dart';
 import '../data/data_sources/remote/language_remote_data_source.dart';
 import '../data/repository/app_settings_repository_impl.dart';
@@ -38,6 +37,6 @@ Future<void> initDependencies() async {
   /// BloC ///
   injector.registerLazySingleton(() => CategoryBloc(categoryRepository: injector<CategoryRepository>()));
   injector.registerLazySingleton(() => HomeBloc(categoryRepository: injector<CategoryRepository>()));
-  injector.registerLazySingleton(() => AppSettingsBloc(appSettingsRepository: injector<AppSettingsRepository>()));
+  injector.registerLazySingleton(() => AppSettingsBloc(appSettingsRepository: injector<AppSettingsRepository>(), languageRepository: injector<LanguageRepository>()));
   injector.registerLazySingleton(() => LanguageBloc(languageRepository: injector<LanguageRepository>()));
 }

@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
+import '../language/language.dart';
 import 'category_description.dart';
 
 part 'category_model.freezed.dart';
@@ -10,71 +11,98 @@ part 'category_model.g.dart';
 @freezed
 class CategoryModel with _$CategoryModel {
   const factory CategoryModel({
-    @JsonKey(name: 'category_id') required int id,
+    required int id,
     @JsonKey(name: 'image') String? image,
     @JsonKey(name: 'parent') required int? parentCategoryId,
     @JsonKey(name: 'top') required bool top,
     @JsonKey(name: 'column') required int column,
     @JsonKey(name: 'sort_order') required int sortOrder,
     @JsonKey(name: 'status') required bool status,
-    @JsonKey(name: 'date_added')  DateTime? dateAdded,
-    @JsonKey(name: 'date_modified')  DateTime? dateModified,
-    @JsonKey(name: 'languageId', defaultValue: 1) required int languageId,
-    @JsonKey(name: 'description') required CategoryDescription description,
+    @JsonKey(name: 'date_added') DateTime? dateAdded,
+    @JsonKey(name: 'date_modified') DateTime? dateModified,
+    // @JsonKey(name: 'languageId', defaultValue: 1) required int languageId,
+    @JsonKey(name: 'description') required List<CategoryDescription> description,
   }) = _CategoryModel;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => _$CategoryModelFromJson(json);
 
-  factory  CategoryModel.init() => const CategoryModel(
+  factory CategoryModel.init() => const CategoryModel(
         id: 0,
         parentCategoryId: null,
         top: false,
         column: 0,
         sortOrder: 0,
         status: true,
-        languageId: 1,
-        description: CategoryDescription(
-          categoryId: 0,
-          categoryDescriptionId: 0,
-          languageId: 1,
-          name: "name",
-          slug: "",
-          description: "",
-          metaTitle: "",
-          metaDescription: "",
-          metaKeyword: "",
-          seoKeyword: "",
-          seoH1: "",
-          seoH2: "",
-          seoH3: "",
-        ),
+        description: [
+          CategoryDescription(
+            categoryId: 0,
+            categoryDescriptionId: 0,
+            languageId: 1,
+            name: "name",
+            slug: "",
+            description: "",
+            metaTitle: "",
+            metaDescription: "",
+            metaKeyword: "",
+            seoKeyword: "",
+            seoH1: "",
+            seoH2: "",
+            seoH3: "",
+          )
+        ],
       );
-}
 
-const initCategory =  CategoryModel(
+  factory CategoryModel.initByLanguageList({required List<Language> languageList}) => CategoryModel(
       id: 0,
       parentCategoryId: null,
       top: false,
       column: 0,
       sortOrder: 0,
       status: true,
+      description: List.generate(
+          languageList.length,
+          (index) => CategoryDescription(
+                categoryId: 0,
+                categoryDescriptionId: 0,
+                languageId: languageList[index].id,
+                name: "name ${languageList[index].name}",
+                slug: "",
+                description: "",
+                metaTitle: "",
+                metaDescription: "",
+                metaKeyword: "",
+                seoKeyword: "",
+                seoH1: "",
+                seoH2: "",
+                seoH3: "",
+              )));
+}
+
+const initCategory = CategoryModel(
+  id: 0,
+  parentCategoryId: null,
+  top: false,
+  column: 0,
+  sortOrder: 0,
+  status: true,
+  description: [
+    CategoryDescription(
+      categoryId: 0,
+      categoryDescriptionId: 0,
       languageId: 1,
-      description:  CategoryDescription(
-        categoryId: 0,
-        categoryDescriptionId: 0,
-        languageId: 1,
-        name: "name",
-        slug: "",
-        description: "",
-        metaTitle: "",
-        metaDescription: "",
-        metaKeyword: "",
-        seoKeyword: "",
-        seoH1: "",
-        seoH2: "",
-        seoH3: "",
-      ),
-    );
+      name: "name",
+      slug: "",
+      description: "",
+      metaTitle: "",
+      metaDescription: "",
+      metaKeyword: "",
+      seoKeyword: "",
+      seoH1: "",
+      seoH2: "",
+      seoH3: "",
+    )
+  ],
+);
 
 List<CategoryModel> getChildCategoryList({required int? categoryId, required List<CategoryModel> categoryList}) {
   List<CategoryModel> categoryModelList = [];

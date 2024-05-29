@@ -1,5 +1,4 @@
 import 'package:fake_store/core/data/models/language/language.dart';
-import 'package:fake_store/core/data/models/language/language.dart';
 import 'package:fake_store/core/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,11 +34,10 @@ class DrawerLanguageWidget extends StatelessWidget {
           }).toList();
           return Row(
             children: [
-              Text("Language"),
+              const Text("Language"),
               DropdownButton<int>(
-                // value:  injector <AppSettingsBloc>().appSettings.languageId,
                 value:context.watch<AppSettingsBloc>().appSettings.languageId  ,
-                // value: 1,
+                // value:4  ,
                 items: items,
                 onChanged: (a) {
                   AppSettings newAppSettings = injector<AppSettingsBloc>().appSettings.copyWith(languageId: a!);
