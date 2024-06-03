@@ -23,4 +23,10 @@ class AuthRepositoryImpl implements AuthRepository {
       return left(e);
     }
   }
+
+  @override
+  Future<Either<BaseException, UserModel>> getLocalUser() {
+    // TODO: implement getLocalUser
+    throw UnimplementedError();
+  }
 }
