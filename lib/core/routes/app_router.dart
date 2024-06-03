@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fake_store/features/auth/presentation/pages/auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/admin/app_settings/presentation/pages/admin_language.dart';
@@ -28,8 +29,13 @@ class AppRouter {
     ],
     errorBuilder: (context, state) => const NotFoundScreen(),
     debugLogDiagnostics: true,
-    initialLocation: RouteConstants.homePath,
+    initialLocation: RouteConstants.authPath,
     routes: <GoRoute>[
+      GoRoute(
+        path: RouteConstants.authPath,
+        name: RouteConstants.authName,
+        builder: (context, state) => const AuthScreen(),
+      ),
       GoRoute(
         path: RouteConstants.homePath,
         name: RouteConstants.homeName,

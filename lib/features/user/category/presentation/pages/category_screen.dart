@@ -32,7 +32,7 @@ class CategoryScreen extends StatelessWidget {
                             Text(state.error.toString()),
                           ],
                         ),
-                      if (state is CategoryListSuccessState)
+                      if (state is CategorySuccessState)
                         Expanded(
                           child: ListView.builder(
                             itemBuilder: (context, index) {

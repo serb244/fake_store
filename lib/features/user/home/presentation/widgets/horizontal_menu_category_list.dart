@@ -13,7 +13,7 @@ class HorizontalMenuCategoryList extends StatelessWidget {
 
     // injector<CategoryBloc>().add(const CategoryInitEvent());
     final ScrollController controller = ScrollController();
-    return    BlocConsumer<CategoryBloc, CategoryState>(
+    return  BlocConsumer<CategoryBloc, CategoryState>(
         listener: (context, state) {},
         builder: (context, state) {
           if (state is CategoryLoadingState) {

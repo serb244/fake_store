@@ -5,17 +5,19 @@ import '../../../../../core/data/models/category/category_description.dart';
 
 class AdminCategoryDescription extends StatefulWidget {
   final CategoryDescription categoryDescription;
+  final bool isAutoMode;
 
   const AdminCategoryDescription({
     required this.categoryDescription,
+    required this.isAutoMode,
     super.key,
   });
 
   @override
-  State<AdminCategoryDescription> createState() => _AdminCategoryDescriptionState();
+  State<AdminCategoryDescription> createState() => AdminCategoryDescriptionState();
 }
 
-class _AdminCategoryDescriptionState extends State<AdminCategoryDescription> with AutomaticKeepAliveClientMixin{
+class AdminCategoryDescriptionState extends State<AdminCategoryDescription> with AutomaticKeepAliveClientMixin{
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _slugController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -26,11 +28,13 @@ class _AdminCategoryDescriptionState extends State<AdminCategoryDescription> wit
   final TextEditingController _seoH1Controller = TextEditingController();
   final TextEditingController _seoH2Controller = TextEditingController();
   final TextEditingController _seoH3Controller = TextEditingController();
-  bool isAutoMode = true;
 
   @override
   void initState() {
+    _resetControllers();
     super.initState();
+  }
+    void _resetControllers() {
     _nameController.text = widget.categoryDescription.name;
     _slugController.text = widget.categoryDescription.slug;
     _descriptionController.text = widget.categoryDescription.description;
@@ -43,6 +47,41 @@ class _AdminCategoryDescriptionState extends State<AdminCategoryDescription> wit
     _seoH3Controller.text = widget.categoryDescription.seoH3;
   }
 
+  void resetData() {
+    _resetControllers();
+    setState(() {});
+  }
+  // @override
+  // void didUpdateWidget(covariant AdminCategoryDescription oldWidget) {
+  //   // TODO: implement didUpdateWidget
+  //   print("didUpdateWidget");
+  //   _nameController.text = widget.categoryDescription.name;
+  //   _slugController.text = widget.categoryDescription.slug;
+  //   _descriptionController.text = widget.categoryDescription.description;
+  //   _metaTitleController.text = widget.categoryDescription.metaTitle;
+  //   _metaDescriptionController.text = widget.categoryDescription.metaDescription;
+  //   _metaKeywordController.text = widget.categoryDescription.metaKeyword;
+  //   _seoKeywordController.text = widget.categoryDescription.seoKeyword;
+  //   _seoH1Controller.text = widget.categoryDescription.seoH1;
+  //   _seoH2Controller.text = widget.categoryDescription.seoH2;
+  //   _seoH3Controller.text = widget.categoryDescription.seoH3;
+  //   super.didUpdateWidget(oldWidget);
+  // }
+
+
+  void updateWidget(covariant AdminCategoryDescription oldWidget) {
+    print("updateWidget");
+    _nameController.text = widget.categoryDescription.name;
+    _slugController.text = widget.categoryDescription.slug;
+    _descriptionController.text = widget.categoryDescription.description;
+    _metaTitleController.text = widget.categoryDescription.metaTitle;
+    _metaDescriptionController.text = widget.categoryDescription.metaDescription;
+    _metaKeywordController.text = widget.categoryDescription.metaKeyword;
+    _seoKeywordController.text = widget.categoryDescription.seoKeyword;
+    _seoH1Controller.text = widget.categoryDescription.seoH1;
+    _seoH2Controller.text = widget.categoryDescription.seoH2;
+    _seoH3Controller.text = widget.categoryDescription.seoH3;
+  }
   @override
   void dispose() {
     _nameController.dispose();
@@ -70,7 +109,7 @@ class _AdminCategoryDescriptionState extends State<AdminCategoryDescription> wit
               controller: _nameController,
               decoration: const InputDecoration(labelText: 'Name'),
               onChanged: (value) {
-                if (isAutoMode) {
+                if (widget.isAutoMode) {
                   _slugController.text = value.createSlug();
                   _descriptionController.text = value;
                   _metaTitleController.text = value;

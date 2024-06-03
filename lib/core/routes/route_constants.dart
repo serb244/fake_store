@@ -1,6 +1,6 @@
 class RouteConstants {
-  static const String loginPath = '/login';
-  static const String loginName = 'login';
+  static const String authPath = '/auth';
+  static const String authName = 'auth';
 
   static const String homePath = '/';
   static const String homeName = 'homeName';

@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/blocs/category/category_bloc.dart';
 import 'core/blocs/app_settings/app_settings_bloc.dart';
 import 'core/blocs/language/language_bloc.dart';
+import 'features/auth/presentation/manager/auth_bloc.dart';
 import 'features/user/home/presentation/manager/home_bloc.dart';
 import 'generated/l10n.dart';
 
@@ -23,6 +24,7 @@ class App extends StatelessWidget {
         BlocProvider(create: (context) => injector<HomeBloc>()),
         BlocProvider(create: (context) => injector<AppSettingsBloc>()),
         BlocProvider(create: (context) => injector<LanguageBloc>()),
+        BlocProvider(create: (context) => injector<AuthBloc>()),
       ],
       child: MaterialApp.router(
         localizationsDelegates: const [

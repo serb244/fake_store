@@ -37,7 +37,7 @@ class ProductsBloc extends Bloc<ProductEvent, ProductState> {
       emit(ProductLoadedState(productsList: productsList));
     } catch (e) {
       print('ProductLoadingState() ERROR $e');
-      if (e is DioError) {}
+      if (e is DioException) {}
       log(e.toString());
       emit(ProductErrorState(error: e.toString()));
     } finally {

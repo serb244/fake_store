@@ -6,7 +6,6 @@ import '../../data/models/app_settings/app_settings.dart';
 import '../../domain/repository/app_settings_repository.dart';
 import '../../error/exceptions.dart';
 import '../data_sources/local/app_settings_local_data_source.dart';
-import '../data_sources/remote/app_settings_remote_data_source.dart';
 
 class AppSettingsRepositoryImpl implements AppSettingsRepository {
   final AppSettingsLocalDataSource appSettingsLocalDataSource;

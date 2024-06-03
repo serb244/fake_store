@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:fpdart/fpdart.dart';
 
@@ -110,17 +111,16 @@ class CategoryRepositoryImpl extends CategoryRepository {
   Future<Either<BaseException, ItemAndList>> getCategoryAndListByID({int categoryId = 0, bool force = false}) async {
     try {
       CategoryModel item = CategoryModel.init();
+      List<CategoryModel> list = _categories;
       if (categoryId != 0) {
         if (force) {
           item = await categoryRemoteDataSource.getCategoryById(categoryId: categoryId);
+        list = await categoryRemoteDataSource.getChildCategoryListByMainCategoryId();
         } else {
           item = _categories.firstWhere((element) => element.id == categoryId);
         }
       }
-      List<CategoryModel> list = _categories;
-      if (force) {
-        list = await categoryRemoteDataSource.getChildCategoryListByMainCategoryId();
-      }
+      log("CategoryRepositoryImpl getCategoryAndListByID: $item ${list.length}");
       return Right(ItemAndList(item: item, list: list));
     } on BaseException catch (e) {
       addToStream(Left(e));

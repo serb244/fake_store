@@ -1,5 +1,9 @@
 import 'package:get_it/get_it.dart';
 
+import '../../features/auth/data/data_source/auth_remote_data_source.dart';
+import '../../features/auth/data/repositories/auth_repository_impl.dart';
+import '../../features/auth/domain/repositories/auth_repository.dart';
+import '../../features/auth/presentation/manager/auth_bloc.dart';
 import '../blocs/app_settings/app_settings_bloc.dart';
 import '../blocs/language/language_bloc.dart';
 import '../../features/user/home/presentation/manager/home_bloc.dart';
@@ -28,15 +32,18 @@ Future<void> initDependencies() async {
   injector.registerLazySingleton<CategoryRemoteDataSource>(() => CategoryRemoteDataSourceImpl(apiClient: injector<ApiClient>()));
   // injector.registerLazySingleton<AppSettingsRemoteDataSource>(() => AppSettingsRemoteDataSourceImpl(apiClient: injector<ApiClient>()));
   injector.registerLazySingleton<LanguageRemoteDataSource>(() => LanguageRemoteDataSourceImpl(apiClient: injector<ApiClient>()));
+  injector.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(apiClient: injector<ApiClient>()));
 
   /// Repository ///
   injector.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(categoryRemoteDataSource: injector<CategoryRemoteDataSource>()));
   injector.registerLazySingleton<AppSettingsRepository>(() =>AppSettingsRepositoryImpl(appSettingsLocalDataSource: injector<AppSettingsLocalDataSource>()));
   injector.registerLazySingleton<LanguageRepository>(() =>LanguageRepositoryImpl(languageRemoteDataSource: injector<LanguageRemoteDataSource>()));
+  injector.registerLazySingleton<AuthRepository>(() =>AuthRepositoryImpl(authRemoteDataSource: injector<AuthRemoteDataSource>()));
 
   /// BloC ///
   injector.registerLazySingleton(() => CategoryBloc(categoryRepository: injector<CategoryRepository>()));
   injector.registerLazySingleton(() => HomeBloc(categoryRepository: injector<CategoryRepository>()));
   injector.registerLazySingleton(() => AppSettingsBloc(appSettingsRepository: injector<AppSettingsRepository>(), languageRepository: injector<LanguageRepository>()));
   injector.registerLazySingleton(() => LanguageBloc(languageRepository: injector<LanguageRepository>()));
+  injector.registerLazySingleton(() => AuthBloc(authRepository: injector<AuthRepository>()));
 }
