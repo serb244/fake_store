@@ -1,32 +1,81 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/di/injector.dart';
-import '../../../../core/utils/request/request.dart';
-import '../../data/data_source/auth_remote_data_source.dart';
-import '../../data/repositories/auth_repository_impl.dart';
-import '../../domain/repositories/auth_repository.dart';
-import '../manager/auth_bloc.dart';
-
-enum AuthScreenType { login, signup }
-
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  AuthScreenState createState() => AuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class AuthScreenState extends State<AuthScreen> {
+  bool isLogin = true;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+
+  void toggleFormMode() {
+    setState(() {
+      isLogin = !isLogin;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Auth Screen")),
-      body:  Center(child: TextButton(onPressed: ()async {
-        String mail = "mail34333@sdf.com";
-        String password = "password";
-    final res =await   AuthRemoteDataSourceImpl(apiClient:  injector<ApiClient>()).register(email: mail, password: password);
-    print("res: $res");
-      } , child: const Text("Login"))),
+      appBar: AppBar(
+        title: Text(isLogin ? 'Login' : 'Register'),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(labelText: 'Email'),
+                keyboardType: TextInputType.emailAddress,
+              ),
+              if (!isLogin)
+                TextField(
+                  controller: usernameController,
+                  decoration: const InputDecoration(labelText: 'Username'),
+                ),
+              TextField(
+                controller: passwordController,
+                decoration: const InputDecoration(labelText: 'Password'),
+                obscureText: true,
+              ),
+              if (!isLogin)
+                TextField(
+                  controller: confirmPasswordController,
+                  decoration: const InputDecoration(labelText: 'Confirm Password'),
+                  obscureText: true,
+                ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  if (isLogin) {
+                    // Perform login action
+                  } else {
+                    // Perform registration action
+                  }
+                },
+                child: Text(isLogin ? 'Login' : 'Register'),
+              ),
+              TextButton(
+                onPressed: toggleFormMode,
+                child: Text(isLogin
+                    ? 'Don\'t have an account? Register here.'
+                    : 'Already have an account? Login here.'),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
+
+

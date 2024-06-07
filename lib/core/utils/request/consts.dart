@@ -15,7 +15,8 @@ String languageDetailUrl = '${getBaseUrl()}api/v1/shop/language/';
 
 ///Auth
 String registrationUrl = '${getBaseUrl()}api/v1/user/register/';
-String loginUrl = '${getBaseUrl()}api/v1/token/';
+String loginUrl = '${getBaseUrl()}api/v1/user/login/';
+String loginUrl2 = '${getBaseUrl()}api/v1/token/';
 String refreshTokenUrl = '${getBaseUrl()}api/v1/token/refresh/';
 
 String getBaseUrl() {

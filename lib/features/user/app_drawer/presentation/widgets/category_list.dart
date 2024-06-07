@@ -1,4 +1,5 @@
 import 'package:fake_store/core/di/di.dart';
+import 'package:fake_store/features/auth/presentation/manager/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -84,7 +85,7 @@ class AppDrawerCategoryListWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                isAdmin
+                injector<AuthBloc>().state.userModel?.isAdmin  ?? false
                     ? Row(
                         children: [
                           InkWell(

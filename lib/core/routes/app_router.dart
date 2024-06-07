@@ -29,7 +29,7 @@ class AppRouter {
     ],
     errorBuilder: (context, state) => const NotFoundScreen(),
     debugLogDiagnostics: true,
-    initialLocation: RouteConstants.authPath,
+    initialLocation: RouteConstants.homePath,
     routes: <GoRoute>[
       GoRoute(
         path: RouteConstants.authPath,
